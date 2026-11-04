@@ -1,0 +1,2 @@
+Coloque nesta pasta o driver JDBC do PostgreSQL, baixado em https://jdbc.postgresql.org/download/
+O arquivo tem um nome parecido com postgresql-42.x.x.jar e deve ser enviado ao GitHub junto com o projeto.

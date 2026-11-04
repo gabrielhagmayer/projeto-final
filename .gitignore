@@ -1,0 +1,15 @@
+### Compilação ###
+out/
+bin/
+
+### Configuração local ###
+banco.properties
+
+### IDEs ###
+.idea/workspace.xml
+.idea/shelf/
+.vscode/
+
+### Sistema ###
+.DS_Store
+Thumbs.db

@@ -1,0 +1,6 @@
+# Copie este arquivo com o nome banco.properties e coloque a senha do seu PostgreSQL.
+host=localhost
+porta=5432
+banco=stoki
+usuario=postgres
+senha=coloque_sua_senha_aqui
