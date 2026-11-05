@@ -73,7 +73,60 @@
   </header>
 
   <main>
-    <!-- BLOCO 3: hero -->
+       <!-- HERO: primeira seção da página. O id="inicio" é o destino do logo -->
+    <section class="hero" id="inicio" aria-labelledby="hero-titulo">
+      <div class="hero__interno">
+
+        <!-- Lado esquerdo: textos e botões -->
+        <div class="hero__texto">
+          <p class="etiqueta">Controle de estoque para mercados</p>
+
+          <!-- h1 é o título principal. Só existe um por página -->
+          <h1 class="hero__titulo" id="hero-titulo">Pare de perder dinheiro no seu depósito.</h1>
+
+          <p class="hero__subtitulo">O STOKI mostra o que você tem, onde está, o que vence primeiro e quanto dinheiro está em risco.</p>
+
+          <div class="hero__botoes">
+            <a class="botao botao--principal" href="#diferenciais">Ver diferenciais</a>
+            <a class="botao botao--secundario" href="#como-funciona">Como funciona</a>
+          </div>
+        </div>
+
+        <!-- Lado direito: painel ilustrativo feito só com HTML e CSS -->
+        <figure class="hero__painel">
+          <div class="painel">
+
+            <!-- Destaque principal do painel -->
+            <div class="painel__destaque">
+              <span class="painel__rotulo">Dinheiro em risco</span>
+              <!-- data-alvo guarda o número final; o JavaScript (M4) faz ele "subir" -->
+              <strong class="painel__valor">R$ <span class="contador" data-alvo="1284" data-formato="moeda">1.284,00</span></strong>
+            </div>
+
+            <!-- Três indicadores menores -->
+            <ul class="painel__lista">
+              <li class="painel__item">
+                <strong class="contador" data-alvo="3">3</strong>
+                <span>lotes vencidos</span>
+              </li>
+              <li class="painel__item">
+                <strong class="contador" data-alvo="8">8</strong>
+                <span>perto de vencer</span>
+              </li>
+              <li class="painel__item">
+                <strong class="contador" data-alvo="5">5</strong>
+                <span>abaixo do mínimo</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Legenda que fica embaixo do painel -->
+          <figcaption class="hero__legenda">Exemplo ilustrativo</figcaption>
+        </figure>
+
+      </div>
+    </section>
+    
     <!-- BLOCO 4: problema -->
     <!-- BLOCO 5: antes e depois -->
     <!-- BLOCO 6: diferenciais -->
