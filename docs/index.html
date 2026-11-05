@@ -38,7 +38,39 @@
 
 <body>
 
-  <!-- BLOCO 2: cabeçalho vai aqui -->
+    <!-- CABEÇALHO: barra do topo da página -->
+  <header class="cabecalho">
+    <div class="cabecalho__interno">
+
+      <!-- Logo: clicar nele leva ao início da página -->
+      <a class="logo" href="#inicio">
+        <!-- width e height evitam que o logo apareça gigante antes do CSS -->
+        <img src="icons/logo.svg" alt="" width="32" height="32">
+        <span class="logo__nome">STOKI</span>
+      </a>
+
+      <!-- Botão do menu no celular (o JavaScript vai ligá-lo na M4) -->
+      <button class="menu-botao" type="button" aria-label="Menu" aria-expanded="false" aria-controls="menu-principal">
+        <span class="menu-botao__linha"></span>
+        <span class="menu-botao__linha"></span>
+        <span class="menu-botao__linha"></span>
+      </button>
+
+      <!-- Menu de navegação: cada link leva a uma seção da página -->
+      <nav class="menu" id="menu-principal" aria-label="Principal">
+        <ul class="menu__lista">
+          <li><a class="menu__link" href="#problema">Problema</a></li>
+          <li><a class="menu__link" href="#diferenciais">Diferenciais</a></li>
+          <li><a class="menu__link" href="#como-funciona">Como funciona</a></li>
+          <li><a class="menu__link" href="#equipe">Equipe</a></li>
+        </ul>
+      </nav>
+
+      <!-- Botão do cabeçalho: leva à seção de diferenciais -->
+      <a class="botao botao--principal cabecalho__botao" href="#diferenciais">Ver diferenciais</a>
+
+    </div>
+  </header>
 
   <main>
     <!-- BLOCO 3: hero -->
