@@ -126,8 +126,46 @@
 
       </div>
     </section>
+
+        <!-- PROBLEMA: mostra onde o prejuízo se esconde. O id="problema" é o destino do menu -->
+    <section class="secao problema" id="problema" aria-labelledby="problema-titulo">
+      <div class="secao__interno">
+
+        <!-- h2 é o título de uma seção (o h1 já foi usado no hero) -->
+        <h2 class="secao__titulo" id="problema-titulo">O prejuízo do mercado costuma ficar escondido no depósito.</h2>
+
+        <!-- Lista com os 4 cartões de problema -->
+        <ul class="problema__cartoes">
+          <!-- A classe "revelar" prepara o cartão para aparecer suavemente ao rolar (JavaScript na M4) -->
+          <li class="cartao revelar">
+            <h3 class="cartao__titulo">Produto perdido</h3>
+            <p class="cartao__texto">Quando ninguém sabe onde está, a mercadoria parece que acabou.</p>
+          </li>
+          <li class="cartao revelar">
+            <h3 class="cartao__titulo">Saldo que não bate</h3>
+            <p class="cartao__texto">O sistema diz uma coisa e a prateleira mostra outra.</p>
+          </li>
+          <li class="cartao revelar">
+            <h3 class="cartao__titulo">Validade esquecida</h3>
+            <p class="cartao__texto">O produto vence antes de ser visto.</p>
+          </li>
+          <li class="cartao revelar">
+            <h3 class="cartao__titulo">Dinheiro parado</h3>
+            <p class="cartao__texto">O excesso ocupa espaço e prende o caixa.</p>
+          </li>
+        </ul>
+
+        <!-- Destaque com o dado da pesquisa -->
+        <div class="destaque revelar">
+          <!-- O número final já está escrito. O JavaScript (M4) só faz ele "subir" -->
+          <p class="destaque__numero"><span class="contador" data-alvo="6.24" data-formato="percentual">6,24%</span></p>
+          <p class="destaque__texto">índice de perdas do supermercado convencional em 2023, o maior entre os setores analisados.</p>
+          <p class="destaque__fonte">Fonte: Pesquisa Abrappe de Perdas no Varejo Brasileiro 2024, KPMG e Abrappe.</p>
+        </div>
+
+      </div>
+    </section>
     
-    <!-- BLOCO 4: problema -->
     <!-- BLOCO 5: antes e depois -->
     <!-- BLOCO 6: diferenciais -->
     <!-- BLOCO 7: como funciona -->
