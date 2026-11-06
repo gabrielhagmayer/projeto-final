@@ -18,6 +18,8 @@ public class FornecedorDAO {
     /** Busca todos os fornecedores, em ordem de razão social, inclusive os inativos */
     public ArrayList<Fornecedor> listar() throws StokiException {
 
+
+
         String sql = "SELECT id, razao_social, cnpj, endereco, ativo FROM fornecedor ORDER BY razao_social";
 
         try (PreparedStatement preparacao = ConexaoPostgreSQL.get().prepareStatement(sql);
@@ -32,10 +34,41 @@ public class FornecedorDAO {
                 fornecedor.setAtivo(resultado.getBoolean("ativo"));
                 fornecedores.add(fornecedor);
             }
-                return fornecedores;
+            return fornecedores;
         } catch (SQLException e) {
             throw new StokiException("Não foi possível listar os fornecedores.", e);
         }
+
+    }
+
+    /** Grava um fornecedor novo */
+    public void cadastrar(Fornecedor fornecedor) throws StokiException {
+        String sql = "INSERT INTO fornecedor (razao_social, cnpj, endereco) VALUES (?, ?, ?)";
+        try (PreparedStatement preparacao = ConexaoPostgreSQL.get().prepareStatement(sql)){
+        preparacao.setString(1, fornecedor.getRazaoSocial());
+        preparacao.setString(2, fornecedor.getCnpj());
+        preparacao.setString(3, fornecedor.getEndereco());
+        preparacao.executeUpdate();
+
+        } catch (SQLException e)  {
+            throw new StokiException("Não foi possível cadastrar o fornecedor. O CNPJ pode já estar cadastrado.", e);
+
+        }
+
+
+    }
+    /** Atualiza os dados de um Fornecedor */
+    public void alterar(Fornecedor fornecedor) throws StokiException {
+        String sql = "UPDATE fornecedor SET razao_social = ?, cnpj = ?, endereco = ?, WHERE id = ?";
+        try (PreparedStatement preparacao = ConexaoPostgreSQL.get().prepareStatement(sql)) {
+            preparacao.setString(1, fornecedor.getRazaoSocial());
+            preparacao.setString(2, fornecedor.getCnpj());
+            preparacao.setInt(3, fornecedor.getId());
+            preparacao.executeUpdate();
+        } catch (SQLException e) {
+            throw new StokiException("Não foi possível alterar o fornecedor.", e );
+        }
+
 
     }
 }
