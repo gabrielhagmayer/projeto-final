@@ -43,4 +43,9 @@ public class Setor {
     public void setCor(String cor) {
         this.cor = cor;
     }
+
+    @Override
+    public String toString() {
+        return this.nome;
+    }
 }
