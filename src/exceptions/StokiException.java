@@ -1,8 +1,7 @@
 package exceptions;
 
-/**
- * Erro previsto do sistema. A mensagem deve ser clara, porque aparece na tela.
- */
+// Erro descrito do problema, onde vai aparecer na tela os erros que aconteceram
+
 public class StokiException extends Exception {
 
     public StokiException(String mensagem) {
