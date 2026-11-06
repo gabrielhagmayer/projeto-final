@@ -1,68 +1,93 @@
 /* ==========================================================================
-   1. HERO
+   1. HERO SEÇÃO INICIAL (Alinhamento Exato com o HTML)
    ========================================================================== */
-#inicio {
-  padding-top: 100px;
-  padding-bottom: 80px;
+.hero {
+  padding: 60px 20px 80px 20px;
+  width: 100%;
 }
 
 .hero__interno {
+  max-width: var(--largura-maxima);
+  margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
+  grid-template-columns: 1.1fr 0.9fr; /* Divisão equilibrada texto / painel */
+  gap: 48px;
   align-items: center;
+}
+
+.hero__texto {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .etiqueta {
   display: inline-block;
-  padding: 6px 12px;
+  padding: 6px 14px;
   background-color: #dbeafe;
   color: var(--cor-primaria);
   font-size: 0.85rem;
   font-weight: 600;
   border-radius: 20px;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .hero__titulo {
-  font-size: 3rem;
+  font-size: 2.75rem;
   line-height: 1.15;
+  font-weight: 800;
   color: var(--cor-secundaria);
   margin-bottom: 16px;
+  letter-spacing: -0.02em;
 }
 
 .hero__subtitulo {
-  font-size: 1.125rem;
+  font-size: 1.1rem;
+  line-height: 1.5;
   color: var(--cor-texto-suave);
   margin-bottom: 32px;
+  max-width: 500px;
 }
 
 .hero__botoes {
   display: flex;
   gap: 16px;
-  margin-bottom: 24px;
+  align-items: center;
 }
 
-.hero__legenda {
-  font-size: 0.85rem;
-  color: var(--cor-texto-suave);
+/* Painel Ilustrativo da Direita */
+.hero__painel {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-/* Painel lateral do Hero */
 .painel {
   background-color: var(--cor-superficie);
   border: 1px solid var(--cor-borda);
-  border-radius: var(--raio-borda);
+  border-radius: 16px;
   padding: 32px;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05);
 }
 
 .painel__destaque {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
   margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.painel__rotulo {
+  font-size: 0.9rem;
+  color: var(--cor-texto-suave);
+  font-weight: 500;
 }
 
 .painel__valor {
-  font-size: 2.5rem;
+  font-size: 2.25rem;
   font-weight: 800;
   color: var(--cor-primaria);
 }
@@ -77,8 +102,21 @@
 .painel__item {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   font-size: 0.95rem;
+  color: var(--cor-texto);
+}
+
+.painel__item strong {
+  font-weight: 700;
+  color: var(--cor-secundaria);
+  min-width: 16px;
+}
+
+.hero__legenda {
+  font-size: 0.8rem;
+  color: var(--cor-texto-suave);
+  text-align: right;
 }
 
 /* ==========================================================================
@@ -86,12 +124,58 @@
    ========================================================================== */
 .problema__cartoes {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 24px;
+  list-style: none;
+  margin-bottom: 48px;
+}
+
+.cartao {
+  background-color: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-borda);
+  padding: 24px;
+}
+
+.cartao__titulo {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--cor-secundaria);
+  margin-bottom: 8px;
+}
+
+.cartao__texto {
+  color: var(--cor-texto-suave);
+  font-size: 0.95rem;
+}
+
+.destaque {
+  text-align: center;
+  padding: 32px;
+  background-color: #f1f5f9;
+  border-radius: 16px;
+}
+
+.destaque__numero {
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--cor-primaria);
+}
+
+.destaque__texto {
+  font-weight: 600;
+  color: var(--cor-secundaria);
+  margin-top: 8px;
+}
+
+.destaque__fonte {
+  font-size: 0.8rem;
+  color: var(--cor-texto-suave);
+  margin-top: 4px;
 }
 
 /* ==========================================================================
-   3. ANTES E DEPOIS (COMPARAÇÃO)
+   3. COMPARAÇÃO (ANTES E DEPOIS)
    ========================================================================== */
 .comparacao {
   display: grid;
@@ -99,85 +183,60 @@
   gap: 32px;
 }
 
+.comparacao__coluna {
+  padding: 32px;
+  border-radius: 16px;
+}
+
 .comparacao__coluna--antes {
   background-color: #fef2f2;
   border: 1px solid #fecaca;
-  border-radius: var(--raio-borda);
-  padding: 32px;
 }
 
 .comparacao__coluna--depois {
   background-color: #f0fdf4;
   border: 1px solid #bbf7d0;
-  border-radius: var(--raio-borda);
-  padding: 32px;
 }
 
 .comparacao__titulo {
-  font-size: 1.5rem;
-  margin-bottom: 20px;
+  font-size: 1.4rem;
+  margin-bottom: 16px;
 }
 
 .comparacao__lista {
-  list-style: none;
+  list-style-position: inside;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 
 /* ==========================================================================
-   4. DIFERENCIAIS (BENTO GRID & DESTAQUE)
+   4. BENTO GRID (DIFERENCIAIS)
    ========================================================================== */
 .bento {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
+  list-style: none;
 }
 
-.destaque {
-  text-align: center;
-  padding: 24px;
-}
-
-.destaque__numero {
-  font-size: 2.5rem;
-  font-weight: 800;
-  color: var(--cor-primaria);
-  display: block;
-}
-
-.destaque__texto {
-  font-size: 1rem;
-  color: var(--cor-texto-suave);
-}
-
-.destaque__fonte {
-  font-size: 0.75rem;
-  color: var(--cor-texto-suave);
-  display: block;
-  margin-top: 4px;
+.cartao--grande {
+  grid-column: span 2;
 }
 
 /* ==========================================================================
-   5. COMO FUNCIONA (PASSOS)
+   5. PASSOS E EQUIPE
    ========================================================================== */
 .passos {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 24px;
+  list-style: none;
 }
 
-.passo {
-  position: relative;
-}
-
-/* ==========================================================================
-   6. EQUIPE
-   ========================================================================== */
 .equipe__texto {
   text-align: center;
-  max-width: 700px;
-  margin: 0 auto 40px auto;
+  margin-bottom: 32px;
   color: var(--cor-texto-suave);
 }
 
@@ -185,29 +244,28 @@
   display: flex;
   justify-content: center;
   gap: 32px;
-  flex-wrap: wrap;
-}
-
-.equipe__nome {
-  font-size: 1.1rem;
+  list-style: none;
   font-weight: 600;
-  color: var(--cor-secundaria);
 }
 
 /* ==========================================================================
-   7. FECHAMENTO E RODAPÉ
+   6. FECHAMENTO E RODAPÉ
    ========================================================================== */
 .fechamento {
   text-align: center;
   background-color: var(--cor-secundaria);
   color: #ffffff;
-  border-radius: var(--raio-borda);
+  border-radius: 16px;
   padding: 60px 20px;
-  margin-bottom: 40px;
 }
 
 .fechamento .secao__titulo {
   color: #ffffff;
+}
+
+.fechamento__texto {
+  margin-bottom: 24px;
+  color: #94a3b8;
 }
 
 .rodape {
@@ -218,20 +276,16 @@
   font-size: 0.9rem;
 }
 
-/* ==========================================================================
-   8. RESPONSIVIDADE (MOBILE)
-   ========================================================================== */
+/* Responsividade Mobile */
 @media (max-width: 768px) {
   .hero__interno,
-  .comparacao {
+  .comparacao,
+  .bento,
+  .passos {
     grid-template-columns: 1fr;
   }
   
-  .bento {
-    grid-template-columns: 1fr;
-  }
-
-  .hero__titulo {
-    font-size: 2.25rem;
+  .cartao--grande {
+    grid-column: span 1;
   }
 }

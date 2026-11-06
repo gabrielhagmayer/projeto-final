@@ -35,10 +35,10 @@ document.addEventListener('DOMContentLoaded', () => {
       // Efeito de desaceleração suave (easeOutQuad)
       const valorAtual = alvo * (1 - (1 - progresso) * (1 - progresso));
 
-      if (formato === 'porcentagem') {
-        el.textContent = valorAtual.toFixed(0) + '%';
-      } else if (formato === 'decimal') {
-        el.textContent = valorAtual.toFixed(1);
+      if (formato === 'moeda') {
+        el.textContent = valorAtual.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      } else if (formato === 'percentual') {
+        el.textContent = valorAtual.toFixed(2).replace('.', ',') + '%';
       } else {
         el.textContent = Math.floor(valorAtual).toLocaleString('pt-BR');
       }
@@ -46,8 +46,8 @@ document.addEventListener('DOMContentLoaded', () => {
       if (progresso < 1) {
         requestAnimationFrame(atualizar);
       } else {
-        if (formato === 'porcentagem') el.textContent = alvo + '%';
-        else if (formato === 'decimal') el.textContent = alvo.toFixed(1);
+        if (formato === 'moeda') el.textContent = alvo.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        else if (formato === 'percentual') el.textContent = alvo.toFixed(2).replace('.', ',') + '%';
         else el.textContent = alvo.toLocaleString('pt-BR');
       }
     };
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   contadores.forEach(el => observarContadores.observe(el));
 
-  // 3. Lógica do Botão de Instalação (PWA) - Bloco 10
+  // 3. Lógica do Botão de Instalação (PWA)
   let eventoInstalacao;
   const botaoInstalar = document.getElementById('botao-instalar');
 
