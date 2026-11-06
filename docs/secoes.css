@@ -211,81 +211,74 @@
 }
 
 /* ==========================================================================
-   4. BENTO GRID (DIFERENCIAIS)
+   4. BENTO GRID (DIFERENCIAIS - Corrigido)
    ========================================================================== */
-.bento {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-  list-style: none;
+.diferenciais {
+  padding: 80px 20px;
 }
 
-.cartao--grande {
+.bento {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 colunas iguais */
+  gap: 24px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* O primeiro cartão ocupa 2 colunas; o segundo ocupa 1 coluna (preenche a linha 1 inteira) */
+.bento > li:nth-child(1) {
   grid-column: span 2;
 }
 
-/* ==========================================================================
-   5. PASSOS E EQUIPE
-   ========================================================================== */
-.passos {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-  list-style: none;
+.bento > li:nth-child(2) {
+  grid-column: span 1;
 }
 
-.equipe__texto {
-  text-align: center;
-  margin-bottom: 32px;
-  color: var(--cor-texto-suave);
+/* Todos os demais cartões ocupam 1 coluna individualmente */
+.bento > li:nth-child(n+3) {
+  grid-column: span 1;
 }
 
-.equipe__nomes {
+/* Estilo padronizado dos cartões */
+.cartao {
+  background-color: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-borda);
+  padding: 28px;
   display: flex;
-  justify-content: center;
-  gap: 32px;
-  list-style: none;
-  font-weight: 600;
+  flex-direction: column;
+  justify-content: flex-start;
+  transition: transform var(--transicao-padrao), box-shadow var(--transicao-padrao);
 }
 
-/* ==========================================================================
-   6. FECHAMENTO E RODAPÉ
-   ========================================================================== */
-.fechamento {
-  text-align: center;
-  background-color: var(--cor-secundaria);
-  color: #ffffff;
-  border-radius: 16px;
-  padding: 60px 20px;
+.cartao:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
 }
 
-.fechamento .secao__titulo {
-  color: #ffffff;
+.cartao__titulo {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--cor-secundaria);
+  margin-bottom: 10px;
 }
 
-.fechamento__texto {
-  margin-bottom: 24px;
-  color: #94a3b8;
-}
-
-.rodape {
-  border-top: 1px solid var(--cor-borda);
-  padding: 32px 20px;
-  text-align: center;
+.cartao__texto {
   color: var(--cor-texto-suave);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
 }
 
-/* Responsividade Mobile */
-@media (max-width: 768px) {
-  .hero__interno,
-  .comparacao,
-  .bento,
-  .passos {
+/* Responsividade para tablets e celulares */
+@media (max-width: 900px) {
+  .bento {
     grid-template-columns: 1fr;
   }
   
-  .cartao--grande {
+  .bento > li:nth-child(1),
+  .bento > li:nth-child(2),
+  .bento > li:nth-child(n+3) {
     grid-column: span 1;
   }
 }
