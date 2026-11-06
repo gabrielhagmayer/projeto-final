@@ -1,5 +1,5 @@
 /* ==========================================================================
-   1. HERO SEÇÃO INICIAL (Alinhamento Exato com o HTML)
+   1. HERO (SEÇÃO INICIAL)
    ========================================================================== */
 .hero {
   padding: 60px 20px 80px 20px;
@@ -10,7 +10,7 @@
   max-width: var(--largura-maxima);
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr; /* Divisão equilibrada texto / painel */
+  grid-template-columns: 1.1fr 0.9fr;
   gap: 48px;
   align-items: center;
 }
@@ -55,7 +55,7 @@
   align-items: center;
 }
 
-/* Painel Ilustrativo da Direita */
+/* Painel Ilustrativo */
 .hero__painel {
   margin: 0;
   display: flex;
@@ -134,19 +134,29 @@
   background-color: var(--cor-superficie);
   border: 1px solid var(--cor-borda);
   border-radius: var(--raio-borda);
-  padding: 24px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  transition: transform var(--transicao-padrao), box-shadow var(--transicao-padrao);
+}
+
+.cartao:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
 }
 
 .cartao__titulo {
   font-size: 1.2rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--cor-secundaria);
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .cartao__texto {
   color: var(--cor-texto-suave);
   font-size: 0.95rem;
+  line-height: 1.5;
 }
 
 .destaque {
@@ -211,7 +221,7 @@
 }
 
 /* ==========================================================================
-   4. BENTO GRID (DIFERENCIAIS - Corrigido)
+   4. BENTO GRID (DIFERENCIAIS)
    ========================================================================== */
 .diferenciais {
   padding: 80px 20px;
@@ -219,14 +229,13 @@
 
 .bento {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 colunas iguais */
+  grid-template-columns: repeat(3, 1fr);
   gap: 24px;
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-/* O primeiro cartão ocupa 2 colunas; o segundo ocupa 1 coluna (preenche a linha 1 inteira) */
 .bento > li:nth-child(1) {
   grid-column: span 2;
 }
@@ -235,55 +244,20 @@
   grid-column: span 1;
 }
 
-/* Todos os demais cartões ocupam 1 coluna individualmente */
 .bento > li:nth-child(n+3) {
   grid-column: span 1;
 }
 
-/* Estilo padronizado dos cartões */
-.cartao {
-  background-color: var(--cor-superficie);
-  border: 1px solid var(--cor-borda);
-  border-radius: var(--raio-borda);
-  padding: 28px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  transition: transform var(--transicao-padrao), box-shadow var(--transicao-padrao);
-}
-
-.cartao:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
-}
-
-.cartao__titulo {
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: var(--cor-secundaria);
-  margin-bottom: 10px;
-}
-
-.cartao__texto {
-  color: var(--cor-texto-suave);
-  font-size: 0.95rem;
-  line-height: 1.5;
-}
-
-/* Responsividade para tablets e celulares */
-@media (max-width: 900px) {
-  .bento {
-    grid-template-columns: 1fr;
-  }
-  
-  .bento > li:nth-child(1),
-  .bento > li:nth-child(2),
-  .bento > li:nth-child(n+3) {
-    grid-column: span 1;
-  }
-  /* ==========================================================================
-   5. EQUIPE (Corrigido e Centralizado)
+/* ==========================================================================
+   5. PASSOS E EQUIPE
    ========================================================================== */
+.passos {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  list-style: none;
+}
+
 .equipe {
   text-align: center;
   padding: 80px 20px;
@@ -302,7 +276,7 @@
   justify-content: center;
   align-items: center;
   gap: 32px;
-  list-style: none; /* Remove as bolinhas da lista */
+  list-style: none;
   padding: 0;
   margin: 0 auto;
   flex-wrap: wrap;
@@ -313,13 +287,13 @@
   font-weight: 600;
   color: var(--cor-secundaria);
   background-color: var(--cor-superficie);
-  padding: 10px 20px;
+  padding: 12px 24px;
   border-radius: 8px;
   border: 1px solid var(--cor-borda);
 }
 
 /* ==========================================================================
-   6. FECHAMENTO E RODAPÉ (Corrigido)
+   6. FECHAMENTO E RODAPÉ
    ========================================================================== */
 .fechamento {
   text-align: center;
@@ -355,7 +329,7 @@
   margin: 0 auto;
 }
 
-/* Botão de Instalar App (Bloco 10) */
+/* Botão Flutuante de Instalação (PWA) */
 .botao--instalar {
   position: fixed;
   bottom: 20px;
@@ -363,4 +337,25 @@
   z-index: 1000;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
+
+/* ==========================================================================
+   7. RESPONSIVIDADE (MOBILE E TABLET)
+   ========================================================================== */
+@media (max-width: 900px) {
+  .hero__interno,
+  .comparacao,
+  .bento,
+  .passos {
+    grid-template-columns: 1fr;
+  }
+  
+  .bento > li:nth-child(1),
+  .bento > li:nth-child(2),
+  .bento > li:nth-child(n+3) {
+    grid-column: span 1;
+  }
+
+  .hero__titulo {
+    font-size: 2.25rem;
+  }
 }
