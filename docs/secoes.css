@@ -281,4 +281,86 @@
   .bento > li:nth-child(n+3) {
     grid-column: span 1;
   }
+  /* ==========================================================================
+   5. EQUIPE (Corrigido e Centralizado)
+   ========================================================================== */
+.equipe {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.equipe__texto {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 32px auto;
+  color: var(--cor-texto-suave);
+  font-size: 1.05rem;
+}
+
+.equipe__nomes {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+  list-style: none; /* Remove as bolinhas da lista */
+  padding: 0;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
+.equipe__nome {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--cor-secundaria);
+  background-color: var(--cor-superficie);
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 1px solid var(--cor-borda);
+}
+
+/* ==========================================================================
+   6. FECHAMENTO E RODAPÉ (Corrigido)
+   ========================================================================== */
+.fechamento {
+  text-align: center;
+  background-color: var(--cor-secundaria);
+  color: #ffffff;
+  border-radius: 16px;
+  padding: 60px 20px;
+  max-width: var(--largura-maxima);
+  margin: 40px auto 60px auto;
+}
+
+.fechamento .secao__titulo {
+  color: #ffffff;
+  margin-bottom: 16px;
+}
+
+.fechamento__texto {
+  margin-bottom: 32px;
+  color: #94a3b8;
+  font-size: 1.1rem;
+}
+
+.rodape {
+  border-top: 1px solid var(--cor-borda);
+  padding: 32px 20px;
+  text-align: center;
+  color: var(--cor-texto-suave);
+  font-size: 0.9rem;
+}
+
+.rodape__interno {
+  max-width: var(--largura-maxima);
+  margin: 0 auto;
+}
+
+/* Botão de Instalar App (Bloco 10) */
+.botao--instalar {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
 }
