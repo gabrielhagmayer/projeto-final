@@ -1,14 +1,12 @@
 package models;
 
-/**
- * Categoria e localização no depósito. Exemplo: setor 3, Laticínios.
- */
-public class Setor {
+// Define a categoria e a localização dentro do deposito.
 
-    private Integer id; // chave primária
-    private Integer numero; // número do setor
-    private String nome; // nome do setor
-    private String cor; // cor em hexadecimal, como #2E7D32
+public class Setor {
+    private Integer id;
+    private Integer numero;
+    private String nome;
+    private String cor;
 
     public Setor() {}
 
