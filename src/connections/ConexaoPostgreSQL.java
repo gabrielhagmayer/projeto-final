@@ -9,16 +9,35 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-/**
- * Abre a conexão com o PostgreSQL usando os dados do arquivo banco.properties.
- * Esse arquivo fica fora do GitHub, porque cada computador tem a própria senha.
- */
-public class ConexaoPostgreSQL {
+/* aqui acontece as conexões do banco PostgreSQL
+ e tambem a parte banco.properties fica fora do github pois cada um tem sua propria senha*/
 
+public class ConexaoPostgreSQL {
     private static final String ARQUIVO = "banco.properties";
+
     private static Connection conexao;
 
-    /** Devolve a conexão com o banco do STOKI, abrindo-a quando necessário. */
+    //vai ler as configurações do banco
+    public static Properties lerConfiguracao() throws StokiException {
+        Properties dados = new Properties();
+        try (FileInputStream arquivo = new FileInputStream(ARQUIVO)) {
+            dados.load(arquivo);
+            return dados;
+        } catch (IOException e) {
+            throw new StokiException("Arquivo chamado banco.properties não foi encontrado. "
+                    + "Copie o exemplo do banco.properties.exemplo com esse nome e mude para a senha do seu PostgreSQL.", e);
+        }
+    }
+
+    // Vai inicializar uma conexão com o banco cadastrado.
+    public static Connection abrir(Properties dados, String banco) throws SQLException {
+        String url = "jdbc:postgresql://" + dados.getProperty("host", "localhost") + ":"
+                + dados.getProperty("porta", "5432") + "/" + banco;
+        return DriverManager.getConnection(url, dados.getProperty("usuario", "postgres"), dados.getProperty("senha", ""));
+    }
+
+
+    // Devolve a conexão com o banco do STOKI, abrindo-a quando necessário.
     public static Connection get() throws StokiException {
         try {
             if (conexao == null || conexao.isClosed()) {
@@ -31,26 +50,7 @@ public class ConexaoPostgreSQL {
         }
     }
 
-    /** Lê o arquivo banco.properties da pasta principal do projeto. */
-    public static Properties lerConfiguracao() throws StokiException {
-        Properties dados = new Properties();
-        try (FileInputStream arquivo = new FileInputStream(ARQUIVO)) {
-            dados.load(arquivo);
-            return dados;
-        } catch (IOException e) {
-            throw new StokiException("Arquivo banco.properties não encontrado. "
-                    + "Copie banco.properties.exemplo com esse nome e coloque a senha do seu PostgreSQL.", e);
-        }
-    }
-
-    /** Abre uma conexão com o banco informado. */
-    public static Connection abrir(Properties dados, String banco) throws SQLException {
-        String url = "jdbc:postgresql://" + dados.getProperty("host", "localhost") + ":"
-                + dados.getProperty("porta", "5432") + "/" + banco;
-        return DriverManager.getConnection(url, dados.getProperty("usuario", "postgres"), dados.getProperty("senha", ""));
-    }
-
-    /** Fecha a conexão atual. Usado antes de recriar o banco. */
+    // Aqui a conexão atual é fechada.
     public static void fechar() {
         try {
             if (conexao != null) {
@@ -62,3 +62,4 @@ public class ConexaoPostgreSQL {
         conexao = null;
     }
 }
+
