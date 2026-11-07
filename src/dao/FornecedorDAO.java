@@ -15,9 +15,10 @@ import java.util.ArrayList;
  */
 public class FornecedorDAO {
 
-    /** Busca todos os fornecedores, em ordem de razão social, inclusive os inativos */
+    /**
+     * Busca todos os fornecedores, em ordem de razão social, inclusive os inativos
+     */
     public ArrayList<Fornecedor> listar() throws StokiException {
-
 
 
         String sql = "SELECT id, razao_social, cnpj, endereco, ativo FROM fornecedor ORDER BY razao_social";
@@ -41,23 +42,28 @@ public class FornecedorDAO {
 
     }
 
-    /** Grava um fornecedor novo */
+    /**
+     * Grava um fornecedor novo
+     */
     public void cadastrar(Fornecedor fornecedor) throws StokiException {
         String sql = "INSERT INTO fornecedor (razao_social, cnpj, endereco) VALUES (?, ?, ?)";
-        try (PreparedStatement preparacao = ConexaoPostgreSQL.get().prepareStatement(sql)){
-        preparacao.setString(1, fornecedor.getRazaoSocial());
-        preparacao.setString(2, fornecedor.getCnpj());
-        preparacao.setString(3, fornecedor.getEndereco());
-        preparacao.executeUpdate();
+        try (PreparedStatement preparacao = ConexaoPostgreSQL.get().prepareStatement(sql)) {
+            preparacao.setString(1, fornecedor.getRazaoSocial());
+            preparacao.setString(2, fornecedor.getCnpj());
+            preparacao.setString(3, fornecedor.getEndereco());
+            preparacao.executeUpdate();
 
-        } catch (SQLException e)  {
+        } catch (SQLException e) {
             throw new StokiException("Não foi possível cadastrar o fornecedor. O CNPJ pode já estar cadastrado.", e);
 
         }
 
 
     }
-    /** Atualiza os dados de um Fornecedor */
+
+    /**
+     * Atualiza os dados de um Fornecedor
+     */
 
     public void alterar(Fornecedor fornecedor) throws StokiException {
         String sql = "UPDATE fornecedor SET razao_social = ?, cnpj = ?, endereco = ? WHERE id = ?";
@@ -68,13 +74,15 @@ public class FornecedorDAO {
             preparacao.setInt(4, fornecedor.getId());
             preparacao.executeUpdate();
         } catch (SQLException e) {
-            throw new StokiException("Não foi possível alterar o fornecedor.", e );
+            throw new StokiException("Não foi possível alterar o fornecedor.", e);
         }
 
 
     }
 
-    /** Remove um Fornecedor pelo id  */
+    /**
+     * Remove um Fornecedor pelo id
+     */
 
     public void excluir(int id) throws StokiException {
         String sql = "DELETE FROM fornecedor WHERE id = ?";
@@ -86,7 +94,9 @@ public class FornecedorDAO {
         }
     }
 
-    /** Inativa um fornecedor pelo id */
+    /**
+     * Inativa um fornecedor pelo id
+     */
 
     public void inativar(int id) throws StokiException {
         String sql = "UPDATE fornecedor SET ativo = FALSE WHERE id = ?";
@@ -98,5 +108,23 @@ public class FornecedorDAO {
         }
 
     }
+
+    /**
+     * Verifica se o fornecedor tem lotes
+     */
+
+    public boolean verificarLotes(int id) throws StokiException {
+        String sql = "SELECT 1 FROM lote WHERE fornecedor_id = ?";
+        try (PreparedStatement preparacao = ConexaoPostgreSQL.get().prepareStatement(sql)) {
+            preparacao.setInt(1, id);
+            ResultSet resultado = preparacao.executeQuery();
+            return resultado.next();
+        } catch (SQLException e) {
+            throw new StokiException("Não foi possível verificar lotes do fornecedor.", e);
+        }
+
+    }
 }
+
+
 
