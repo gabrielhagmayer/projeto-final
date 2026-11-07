@@ -8,7 +8,8 @@ public class Setor {
     private String nome;
     private String cor;
 
-    public Setor() {}
+    public Setor() {
+    }
 
     public Integer getId() {
         return id;
@@ -41,4 +42,10 @@ public class Setor {
     public void setCor(String cor) {
         this.cor = cor;
     }
+
+    @Override
+    public String toString() {
+        return this.nome;
+    }
 }
+
