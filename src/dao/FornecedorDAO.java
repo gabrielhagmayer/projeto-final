@@ -59,11 +59,12 @@ public class FornecedorDAO {
     }
     /** Atualiza os dados de um Fornecedor */
     public void alterar(Fornecedor fornecedor) throws StokiException {
-        String sql = "UPDATE fornecedor SET razao_social = ?, cnpj = ?, endereco = ?, WHERE id = ?";
+        String sql = "UPDATE fornecedor SET razao_social = ?, cnpj = ?, endereco = ? WHERE id = ?";
         try (PreparedStatement preparacao = ConexaoPostgreSQL.get().prepareStatement(sql)) {
             preparacao.setString(1, fornecedor.getRazaoSocial());
             preparacao.setString(2, fornecedor.getCnpj());
-            preparacao.setInt(3, fornecedor.getId());
+            preparacao.setString(3, fornecedor.getEndereco());
+            preparacao.setInt(4, fornecedor.getId());
             preparacao.executeUpdate();
         } catch (SQLException e) {
             throw new StokiException("Não foi possível alterar o fornecedor.", e );
