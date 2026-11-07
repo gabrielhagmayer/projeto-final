@@ -2,16 +2,15 @@ package models;
 
 import java.time.LocalDateTime;
 
-/**
- * Conferência do depósito, feita a cada 15 dias.
- */
+//Confere a contagem do estoque.
+
 public class Contagem {
 
-    private Integer id; // chave primária
-    private Usuario usuario; // responsável pela contagem
-    private LocalDateTime abertaEm; // quando começou
-    private LocalDateTime finalizadaEm; // quando terminou
-    private String status; // ABERTA ou FINALIZADA
+    private Integer id;
+    private Usuario usuario;
+    private LocalDateTime abertaEm;
+    private LocalDateTime finalizadaEm;
+    private String status;
 
     public Contagem() {}
 
