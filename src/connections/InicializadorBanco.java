@@ -1,3 +1,4 @@
+
 package connections;
 
 import exceptions.StokiException;
@@ -13,15 +14,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
-/**
- * Prepara o banco na primeira execução: cria o banco stoki, as tabelas e os dados iniciais.
- */
+// Faz toda a proparação do banco na primeira execução.
 public class InicializadorBanco {
 
     private static final String TABELAS = "database/01_tabelas.sql";
     private static final String DADOS = "database/02_dados_iniciais.sql";
 
-    /** Cria somente o que ainda não existe. Nunca apaga dados. */
+    //Faz a criação somente o que ainda não existe e nunca apaga dados.
     public static void preparar() throws StokiException {
         Properties dados = ConexaoPostgreSQL.lerConfiguracao();
         criarBancoSeNecessario(dados);
@@ -35,7 +34,7 @@ public class InicializadorBanco {
         }
     }
 
-    /** Apaga tudo e volta aos dados iniciais. Usado pela classe RecriarBanco. */
+    // exclui tudo e volta ao original. Usado pela classe RecriarBanco.
     public static void recriar() throws StokiException {
         preparar();
         try {
@@ -81,7 +80,7 @@ public class InicializadorBanco {
         }
     }
 
-    /** Executa os dois scripts em uma transação: ou tudo dá certo, ou nada fica salvo. */
+    // Executa os dois scripts em uma transação: ou tudo dá certo, ou nada fica salvo.
     private static void executarScripts(Connection conexao) throws StokiException, SQLException {
         conexao.setAutoCommit(false);
         try (Statement comando = conexao.createStatement()) {
