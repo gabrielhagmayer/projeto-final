@@ -4,19 +4,18 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-/**
- * Cada recebimento de um produto.
- */
+// classe que recebe cada recebimento de um produto
+
 public class Lote {
 
-    private Integer id; // chave primária
-    private Produto produto; // produto recebido
-    private Fornecedor fornecedor; // quem entregou
-    private String numeroLote; // número informado na entrada
-    private LocalDate validade; // opcional para produto sem validade
-    private BigDecimal custoUnitario; // custo por unidade
-    private LocalDateTime dataEntrada; // quando chegou
-    private BigDecimal saldo; // calculado pela vw_saldo_lote; não é coluna da tabela lote
+    private Integer id;
+    private Produto produto;
+    private Fornecedor fornecedor;
+    private String numeroLote;
+    private LocalDate validade;//mostra o dia
+    private BigDecimal custoUnitario;
+    private LocalDateTime dataEntrada;//mostra a data e a hora
+    private BigDecimal saldo; // o valor vem do vw_saldo_lote, programado no banco de dados e não é coluna da tabela teste.
 
     public Lote() {}
 
