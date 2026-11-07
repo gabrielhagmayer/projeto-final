@@ -50,4 +50,87 @@ public class TelaFornecedor extends TelaBase {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
+
+    /** Ação do botão Novo / Cadastrar */
+    public void acaoCadastrar() {
+        String razaoSocial = JOptionPane.showInputDialog(this, "Informe a Razão Social:");
+        if (razaoSocial == null) return;
+
+        String cnpj = JOptionPane.showInputDialog(this, "Informe o CNPJ:");
+        if (cnpj == null) return;
+
+        String endereco = JOptionPane.showInputDialog(this, "Informe o Endereço:");
+
+        try {
+            Fornecedor f = new Fornecedor();
+            f.setRazaoSocial(razaoSocial);
+            f.setCnpj(cnpj);
+            f.setEndereco(endereco);
+
+            fornecedorController.cadastrar(f);
+            JOptionPane.showMessageDialog(this, "Fornecedor cadastrado com sucesso!");
+            carregarTabela();
+        } catch (StokiException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Aviso", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    /** Ação do botão Alterar */
+    public void acaoAlterar(Fornecedor fornecedorSelecionado) {
+        if (fornecedorSelecionado == null) {
+            JOptionPane.showMessageDialog(this, "Selecione um fornecedor para alterar.");
+            return;
+        }
+
+        String novaRazao = JOptionPane.showInputDialog(this, "Razão Social:", fornecedorSelecionado.getRazaoSocial());
+        if (novaRazao == null) return;
+
+        String novoCnpj = JOptionPane.showInputDialog(this, "CNPJ:", fornecedorSelecionado.getCnpj());
+        if (novoCnpj == null) return;
+
+        String novoEndereco = JOptionPane.showInputDialog(this, "Endereço:", fornecedorSelecionado.getEndereco());
+
+        try {
+            fornecedorSelecionado.setRazaoSocial(novaRazao);
+            fornecedorSelecionado.setCnpj(novoCnpj);
+            fornecedorSelecionado.setEndereco(novoEndereco);
+
+            fornecedorController.alterar(fornecedorSelecionado);
+            JOptionPane.showMessageDialog(this, "Fornecedor atualizado com sucesso!");
+            carregarTabela();
+        } catch (StokiException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Aviso", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    /** Ação do botão Excluir / Inativar */
+    public void acaoExcluir(int id) {
+        try {
+            fornecedorController.excluir(id);
+            JOptionPane.showMessageDialog(this, "Fornecedor excluído com sucesso!");
+            carregarTabela();
+        } catch (StokiException e) {
+            // Caso o Service avise que o fornecedor possui lotes vinculados
+            if (e.getMessage().contains("lotes vinculados")) {
+                int opcao = JOptionPane.showConfirmDialog(
+                        this,
+                        e.getMessage(),
+                        "Inativar Fornecedor",
+                        JOptionPane.YES_NO_OPTION
+                );
+
+                if (opcao == JOptionPane.YES_OPTION) {
+                    try {
+                        fornecedorController.inativar(id);
+                        JOptionPane.showMessageDialog(this, "Fornecedor inativado com sucesso!");
+                        carregarTabela();
+                    } catch (StokiException ex) {
+                        JOptionPane.showMessageDialog(this, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, e.getMessage(), "Aviso", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+    }
 }
