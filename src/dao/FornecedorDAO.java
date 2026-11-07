@@ -78,13 +78,25 @@ public class FornecedorDAO {
 
     public void excluir(int id) throws StokiException {
         String sql = "DELETE FROM fornecedor WHERE id = ?";
-
         try (PreparedStatement preparacao = ConexaoPostgreSQL.get().prepareStatement(sql)) {
             preparacao.setInt(1, id);
             preparacao.executeUpdate();
         } catch (SQLException e) {
             throw new StokiException("Não foi possível remover o fornecedor.", e);
         }
+    }
+
+    /** Inativa um fornecedor pelo id */
+
+    public void inativar(int id) throws StokiException {
+        String sql = "UPDATE fornecedor SET ativo = FALSE WHERE id = ?";
+        try (PreparedStatement preparacao = ConexaoPostgreSQL.get().prepareStatement(sql)) {
+            preparacao.setInt(1, id);
+            preparacao.executeUpdate();
+        } catch (SQLException e) {
+            throw new StokiException("Não foi possível inativar o fornecedor.", e);
+        }
+
     }
 }
 
