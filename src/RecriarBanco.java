@@ -1,14 +1,11 @@
 import connections.InicializadorBanco;
 import exceptions.StokiException;
 
-/**
- * Apaga os dados do banco local e volta ao estado inicial do projeto.
- * Afeta somente o PostgreSQL do seu computador.
- */
+// ele apaga o que foi feito no banco atual e volta ao banco original, afetando somente o PostgreSQL do seu computador.
 public class RecriarBanco {
-
+    //Recria o banco e manda uma mensagem que foi executado.
     public static void main(String[] args) throws StokiException {
         InicializadorBanco.recriar();
-        System.out.println("Banco recriado com os dados iniciais.");
+        System.out.println("O banco foi recriado com os dados iniciais!");
     }
 }
