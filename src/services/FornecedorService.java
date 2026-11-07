@@ -72,6 +72,20 @@ public class FornecedorService {
         return fornecedorDAO.verificarLotes(id);
     }
 
+
+    /** Devolve apenas os fornecedores ativos para uso nas telas de cadastro/entrada */
+    public ArrayList<Fornecedor> listarAtivos() throws StokiException {
+        ArrayList<Fornecedor> todos = fornecedorDAO.listar();
+        ArrayList<Fornecedor> ativos = new ArrayList<>();
+
+        for (Fornecedor f : todos) {
+            if (f.isAtivo()) {
+                ativos.add(f);
+            }
+        }
+
+        return ativos;
+    }
 }
 
 

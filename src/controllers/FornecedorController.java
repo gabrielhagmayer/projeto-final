@@ -42,4 +42,8 @@ public class FornecedorController {
     public boolean verificarLotes(int id) throws StokiException {
         return fornecedorService.verificarLotes(id);
     }
+
+    public ArrayList<Fornecedor> listarAtivos() throws StokiException {
+        return fornecedorService.listarAtivos();
+    }
 }
