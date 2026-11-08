@@ -9,6 +9,8 @@ public class Produto {
 
     private Integer id; // chave primária
     private String nome; // nome do produto
+    private String descricao; // descrição detalhada do produto
+    private BigDecimal preco; // preço unitário do produto
     private String codigoBarras; // opcional
     private Setor setor; // setor onde o produto fica
     private Integer prateleira; // número da prateleira
@@ -37,6 +39,22 @@ public class Produto {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public BigDecimal getPreco() {
+        return preco;
+    }
+
+    public void setPreco(BigDecimal preco) {
+        this.preco = preco;
     }
 
     public String getCodigoBarras() {
@@ -125,5 +143,10 @@ public class Produto {
 
     public void setCadastradoPor(Usuario cadastradoPor) {
         this.cadastradoPor = cadastradoPor;
+    }
+
+    @Override
+    public String toString() {
+        return this.nome;
     }
 }

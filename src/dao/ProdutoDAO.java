@@ -3,25 +3,32 @@ package dao;
 import connections.ConexaoPostgreSQL;
 import exceptions.StokiException;
 import models.Produto;
+import models.Setor;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Responsável: Erick.
- * Executa o SQL com PreparedStatement.
+ - Responsável: Erick.
+
+ - Executa o SQL com PreparedStatement.
+
  */
 public class ProdutoDAO {
 
-    public List<Produto> listar() throws StokiException {
-        List<Produto> lista = new ArrayList<>();
-        String sql = "SELECT * FROM produto WHERE ativo = true";
+    public List<Produto> listar() throws SQLException, StokiException {
+        String sql = "SELECT p.id, p.nome, p.codigo_barras, p.estoque_minimo, p.estoque_maximo, " +
+                "p.tem_validade, p.ativo, p.prateleira, p.unidade_estoque, p.conteudo, p.unidade_conteudo, " +
+                "s.id as setor_id, s.nome as setor_nome " +
+                "FROM produto p LEFT JOIN setor s ON p.setor_id = s.id ORDER BY p.nome";
+        List<Produto> produtos = new ArrayList<>();
 
-        try (Connection con = ConexaoPostgreSQL.get();
-             PreparedStatement stmt = con.prepareStatement(sql); // note que a variável é 'con'
+        try (Connection conexao = ConexaoPostgreSQL.get();
+             PreparedStatement stmt = conexao.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
@@ -29,16 +36,29 @@ public class ProdutoDAO {
                 produto.setId(rs.getInt("id"));
                 produto.setNome(rs.getString("nome"));
                 produto.setCodigoBarras(rs.getString("codigo_barras"));
-                // Preencha os demais atributos se necessário
+                produto.setEstoqueMinimo(rs.getBigDecimal("estoque_minimo"));
+                produto.setEstoqueMaximo(rs.getBigDecimal("estoque_maximo"));
+                produto.setTemValidade(rs.getBoolean("tem_validade"));
+                produto.setAtivo(rs.getBoolean("ativo"));
+                produto.setPrateleira(rs.getObject("prateleira") != null ? rs.getInt("prateleira") : null);
+                produto.setUnidadeEstoque(rs.getString("unidade_estoque"));
+                produto.setConteudo(rs.getBigDecimal("conteudo"));
+                produto.setUnidadeConteudo(rs.getString("unidade_conteudo"));
 
-                lista.add(produto);
+                if (rs.getObject("setor_id") != null) {
+                    Setor setor = new Setor();
+                    setor.setId(rs.getInt("setor_id"));
+                    setor.setNome(rs.getString("setor_nome"));
+                    produto.setSetor(setor);
+                }
+
+                produtos.add(produto);
             }
-
-        } catch (Exception e) {
-            throw new StokiException("Erro ao listar produto: " + e.getMessage());
+        } catch (SQLException e) {
+            throw new StokiException("Erro ao listar produtos no banco de dados: " + e.getMessage());
         }
 
-        return lista;
+        return produtos;
     }
 
     public boolean temLotes(long produtoId) throws StokiException {
@@ -56,5 +76,79 @@ public class ProdutoDAO {
             throw new StokiException("Erro ao verificar lotes: " + e.getMessage());
         }
         return false;
+    }
+
+    public void cadastrar(Produto produto) throws SQLException, StokiException {
+        String sql = "INSERT INTO produto (nome, codigo_barras, estoque_minimo, estoque_maximo, tem_validade, ativo, prateleira, unidade_estoque, conteudo, unidade_conteudo, setor_id) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conexao = ConexaoPostgreSQL.get();
+             PreparedStatement stmt = conexao.prepareStatement(sql)) {
+
+            stmt.setString(1, produto.getNome());
+            stmt.setString(2, produto.getCodigoBarras());
+            stmt.setBigDecimal(3, produto.getEstoqueMinimo());
+            stmt.setBigDecimal(4, produto.getEstoqueMaximo());
+            stmt.setBoolean(5, produto.getTemValidade() != null ? produto.getTemValidade() : true);
+            stmt.setBoolean(6, produto.getAtivo() != null ? produto.getAtivo() : true);
+
+            if (produto.getPrateleira() != null) {
+                stmt.setInt(7, produto.getPrateleira());
+            } else {
+                stmt.setNull(7, java.sql.Types.INTEGER);
+            }
+
+            stmt.setString(8, produto.getUnidadeEstoque());
+            stmt.setBigDecimal(9, produto.getConteudo());
+            stmt.setString(10, produto.getUnidadeConteudo());
+
+            if (produto.getSetor() != null && produto.getSetor().getId() != null) {
+                stmt.setInt(11, produto.getSetor().getId());
+            } else {
+                stmt.setNull(11, java.sql.Types.INTEGER);
+            }
+
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            throw new StokiException("Erro ao cadastrar produto: " + e.getMessage());
+        }
+    }
+
+    public void atualizar(Produto produto) throws SQLException, StokiException {
+        String sql = "UPDATE produto SET nome = ?, codigo_barras = ?, estoque_minimo = ?, estoque_maximo = ?, " +
+                "tem_validade = ?, ativo = ?, prateleira = ?, unidade_estoque = ?, conteudo = ?, unidade_conteudo = ?, setor_id = ? WHERE id = ?";
+
+        try (Connection conexao = ConexaoPostgreSQL.get();
+             PreparedStatement stmt = conexao.prepareStatement(sql)) {
+
+            stmt.setString(1, produto.getNome());
+            stmt.setString(2, produto.getCodigoBarras());
+            stmt.setBigDecimal(3, produto.getEstoqueMinimo());
+            stmt.setBigDecimal(4, produto.getEstoqueMaximo());
+            stmt.setBoolean(5, produto.getTemValidade() != null ? produto.getTemValidade() : true);
+            stmt.setBoolean(6, produto.getAtivo() != null ? produto.getAtivo() : true);
+
+            if (produto.getPrateleira() != null) {
+                stmt.setInt(7, produto.getPrateleira());
+            } else {
+                stmt.setNull(7, java.sql.Types.INTEGER);
+            }
+
+            stmt.setString(8, produto.getUnidadeEstoque());
+            stmt.setBigDecimal(9, produto.getConteudo());
+            stmt.setString(10, produto.getUnidadeConteudo());
+
+            if (produto.getSetor() != null && produto.getSetor().getId() != null) {
+                stmt.setInt(11, produto.getSetor().getId());
+            } else {
+                stmt.setNull(11, java.sql.Types.INTEGER);
+            }
+
+            stmt.setInt(12, produto.getId());
+
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            throw new StokiException("Erro ao atualizar produto: " + e.getMessage());
+        }
     }
 }

@@ -5,6 +5,7 @@ import controllers.SetorController;
 import exceptions.StokiException;
 import models.Produto;
 import models.Setor;
+import utils.Sessao;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -14,7 +15,7 @@ import java.util.List;
 
 /**
  * Responsável: Erick.
- * CRUD de produtos.
+ * CRUD de produtos
  */
 public class TelaProduto extends TelaBase {
 
@@ -45,7 +46,7 @@ public class TelaProduto extends TelaBase {
 
         setLayout(new BorderLayout());
 
-        // Carregar os setores no JComboBox ao iniciar a tela
+        // Carrega os setores no JComboBox ao iniciar a tela
         carregarSetores();
 
         // Criação e organização do painel de formulário ajustado para os novos campos
@@ -84,8 +85,13 @@ public class TelaProduto extends TelaBase {
         JPanel painelBotao = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         painelBotao.add(btnSalvar);
 
-        // Adiciona os componentes diretamente na tela
-        add(painelFormulario, BorderLayout.CENTER);
+        // Criação de um painel central para dividir o formulário e a listagem em tabela
+        JPanel painelCentral = new JPanel(new BorderLayout(5, 5));
+        painelCentral.add(painelFormulario, BorderLayout.NORTH);
+        painelCentral.add(new JScrollPane(tabelaProdutos), BorderLayout.CENTER);
+
+        // Adiciona os componentes na tela principal
+        add(painelCentral, BorderLayout.CENTER);
         add(painelBotao, BorderLayout.SOUTH);
 
         // Associa o clique do botão ao método de salvar
@@ -156,7 +162,7 @@ public class TelaProduto extends TelaBase {
     public void aoAbrir() {
         try {
             List<Produto> listaProdutos = produtoController.listar();
-            String[] colunas = {"ID", "Nome", "Código de Barras", "Setor", "Estoque Mínimo"};
+            String[] colunas = {"ID", "Nome", "Código de Barras", "Setor", "Est. Mínimo", "Est. Máximo"};
 
             DefaultTableModel modeloTabela = new DefaultTableModel(colunas, 0) {
                 @Override
@@ -169,18 +175,15 @@ public class TelaProduto extends TelaBase {
                 Object[] linha = {
                         p.getId(),
                         p.getNome(),
-                        p.getCodigoBarras(),
+                        p.getCodigoBarras() != null ? p.getCodigoBarras() : "-",
                         p.getSetor() != null ? p.getSetor().getNome() : "-",
-                        p.getEstoqueMinimo()
+                        p.getEstoqueMinimo(),
+                        p.getEstoqueMaximo()
                 };
                 modeloTabela.addRow(linha);
             }
 
             tabelaProdutos.setModel(modeloTabela);
-
-            // Adiciona a tabela no centro da tela se ainda não estiver
-            add(new JScrollPane(tabelaProdutos), BorderLayout.EAST);
-
             limparCampos();
 
         } catch (StokiException e) {
@@ -199,6 +202,8 @@ public class TelaProduto extends TelaBase {
 
             produto.setNome(txtNome.getText());
             produto.setCodigoBarras(txtCodigoBarras.getText());
+
+            produto.setCadastradoPor(utils.Sessao.getUsuario());
 
             // Preenchendo todos os campos obrigatórios e opcionais da classe Produto
             produto.setSetor((Setor) cbSetor.getSelectedItem());
@@ -222,7 +227,7 @@ public class TelaProduto extends TelaBase {
                 produtoController.cadastrar(produto);
                 JOptionPane.showMessageDialog(this, "Produto cadastrado com sucesso!");
             } else {
-                produtoController.cadastrar(produto);
+                produtoController.atualizar(produto);
                 JOptionPane.showMessageDialog(this, "Produto atualizado com sucesso!");
             }
 
