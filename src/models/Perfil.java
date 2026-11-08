@@ -1,8 +1,7 @@
 package models;
 
-/**
- * Perfis de acesso aprovados no briefing.
- */
+// nome e descrição dos acessos permitidos.
+
 public enum Perfil {
     GERENTE("Gerente/Dono"),
     RESPONSAVEL("Responsável pelo estoque"),
