@@ -3,9 +3,7 @@ package utils;
 import models.Perfil;
 import models.Usuario;
 
-/**
- * Guarda quem está usando o sistema depois do login.
- */
+// ele vai sinalizar quem etá usando o programa, o login que entrou.
 public class Sessao {
 
     private static Usuario usuario;
@@ -22,7 +20,7 @@ public class Sessao {
         usuario = null;
     }
 
-    /** Informa se a pessoa logada tem um dos perfis indicados. */
+    // Verifica se a pessoa logada corresponde com as exigencias de perfil.
     public static boolean temPerfil(Perfil... perfis) {
         if (usuario == null) {
             return false;
@@ -35,3 +33,5 @@ public class Sessao {
         return false;
     }
 }
+
+
