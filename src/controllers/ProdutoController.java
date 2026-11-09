@@ -39,4 +39,16 @@ public class ProdutoController {
             throw new StokiException("Erro inesperado ao listar produtos: " + e.getMessage());
         }
     }
+
+    public void atualizar(Produto produto) throws StokiException {
+        try {
+            produtoService.atualizar(produto);
+        } catch (java.sql.SQLException e) {
+            throw new StokiException("Erro de banco de dados ao atualizar produto: " + e.getMessage());
+        }
+    }
+
+    public void inativar(Integer id) throws StokiException {
+        produtoService.inativar(id);
+    }
 }

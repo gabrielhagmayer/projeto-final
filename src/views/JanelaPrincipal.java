@@ -84,6 +84,9 @@ public class JanelaPrincipal extends JFrame {
         adicionar("Estoque geral", new TelaEstoque());
         adicionar("Mapa do depósito", new TelaMapa());
         adicionar("Produtos", new TelaProduto());
+
+        if (gestao) adicionar("Lotes", new TelaLote());
+
         if (gestao) adicionar("Fornecedores", new TelaFornecedor());
         if (gerente) adicionar("Usuários", new TelaUsuario());
         if (gestao) adicionar("Entrada", new TelaEntrada());
