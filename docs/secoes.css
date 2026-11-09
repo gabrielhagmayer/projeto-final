@@ -1,8 +1,8 @@
 /* ==========================================================================
-   1. HERO (SEÇÃO INICIAL)
+   1. HERO
    ========================================================================== */
 .hero {
-  padding: 60px 20px 80px 20px;
+  padding: 80px 20px;
   width: 100%;
 }
 
@@ -10,84 +10,61 @@
   max-width: var(--largura-maxima);
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: 48px;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
   align-items: center;
-}
-
-.hero__texto {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
 }
 
 .etiqueta {
   display: inline-block;
-  padding: 6px 14px;
-  background-color: #dbeafe;
+  padding: 6px 12px;
+  background-color: rgba(37, 99, 235, 0.1);
   color: var(--cor-primaria);
-  font-size: 0.85rem;
   font-weight: 600;
+  font-size: 0.85rem;
   border-radius: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .hero__titulo {
-  font-size: 2.75rem;
-  line-height: 1.15;
+  font-size: 3rem;
   font-weight: 800;
+  line-height: 1.2;
   color: var(--cor-secundaria);
-  margin-bottom: 16px;
-  letter-spacing: -0.02em;
+  margin-bottom: 20px;
 }
 
 .hero__subtitulo {
-  font-size: 1.1rem;
-  line-height: 1.5;
+  font-size: 1.125rem;
   color: var(--cor-texto-suave);
   margin-bottom: 32px;
-  max-width: 500px;
 }
 
 .hero__botoes {
   display: flex;
   gap: 16px;
-  align-items: center;
+  margin-bottom: 24px;
 }
 
-/* Painel Ilustrativo */
-.hero__painel {
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+.hero__legenda {
+  font-size: 0.85rem;
+  color: var(--cor-texto-suave);
 }
 
 .painel {
   background-color: var(--cor-superficie);
   border: 1px solid var(--cor-borda);
-  border-radius: 16px;
+  border-radius: var(--raio-borda);
   padding: 32px;
-  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 }
 
 .painel__destaque {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
   margin-bottom: 24px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid var(--cor-borda);
-}
-
-.painel__rotulo {
-  font-size: 0.9rem;
-  color: var(--cor-texto-suave);
-  font-weight: 500;
 }
 
 .painel__valor {
-  font-size: 2.25rem;
+  font-size: 2.5rem;
   font-weight: 800;
   color: var(--cor-primaria);
 }
@@ -102,68 +79,44 @@
 .painel__item {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 0.95rem;
+  gap: 8px;
   color: var(--cor-texto);
 }
 
-.painel__item strong {
-  font-weight: 700;
-  color: var(--cor-secundaria);
-  min-width: 16px;
-}
-
-.hero__legenda {
-  font-size: 0.8rem;
-  color: var(--cor-texto-suave);
-  text-align: right;
-}
-
 /* ==========================================================================
-   2. PROBLEMA
+   2. PROBLEMA E DESTAQUES
    ========================================================================== */
 .problema__cartoes {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 24px;
-  list-style: none;
-  margin-bottom: 48px;
 }
 
 .cartao {
   background-color: var(--cor-superficie);
-  border: 1px solid var(--cor-borda);
+  padding: 32px;
   border-radius: var(--raio-borda);
-  padding: 28px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  transition: transform var(--transicao-padrao), box-shadow var(--transicao-padrao);
+  border: 1px solid var(--cor-borda);
+  transition: transform var(--transicao-padrao);
 }
 
 .cartao:hover {
   transform: translateY(-4px);
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
 }
 
 .cartao__titulo {
-  font-size: 1.2rem;
-  font-weight: 700;
+  font-size: 1.25rem;
   color: var(--cor-secundaria);
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .cartao__texto {
   color: var(--cor-texto-suave);
-  font-size: 0.95rem;
-  line-height: 1.5;
 }
 
 .destaque {
   text-align: center;
-  padding: 32px;
-  background-color: #f1f5f9;
-  border-radius: 16px;
+  margin-top: 48px;
 }
 
 .destaque__numero {
@@ -174,28 +127,25 @@
 
 .destaque__texto {
   font-weight: 600;
-  color: var(--cor-secundaria);
-  margin-top: 8px;
 }
 
 .destaque__fonte {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   color: var(--cor-texto-suave);
-  margin-top: 4px;
 }
 
 /* ==========================================================================
-   3. COMPARAÇÃO (ANTES E DEPOIS)
+   3. ANTES E DEPOIS (COMPARAÇÃO)
    ========================================================================== */
 .comparacao {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 32px;
+  gap: 24px;
 }
 
 .comparacao__coluna {
   padding: 32px;
-  border-radius: 16px;
+  border-radius: var(--raio-borda);
 }
 
 .comparacao__coluna--antes {
@@ -209,58 +159,73 @@
 }
 
 .comparacao__titulo {
-  font-size: 1.4rem;
+  font-size: 1.25rem;
   margin-bottom: 16px;
 }
 
 .comparacao__lista {
-  list-style-position: inside;
+  list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
 }
 
 /* ==========================================================================
-   4. BENTO GRID (DIFERENCIAIS)
+   4. DIFERENCIAIS (BENTO GRID - 2 CENTRALIZADOS NA 1ª LINHA)
    ========================================================================== */
-.diferenciais {
-  padding: 80px 20px;
-}
-
 .bento {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 24px;
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
+/* 1ª Linha: Os 2 primeiros cartões ficam centralizados (espaço livre nas pontas) */
 .bento > li:nth-child(1) {
-  grid-column: span 2;
+  grid-column: 1 / 3;
 }
 
 .bento > li:nth-child(2) {
-  grid-column: span 1;
+  grid-column: 2 / 4;
 }
 
+/* Linhas seguintes: Distribuição em cartões iguais */
 .bento > li:nth-child(n+3) {
-  grid-column: span 1;
+  grid-column: span 2;
+}
+
+@media (max-width: 900px) {
+  .bento {
+    grid-template-columns: 1fr;
+  }
+  
+  .bento > li:nth-child(1),
+  .bento > li:nth-child(2),
+  .bento > li:nth-child(n+3) {
+    grid-column: span 1;
+  }
+}
+
+.passos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+}
+
+.passo {
+  background-color: var(--cor-superficie);
+  padding: 24px;
+  border-radius: var(--raio-borda);
+  border: 1px solid var(--cor-borda);
 }
 
 /* ==========================================================================
-   5. PASSOS E EQUIPE
+   5. EQUIPE
    ========================================================================== */
-.passos {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-  list-style: none;
-}
-
 .equipe {
   text-align: center;
-  padding: 80px 20px;
 }
 
 .equipe__texto {
@@ -275,7 +240,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 32px;
+  gap: 24px;
   list-style: none;
   padding: 0;
   margin: 0 auto;
@@ -301,8 +266,7 @@
   color: #ffffff;
   border-radius: 16px;
   padding: 60px 20px;
-  max-width: var(--largura-maxima);
-  margin: 40px auto 60px auto;
+  margin: 40px auto;
 }
 
 .fechamento .secao__titulo {
@@ -324,38 +288,10 @@
   font-size: 0.9rem;
 }
 
-.rodape__interno {
-  max-width: var(--largura-maxima);
-  margin: 0 auto;
-}
-
-/* Botão Flutuante de Instalação (PWA) */
 .botao--instalar {
   position: fixed;
   bottom: 20px;
   right: 20px;
   z-index: 1000;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-}
-
-/* ==========================================================================
-   7. RESPONSIVIDADE (MOBILE E TABLET)
-   ========================================================================== */
-@media (max-width: 900px) {
-  .hero__interno,
-  .comparacao,
-  .bento,
-  .passos {
-    grid-template-columns: 1fr;
-  }
-  
-  .bento > li:nth-child(1),
-  .bento > li:nth-child(2),
-  .bento > li:nth-child(n+3) {
-    grid-column: span 1;
-  }
-
-  .hero__titulo {
-    font-size: 2.25rem;
-  }
 }
