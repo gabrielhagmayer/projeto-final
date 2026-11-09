@@ -2,26 +2,22 @@ package models;
 
 import java.math.BigDecimal;
 
-/**
- * Cadastro de um item do depósito. O saldo não fica aqui: ele vem dos lotes.
- */
+// classe que cadastra os produtos, mas não os valores deles
 public class Produto {
 
-    private Integer id; // chave primária
-    private String nome; // nome do produto
-    private String descricao; // descrição detalhada do produto
-    private BigDecimal preco; // preço unitário do produto
-    private String codigoBarras; // opcional
-    private Setor setor; // setor onde o produto fica
-    private Integer prateleira; // número da prateleira
-    private String unidadeEstoque; // UN, KG ou L
-    private BigDecimal conteudo; // conteúdo de cada unidade, como 2 em 2 L; opcional
-    private String unidadeConteudo; // mL, L, g ou kg; opcional
-    private BigDecimal estoqueMinimo; // abaixo disso gera alerta
-    private BigDecimal estoqueMaximo; // acima disso é excesso
-    private Boolean temValidade; // true quando cada lote exige validade
-    private Boolean ativo; // false quando foi inativado
-    private Usuario cadastradoPor; // quem cadastrou
+    private Integer id;
+    private String nome;
+    private String codigoBarras;
+    private Setor setor;
+    private Integer prateleira;
+    private String unidadeEstoque;
+    private BigDecimal conteudo; // usamos BigDecimal, do pacote math do java, para combinar com numeric no banco e tambem fazer contas precisas.
+    private String unidadeConteudo;
+    private BigDecimal estoqueMinimo;
+    private BigDecimal estoqueMaximo;
+    private Boolean temValidade;
+    private Boolean ativo;
+    private Usuario cadastradoPor;
 
     public Produto() {}
 
@@ -39,22 +35,6 @@ public class Produto {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public BigDecimal getPreco() {
-        return preco;
-    }
-
-    public void setPreco(BigDecimal preco) {
-        this.preco = preco;
     }
 
     public String getCodigoBarras() {
@@ -143,10 +123,5 @@ public class Produto {
 
     public void setCadastradoPor(Usuario cadastradoPor) {
         this.cadastradoPor = cadastradoPor;
-    }
-
-    @Override
-    public String toString() {
-        return this.nome;
     }
 }

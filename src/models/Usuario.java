@@ -1,16 +1,14 @@
 package models;
 
-/**
- * Pessoa que acessa o sistema.
- */
+// classe usuario que acessa o sistema.
 public class Usuario {
 
-    private Integer id; // chave primária
-    private String nome; // nome de exibição
-    private String login; // login único
-    private String senha; // hash SHA-256 da senha
-    private Perfil perfil; // define o que a pessoa pode fazer
-    private Boolean ativo; // false quando foi inativado
+    private Integer id;
+    private String nome;
+    private String login;
+    private String senha;
+    private Perfil perfil;
+    private Boolean ativo;
 
     public Usuario() {}
 
