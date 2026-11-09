@@ -79,8 +79,8 @@ public class ProdutoDAO {
     }
 
     public void cadastrar(Produto produto) throws SQLException, StokiException {
-        String sql = "INSERT INTO produto (nome, codigo_barras, estoque_minimo, estoque_maximo, tem_validade, ativo, prateleira, unidade_estoque, conteudo, unidade_conteudo, setor_id) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO produto (nome, codigo_barras, estoque_minimo, estoque_maximo, tem_validade, ativo, prateleira, unidade_estoque, conteudo, unidade_conteudo, setor_id, cadastrado_por) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
 
         try (Connection conexao = ConexaoPostgreSQL.get();
              PreparedStatement stmt = conexao.prepareStatement(sql)) {
@@ -106,6 +106,12 @@ public class ProdutoDAO {
                 stmt.setInt(11, produto.getSetor().getId());
             } else {
                 stmt.setNull(11, java.sql.Types.INTEGER);
+            }
+
+            if (produto.getCadastradoPor() != null && produto.getCadastradoPor().getId() != null) {
+                stmt.setInt(12, produto.getCadastradoPor().getId());
+            } else {
+                throw new StokiException("Erro: É necessário estar logado para cadastrar um produto.");
             }
 
             stmt.executeUpdate();
@@ -149,6 +155,17 @@ public class ProdutoDAO {
             stmt.executeUpdate();
         } catch (Exception e) {
             throw new StokiException("Erro ao atualizar produto: " + e.getMessage());
+        }
+    }
+
+    public void inativar(Integer id) throws SQLException, StokiException {
+        String sql = "UPDATE produto SET ativo = false WHERE id = ?";
+        try (Connection conexao = ConexaoPostgreSQL.get();
+             PreparedStatement stmt = conexao.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new StokiException("Erro ao inativar produto: " + e.getMessage());
         }
     }
 }

@@ -47,4 +47,8 @@ public class ProdutoController {
             throw new StokiException("Erro de banco de dados ao atualizar produto: " + e.getMessage());
         }
     }
+
+    public void inativar(Integer id) throws StokiException {
+        produtoService.inativar(id);
+    }
 }

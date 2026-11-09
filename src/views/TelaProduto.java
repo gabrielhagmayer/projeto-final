@@ -254,4 +254,29 @@ public class TelaProduto extends TelaBase {
         if (cbUnidadeConteudo.getItemCount() > 0) cbUnidadeConteudo.setSelectedIndex(0);
         produtoIdSelecionado = null;
     }
+
+    private void aoClicarInativar() {
+        if (produtoIdSelecionado == null) {
+            JOptionPane.showMessageDialog(this, "Selecione um produto na tabela para inativar.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int confirmacao = JOptionPane.showConfirmDialog(
+                this,
+                "Tem certeza que deseja inativar este produto?",
+                "Confirmação",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirmacao == JOptionPane.YES_OPTION) {
+            try {
+                produtoController.inativar(produtoIdSelecionado);
+                JOptionPane.showMessageDialog(this, "Produto inativado com sucesso!");
+                aoAbrir();
+                limparCampos();
+            } catch (StokiException e) {
+                JOptionPane.showMessageDialog(this, e.getMessage(), "Erro ao inativar", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
 }

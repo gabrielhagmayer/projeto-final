@@ -15,9 +15,7 @@ public class RelatorioService {
 
     private final RelatorioDAO relatorioDAO = new RelatorioDAO();
 
-    /**
-     * Retorna os dados para o relatório de saldo e lotes.
-     */
+    // Retorna os dados para o relatório de saldo e lotes.
     public List gerarRelatorioSaldoLotes() throws StokiException {
         try {
             // Aqui podem entrar regras de negócio, filtros ou validações futuras

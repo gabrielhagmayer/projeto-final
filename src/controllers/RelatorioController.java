@@ -14,10 +14,8 @@ public class RelatorioController {
 
     private final RelatorioService relatorioService = new RelatorioService();
 
-    /**
-     * Busca os dados do relatório de saldo de lotes para exibir na tela.
-     * retorna a Lista de mapas contendo os dados do relatório.
-     */
+    // Busca os dados do relatório de saldo de lotes
+    // para exibir na tela retorna a Lista de mapas contendo os dados do relatório.
     public List buscarRelatorioSaldoLotes() {
         try {
             return relatorioService.gerarRelatorioSaldoLotes();

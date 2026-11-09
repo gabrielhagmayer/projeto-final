@@ -5,6 +5,7 @@ import exceptions.StokiException;
 import models.Produto;
 import utils.Sessao;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -90,6 +91,18 @@ public class ProdutoService {
 
         // Chama o DAO para atualizar no banco
         produtoDAO.atualizar(produto);
+    }
+
+    public void inativar(Integer id) throws StokiException {
+        try {
+            // Regra de segurança: verifica se o produto possui lotes vinculados
+            if (produtoDAO.temLotes(id)) {
+                throw new StokiException("Não é possível inativar um produto que possui lotes cadastrados.");
+            }
+            produtoDAO.inativar(id);
+        } catch (SQLException e) {
+            throw new StokiException("Erro ao inativar o produto no banco de dados: " + e.getMessage());
+        }
     }
 }
 
