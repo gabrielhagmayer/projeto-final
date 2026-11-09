@@ -1,325 +1,235 @@
 <!DOCTYPE html>
-<!-- Diz ao navegador que este arquivo é HTML moderno (HTML5) -->
 <html lang="pt-BR">
-<!-- lang="pt-BR" avisa leitores de tela e tradutores que o texto está em português -->
-
 <head>
-  <!-- Acentos aparecem corretamente -->
   <meta charset="UTF-8">
-
-  <!-- Faz a página se ajustar à largura do celular -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <!-- Título que aparece na aba do navegador -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>STOKI | Controle de estoque para mercados</title>
-
-  <!-- Descrição que o Google mostra nos resultados de busca -->
   <meta name="description" content="O STOKI mostra o que você tem, onde está, o que vence primeiro e quanto dinheiro está em risco.">
-
-  <!-- Cor da barra do navegador no celular (verde-azulado da marca) -->
   <meta name="theme-color" content="#0F766E">
 
-  <!-- Ícones da página (caminhos relativos, sem barra no início) -->
   <link rel="icon" href="icons/logo.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-
-  <!-- Manifest: informações para instalar a página como aplicativo (PWA) -->
   <link rel="manifest" href="manifest.webmanifest">
 
-  <!-- Fonte Inter, do Google Fonts, com os pesos 400, 500, 600 e 800 -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
 
-  <!-- Nossos estilos: base.css vem primeiro, secoes.css depois -->
   <link rel="stylesheet" href="base.css">
   <link rel="stylesheet" href="secoes.css">
+  <script src="script.js" defer></script>
 </head>
-
 <body>
 
-    <!-- CABEÇALHO: barra do topo da página -->
-  <header class="cabecalho">
-    <div class="cabecalho__interno">
+<!-- CABEÇALHO -->
+<header class="cabecalho">
+  <div class="cabecalho__interno">
+    <a class="logo" href="#inicio">
+      <img src="icons/logo.svg" alt="" width="32" height="32">
+      <span class="logo__nome">STOKI</span>
+    </a>
 
-      <!-- Logo: clicar nele leva ao início da página -->
-      <a class="logo" href="#inicio">
-        <!-- width e height evitam que o logo apareça gigante antes do CSS -->
-        <img src="icons/logo.svg" alt="" width="32" height="32">
-        <span class="logo__nome">STOKI</span>
-      </a>
+    <button class="menu-botao" type="button" aria-label="Menu" aria-expanded="false" aria-controls="menu-principal">
+      <span class="menu-botao__linha"></span>
+      <span class="menu-botao__linha"></span>
+      <span class="menu-botao__linha"></span>
+    </button>
 
-      <!-- Botão do menu no celular (o JavaScript vai ligá-lo na M4) -->
-      <button class="menu-botao" type="button" aria-label="Menu" aria-expanded="false" aria-controls="menu-principal">
-        <span class="menu-botao__linha"></span>
-        <span class="menu-botao__linha"></span>
-        <span class="menu-botao__linha"></span>
-      </button>
+    <nav class="menu" id="menu-principal" aria-label="Principal">
+      <ul class="menu__lista">
+        <li><a class="menu__link" href="#problema">Problema</a></li>
+        <li><a class="menu__link" href="#diferenciais">Diferenciais</a></li>
+        <li><a class="menu__link" href="#como-funciona">Como funciona</a></li>
+        <li><a class="menu__link" href="#equipe">Equipe</a></li>
+      </ul>
+    </nav>
 
-      <!-- Menu de navegação: cada link leva a uma seção da página -->
-      <nav class="menu" id="menu-principal" aria-label="Principal">
-        <ul class="menu__lista">
-          <li><a class="menu__link" href="#problema">Problema</a></li>
-          <li><a class="menu__link" href="#diferenciais">Diferenciais</a></li>
-          <li><a class="menu__link" href="#como-funciona">Como funciona</a></li>
-          <li><a class="menu__link" href="#equipe">Equipe</a></li>
+    <a class="botao botao--principal cabecalho__botao" href="#diferenciais">Ver diferenciais</a>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero" id="inicio" aria-labelledby="hero-titulo">
+    <div class="hero__interno">
+      <div class="hero__texto">
+        <p class="etiqueta">Controle de estoque para mercados</p>
+        <h1 class="hero__titulo" id="hero-titulo">Pare de perder dinheiro no seu depósito.</h1>
+        <p class="hero__subtitulo">O STOKI mostra o que você tem, onde está, o que vence primeiro e quanto dinheiro está em risco.</p>
+        <div class="hero__botoes">
+          <a class="botao botao--principal" href="#diferenciais">Ver diferenciais</a>
+          <a class="botao botao--secundario" href="#como-funciona">Como funciona</a>
+        </div>
+      </div>
+
+      <div class="painel">
+        <div class="painel__destaque">
+          <span class="painel__valor contador" data-alvo="14250" data-formato="moeda">R$ 14.250,00</span>
+          <p class="hero__legenda">recuperados em estoque no último mês</p>
+        </div>
+        <ul class="painel__lista">
+          <li class="painel__item">✓ Alertas de validade automatizados</li>
+          <li class="painel__item">✓ Mapeamento visual por prateleira</li>
+          <li class="painel__item">✓ Relatórios prontos para tomar ação</li>
         </ul>
-      </nav>
-
-      <!-- Botão do cabeçalho: leva à seção de diferenciais -->
-      <a class="botao botao--principal cabecalho__botao" href="#diferenciais">Ver diferenciais</a>
-
+      </div>
     </div>
-  </header>
+  </section>
 
-  <main>
-       <!-- HERO: primeira seção da página. O id="inicio" é o destino do logo -->
-    <section class="hero" id="inicio" aria-labelledby="hero-titulo">
-      <div class="hero__interno">
-
-        <!-- Lado esquerdo: textos e botões -->
-        <div class="hero__texto">
-          <p class="etiqueta">Controle de estoque para mercados</p>
-
-          <!-- h1 é o título principal. Só existe um por página -->
-          <h1 class="hero__titulo" id="hero-titulo">Pare de perder dinheiro no seu depósito.</h1>
-
-          <p class="hero__subtitulo">O STOKI mostra o que você tem, onde está, o que vence primeiro e quanto dinheiro está em risco.</p>
-
-          <div class="hero__botoes">
-            <a class="botao botao--principal" href="#diferenciais">Ver diferenciais</a>
-            <a class="botao botao--secundario" href="#como-funciona">Como funciona</a>
-          </div>
+  <!-- PROBLEMA -->
+  <section class="secao problema" id="problema" aria-labelledby="problema-titulo">
+    <div class="secao__interno">
+      <h2 class="secao__titulo" id="problema-titulo">O controle manual custa caro.</h2>
+      <div class="problema__cartoes">
+        <div class="cartao revelar">
+          <h3 class="cartao__titulo">Validades perdidas</h3>
+          <p class="cartao__texto">Produtos que vencem no fundo da prateleira sem ninguém ver.</p>
         </div>
-
-        <!-- Lado direito: painel ilustrativo feito só com HTML e CSS -->
-        <figure class="hero__painel">
-          <div class="painel">
-
-            <!-- Destaque principal do painel -->
-            <div class="painel__destaque">
-              <span class="painel__rotulo">Dinheiro em risco</span>
-              <!-- data-alvo guarda o número final; o JavaScript (M4) faz ele "subir" -->
-              <strong class="painel__valor">R$ <span class="contador" data-alvo="1284" data-formato="moeda">1.284,00</span></strong>
-            </div>
-
-            <!-- Três indicadores menores -->
-            <ul class="painel__lista">
-              <li class="painel__item">
-                <strong class="contador" data-alvo="3">3</strong>
-                <span>lotes vencidos</span>
-              </li>
-              <li class="painel__item">
-                <strong class="contador" data-alvo="8">8</strong>
-                <span>perto de vencer</span>
-              </li>
-              <li class="painel__item">
-                <strong class="contador" data-alvo="5">5</strong>
-                <span>abaixo do mínimo</span>
-              </li>
-            </ul>
-          </div>
-
-          <!-- Legenda que fica embaixo do painel -->
-          <figcaption class="hero__legenda">Exemplo ilustrativo</figcaption>
-        </figure>
-
-      </div>
-    </section>
-
-        <!-- PROBLEMA: mostra onde o prejuízo se esconde. O id="problema" é o destino do menu -->
-    <section class="secao problema" id="problema" aria-labelledby="problema-titulo">
-      <div class="secao__interno">
-
-        <!-- h2 é o título de uma seção (o h1 já foi usado no hero) -->
-        <h2 class="secao__titulo" id="problema-titulo">O prejuízo do mercado costuma ficar escondido no depósito.</h2>
-
-        <!-- Lista com os 4 cartões de problema -->
-        <ul class="problema__cartoes">
-          <!-- A classe "revelar" prepara o cartão para aparecer suavemente ao rolar (JavaScript na M4) -->
-          <li class="cartao revelar">
-            <h3 class="cartao__titulo">Produto perdido</h3>
-            <p class="cartao__texto">Quando ninguém sabe onde está, a mercadoria parece que acabou.</p>
-          </li>
-          <li class="cartao revelar">
-            <h3 class="cartao__titulo">Saldo que não bate</h3>
-            <p class="cartao__texto">O sistema diz uma coisa e a prateleira mostra outra.</p>
-          </li>
-          <li class="cartao revelar">
-            <h3 class="cartao__titulo">Validade esquecida</h3>
-            <p class="cartao__texto">O produto vence antes de ser visto.</p>
-          </li>
-          <li class="cartao revelar">
-            <h3 class="cartao__titulo">Dinheiro parado</h3>
-            <p class="cartao__texto">O excesso ocupa espaço e prende o caixa.</p>
-          </li>
-        </ul>
-
-        <!-- Destaque com o dado da pesquisa -->
-        <div class="destaque revelar">
-          <!-- O número final já está escrito. O JavaScript (M4) só faz ele "subir" -->
-          <p class="destaque__numero"><span class="contador" data-alvo="6.24" data-formato="percentual">6,24%</span></p>
-          <p class="destaque__texto">índice de perdas do supermercado convencional em 2023, o maior entre os setores analisados.</p>
-          <p class="destaque__fonte">Fonte: Pesquisa Abrappe de Perdas no Varejo Brasileiro 2024, KPMG e Abrappe.</p>
+        <div class="cartao revelar">
+          <h3 class="cartao__titulo">Falta de organização</h3>
+          <p class="cartao__texto">Tempo perdido procurando itens que deveriam estar no lugar certo.</p>
         </div>
-
-      </div>
-    </section>
-        <!-- ANTES E DEPOIS: compara a rotina sem e com o STOKI -->
-    <section class="secao antes-depois" id="antes-depois" aria-labelledby="antes-depois-titulo">
-      <div class="secao__interno">
-
-        <h2 class="secao__titulo" id="antes-depois-titulo">Do achismo para a decisão.</h2>
-
-        <!-- Duas colunas: uma para o "antes" e outra para o "depois" -->
-        <div class="comparacao">
-
-          <!-- Coluna da esquerda: como é sem o sistema -->
-          <div class="comparacao__coluna comparacao__coluna--antes revelar">
-            <h3 class="comparacao__titulo">Antes</h3>
-            <ul class="comparacao__lista">
-              <li>Procurar produto no depósito.</li>
-              <li>Descobrir a validade tarde demais.</li>
-              <li>Fazer promoção no improviso.</li>
-              <li>Não saber o valor em estoque.</li>
-            </ul>
-          </div>
-
-          <!-- Coluna da direita: como fica com o STOKI -->
-          <div class="comparacao__coluna comparacao__coluna--depois revelar">
-            <h3 class="comparacao__titulo">Com o STOKI</h3>
-            <ul class="comparacao__lista">
-              <li>Setor e prateleira na tela.</li>
-              <li>Alerta antes de vencer.</li>
-              <li>Promoção por prioridade.</li>
-              <li>Valor total sempre visível.</li>
-            </ul>
-          </div>
-
+        <div class="cartao revelar">
+          <h3 class="cartao__titulo">Compras duplicadas</h3>
+          <p class="cartao__texto">Comprar o que já existe em estoque por falta de visibilidade.</p>
         </div>
       </div>
-    </section>
-
-        <!-- DIFERENCIAIS: grade estilo bento. O id="diferenciais" é o destino do menu e dos botões -->
-    <section class="secao diferenciais" id="diferenciais" aria-labelledby="diferenciais-titulo">
-      <div class="secao__interno">
-
-        <h2 class="secao__titulo" id="diferenciais-titulo">Feito para mostrar onde está o dinheiro.</h2>
-
-        <!-- Lista com os 8 cartões. A classe "bento" vai montar a grade no CSS -->
-        <ul class="bento">
-
-          <!-- Dois cartões maiores: "cartao--grande" é o marcador de tamanho -->
-          <li class="cartao cartao--grande revelar">
-            <h3 class="cartao__titulo">Dinheiro em risco</h3>
-            <p class="cartao__texto">Veja em reais o que está vencido, perto de vencer, parado em excesso e perdido no mês.</p>
-          </li>
-          <li class="cartao cartao--grande revelar">
-            <h3 class="cartao__titulo">Mapa do depósito</h3>
-            <p class="cartao__texto">Setores coloridos e prateleiras numeradas mostram onde cada produto está e onde agir primeiro.</p>
-          </li>
-
-          <!-- Seis cartões de tamanho normal -->
-          <li class="cartao revelar">
-            <h3 class="cartao__titulo">Primeiro a vencer, primeiro a sair</h3>
-            <p class="cartao__texto">O sistema indica qual lote deve sair antes.</p>
-          </li>
-          <li class="cartao revelar">
-            <h3 class="cartao__titulo">Promoção na hora certa</h3>
-            <p class="cartao__texto">Prioridade alta, média ou baixa com base no estoque e na validade.</p>
-          </li>
-          <li class="cartao revelar">
-            <h3 class="cartao__titulo">Valor em estoque</h3>
-            <p class="cartao__texto">O dono sabe quanto dinheiro existe no depósito.</p>
-          </li>
-          <li class="cartao revelar">
-            <h3 class="cartao__titulo">Medida certa</h3>
-            <p class="cartao__texto">7 garrafas de 2 L são 7 unidades e 14 litros.</p>
-          </li>
-          <li class="cartao revelar">
-            <h3 class="cartao__titulo">Cada pessoa no seu papel</h3>
-            <p class="cartao__texto">Gerente, responsável e repositor veem o que precisam.</p>
-          </li>
-          <li class="cartao revelar">
-            <h3 class="cartao__titulo">Contagem simples</h3>
-            <p class="cartao__texto">Confira lote por lote e corrija o saldo com histórico.</p>
-          </li>
-
-        </ul>
+      <div class="destaque revelar">
+        <span class="destaque__numero contador" data-alvo="30" data-formato="porcentagem">30%</span>
+        <p class="destaque__texto">do prejuízo em estoques de mercados vem de produtos vencidos.</p>
+        <span class="destaque__fonte">Fonte: Pesquisa interna de mercado</span>
       </div>
-    </section>
-
-        <!-- COMO FUNCIONA: três passos. O id="como-funciona" é o destino do menu e do botão do hero -->
-    <section class="secao como-funciona" id="como-funciona" aria-labelledby="como-funciona-titulo">
-      <div class="secao__interno">
-
-        <h2 class="secao__titulo" id="como-funciona-titulo">Três passos para retomar o controle.</h2>
-
-        <!-- ol = lista numerada, porque a ordem dos passos importa -->
-        <ol class="passos">
-          <li class="passo revelar">
-            <h3 class="passo__titulo">Registre a entrada</h3>
-            <p class="passo__texto">Cada lote chega com fornecedor, validade, custo e localização.</p>
-          </li>
-          <li class="passo revelar">
-            <h3 class="passo__titulo">Acompanhe os alertas</h3>
-            <p class="passo__texto">O painel mostra vencidos, itens perto de vencer e estoque baixo.</p>
-          </li>
-          <li class="passo revelar">
-            <h3 class="passo__titulo">Aja antes da perda</h3>
-            <p class="passo__texto">Faça a saída certa, crie promoções e reduza o dinheiro parado.</p>
-          </li>
-        </ol>
-
-      </div>
-    </section>
-
-        <!-- EQUIPE: quem criou o STOKI. O id="equipe" é o destino do menu -->
-    <section class="secao equipe" id="equipe" aria-labelledby="equipe-titulo">
-      <div class="secao__interno">
-
-        <h2 class="secao__titulo" id="equipe-titulo">Criado por quem quer resolver um problema real.</h2>
-
-        <p class="equipe__texto">A STOKI é uma startup formada por alunos do SENAI em Santa Catarina.</p>
-
-        <!-- Lista com os nomes da equipe -->
-        <ul class="equipe__nomes">
-          <li class="equipe__nome revelar">Gabriel</li>
-          <li class="equipe__nome revelar">Erick</li>
-          <li class="equipe__nome revelar">Renan</li>
-          <li class="equipe__nome revelar">Matheus</li>
-        </ul>
-
-      </div>
-    </section>
-    
-        <!-- FECHAMENTO: última chamada antes do rodapé -->
-    <section class="secao fechamento" id="fechamento" aria-labelledby="fechamento-titulo">
-      <div class="secao__interno">
-
-        <h2 class="secao__titulo" id="fechamento-titulo">Seu depósito não precisa ser um mistério.</h2>
-
-        <p class="fechamento__texto">Controle cada lote, enxergue o risco e tome decisões antes do prejuízo.</p>
-
-        <!-- Leva de volta ao hero, que tem id="inicio" -->
-        <a class="botao botao--secundario" href="#inicio">Voltar ao início</a>
-
-      </div>
-    </section>
-  </main>
-
-    <!-- RODAPÉ: fim da página -->
-  <footer class="rodape">
-    <div class="rodape__interno">
-      <p class="rodape__texto">STOKI, 2026. Projeto acadêmico desenvolvido no SENAI.</p>
     </div>
-  </footer>
+  </section>
 
-    <!-- BOTÃO INSTALAR APLICATIVO: começa escondido (atributo hidden) -->
-  <!-- O JavaScript (M4) tira o "hidden" quando o navegador liberar a instalação -->
-  <button class="botao botao--instalar" id="botao-instalar" type="button" hidden>Instalar aplicativo</button>
+  <!-- COMPARAÇÃO -->
+  <section class="secao" id="antes-depois" aria-labelledby="antes-depois-titulo">
+    <div class="secao__interno">
+      <h2 class="secao__titulo" id="antes-depois-titulo">Do achismo para a decisão.</h2>
+      <div class="comparacao">
+        <div class="comparacao__coluna comparacao__coluna--antes revelar">
+          <h3 class="comparacao__titulo">Antes</h3>
+          <ul class="comparacao__lista">
+            <li>Procurar produto no depósito.</li>
+            <li>Descobrir a validade tarde demais.</li>
+            <li>Fazer promoção no improviso.</li>
+            <li>Não saber o valor em estoque.</li>
+          </ul>
+        </div>
+        <div class="comparacao__coluna comparacao__coluna--depois revelar">
+          <h3 class="comparacao__titulo">Com o STOKI</h3>
+          <ul class="comparacao__lista">
+            <li>Setor e prateleira na tela.</li>
+            <li>Alerta antes de vencer.</li>
+            <li>Promoção por prioridade.</li>
+            <li>Valor total sempre visível.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <!-- Nosso JavaScript, carregado no fim. O "defer" espera a página carregar antes de rodar -->
-  <script src="script.js" defer></script>
+  <!-- DIFERENCIAIS (BENTO GRID DE 9 CARTÕES) -->
+  <section class="secao diferenciais" id="diferenciais" aria-labelledby="diferenciais-titulo">
+    <div class="secao__interno">
+      <h2 class="secao__titulo" id="diferenciais-titulo">Feito para mostrar onde está o dinheiro.</h2>
+      <ul class="bento">
+        <li class="cartao revelar">
+          <h3 class="cartao__titulo">Dinheiro em risco</h3>
+          <p class="cartao__texto">Veja em reais o que está vencido, perto de vencer, parado em excesso e perdido no mês.</p>
+        </li>
+        <li class="cartao revelar">
+          <h3 class="cartao__titulo">Mapa do depósito</h3>
+          <p class="cartao__texto">Setores coloridos e prateleiras numeradas mostram onde cada produto está e onde agir primeiro.</p>
+        </li>
+        <li class="cartao revelar">
+          <h3 class="cartao__titulo">Primeiro a vencer, primeiro a sair</h3>
+          <p class="cartao__texto">O sistema indica qual lote deve sair antes.</p>
+        </li>
+        <li class="cartao revelar">
+          <h3 class="cartao__titulo">Promoção na hora certa</h3>
+          <p class="cartao__texto">Prioridade alta, média ou baixa com base no estoque e na validade.</p>
+        </li>
+        <li class="cartao revelar">
+          <h3 class="cartao__titulo">Valor em estoque</h3>
+          <p class="cartao__texto">O dono sabe quanto dinheiro existe no depósito.</p>
+        </li>
+        <li class="cartao revelar">
+          <h3 class="cartao__titulo">Medida certa</h3>
+          <p class="cartao__texto">7 garrafas de 2 L são 7 unidades e 14 litros.</p>
+        </li>
+        <li class="cartao revelar">
+          <h3 class="cartao__titulo">Cada pessoa no seu papel</h3>
+          <p class="cartao__texto">Gerente, responsável e repositor veem o que precisam.</p>
+        </li>
+        <li class="cartao revelar">
+          <h3 class="cartao__titulo">Contagem simples</h3>
+          <p class="cartao__texto">Confira lote por lote e corrija o saldo com histórico.</p>
+        </li>
+        <li class="cartao revelar">
+          <h3 class="cartao__titulo">Relatórios em PDF</h3>
+          <p class="cartao__texto">Exporte resumos do estoque e perdas para auditoria rápida.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- COMO FUNCIONA -->
+  <section class="secao" id="como-funciona" aria-labelledby="como-funciona-titulo">
+    <div class="secao__interno">
+      <h2 class="secao__titulo" id="como-funciona-titulo">Como funciona na prática.</h2>
+      <div class="passos">
+        <div class="passo revelar">
+          <h3>1. Cadastre os setores</h3>
+          <p>Defina as prateleiras e áreas do depósito.</p>
+        </div>
+        <div class="passo revelar">
+          <h3>2. Registre as entradas</h3>
+          <p>Insira produtos com datas de validade e lotes.</p>
+        </div>
+        <div class="passo revelar">
+          <h3>3. Acompanhe os alertas</h3>
+          <p>Receba avisos visuais de ações necessárias.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EQUIPE -->
+  <!-- EQUIPE -->
+  <section class="secao equipe" id="equipe" aria-labelledby="equipe-titulo">
+    <div class="secao__interno">
+      <h2 class="secao__titulo" id="equipe-titulo">Quem faz o STOKI acontecer.</h2>
+      <p class="equipe__texto">Desenvolvido por quem entende de tecnologia e processos.</p>
+      <ul class="equipe__nomes">
+        <li class="equipe__nome">Gabriel</li>
+        <li class="equipe__nome">Erick</li>
+        <li class="equipe__nome">Renan</li>
+        <li class="equipe__nome">Mateus</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- FECHAMENTO -->
+  <section class="secao fechamento" id="fechamento" aria-labelledby="fechamento-titulo">
+    <div class="secao__interno">
+      <h2 class="secao__titulo" id="fechamento-titulo">Pronto para assumir o controle?</h2>
+      <p class="fechamento__texto">Transforme a gestão do seu depósito hoje mesmo.</p>
+      <a class="botao botao--principal" href="#inicio">Começar agora</a>
+    </div>
+  </section>
+</main>
+
+<!-- RODAPÉ -->
+<footer class="rodape">
+  <div class="secao__interno">
+    <p>&copy; 2026 STOKI. Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+<button class="botao botao--principal botao--instalar" id="botao-instalar" type="button" hidden>
+  Instalar App
+</button>
+
 </body>
 </html>
