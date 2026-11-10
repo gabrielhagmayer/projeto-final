@@ -32,4 +32,5 @@ public class FornecedorController {
     public void excluir(int id) throws StokiException {
         fornecedorService.excluir(id);
     }
+
 }
