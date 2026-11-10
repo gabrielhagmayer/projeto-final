@@ -4,8 +4,11 @@ import controllers.ProdutoController;
 import controllers.SetorController;
 import exceptions.StokiException;
 import models.Produto;
+import models.Perfil;
 import models.Setor;
 import utils.Sessao;
+import utils.Tema;
+import utils.Utilidade;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -37,14 +40,12 @@ public class TelaProduto extends TelaBase {
     private JComboBox<Setor> cbSetor = new JComboBox<>();
     private JComboBox<String> cbUnidadeEstoque = new JComboBox<>(new String[]{"UN", "KG", "L"});
     private JCheckBox chkTemValidade = new JCheckBox("Exige controle de validade por lote");
-    private JComboBox<String> cbUnidadeConteudo = new JComboBox<>(new String[]{"mL", "L", "g", "kg"});
+    private JComboBox<String> cbUnidadeConteudo = new JComboBox<>(new String[]{"","mL", "L", "g", "kg"});
 
-    private JButton btnSalvar = new JButton("Salvar");
+    private JButton btnSalvar = Tema.botaoPrimario("Salvar");
 
     public TelaProduto() {
         super("Produtos", "CRUD de produtos.");
-
-        setLayout(new BorderLayout());
 
         // Carrega os setores no JComboBox ao iniciar a tela
         carregarSetores();
@@ -90,9 +91,16 @@ public class TelaProduto extends TelaBase {
         painelCentral.add(painelFormulario, BorderLayout.NORTH);
         painelCentral.add(new JScrollPane(tabelaProdutos), BorderLayout.CENTER);
 
+        Tema.estilizarTabela(tabelaProdutos);
+
         // Adiciona os componentes na tela principal
-        add(painelCentral, BorderLayout.CENTER);
-        add(painelBotao, BorderLayout.SOUTH);
+        conteudo.add(painelCentral, BorderLayout.CENTER);
+        conteudo.add(painelBotao, BorderLayout.SOUTH);
+
+        if (Sessao.temPerfil(Perfil.REPOSITOR)) {
+            painelFormulario.setVisible(false);
+            painelBotao.setVisible(false);
+        }
 
         // Associa o clique do botão ao método de salvar
         btnSalvar.addActionListener(e -> aoClicarSalvar());
@@ -151,7 +159,7 @@ public class TelaProduto extends TelaBase {
                 cbSetor.addItem(s);
             }
         } catch (Exception e) {
-            // Trata ou ignora caso haja erro ao carregar na inicialização
+           mostrarErro(e.getMessage());
         }
     }
 
@@ -177,8 +185,8 @@ public class TelaProduto extends TelaBase {
                         p.getNome(),
                         p.getCodigoBarras() != null ? p.getCodigoBarras() : "-",
                         p.getSetor() != null ? p.getSetor().getNome() : "-",
-                        p.getEstoqueMinimo(),
-                        p.getEstoqueMaximo()
+                        Utilidade.formatarQuantidade(p.getEstoqueMinimo()),
+                        Utilidade.formatarQuantidade(p.getEstoqueMaximo())
                 };
                 modeloTabela.addRow(linha);
             }
@@ -207,21 +215,46 @@ public class TelaProduto extends TelaBase {
 
             // Preenchendo todos os campos obrigatórios e opcionais da classe Produto
             produto.setSetor((Setor) cbSetor.getSelectedItem());
-            produto.setUnidadeEstoque((String) cbUnidadeEstoque.getSelectedItem());
+
+            String unidadeEstoque = (String) cbUnidadeEstoque.getSelectedItem();
+            produto.setUnidadeEstoque(unidadeEstoque);
+            if (txtConteudo.getText().isBlank() || unidadeEstoque.equals("KG") || unidadeEstoque.equals("L")) {
+                produto.setConteudo(null);
+                produto.setUnidadeConteudo(null);
+            } else {
+                BigDecimal conteudo = Utilidade.paraDecimal(txtConteudo.getText());
+                if (conteudo == null) {
+                    mostrarErro("Informe um conteúdo válido.");
+                    return;
+                }
+                produto.setConteudo(conteudo);
+                produto.setUnidadeConteudo((String) cbUnidadeConteudo.getSelectedItem());
+            }
+
             produto.setTemValidade(chkTemValidade.isSelected());
-            produto.setUnidadeConteudo((String) cbUnidadeConteudo.getSelectedItem());
 
             // Tratamento seguro para prateleira (inteiro)
-            produto.setPrateleira(txtPrateleira.getText().isEmpty() ? null : Integer.valueOf(txtPrateleira.getText().trim()));
+            Integer prateleira = Utilidade.paraInteiro(txtPrateleira.getText());
+            if (prateleira == null) {
+                mostrarErro("Informe uma prateleira válida");
+                return;
+            }
+            produto.setPrateleira(prateleira);
 
             // Tratamento seguro para campos numéricos BigDecimal (substituindo vírgula por ponto para evitar erros)
-            String minStr = txtEstoqueMinimo.getText().trim().replace(",", ".");
-            String maxStr = txtEstoqueMaximo.getText().trim().replace(",", ".");
-            String contStr = txtConteudo.getText().trim().replace(",", ".");
+            BigDecimal minimo = Utilidade.paraDecimal(txtEstoqueMinimo.getText());
+            if (minimo == null) {
+                mostrarErro("Informe um estoque mínimo válido.");
+                return;
+            }
+            produto.setEstoqueMinimo(minimo);
 
-            produto.setEstoqueMinimo(minStr.isEmpty() ? null : new BigDecimal(minStr));
-            produto.setEstoqueMaximo(maxStr.isEmpty() ? null : new BigDecimal(maxStr));
-            produto.setConteudo(contStr.isEmpty() ? null : new BigDecimal(contStr));
+            BigDecimal maximo = Utilidade.paraDecimal(txtEstoqueMaximo.getText());
+            if (maximo == null) {
+                mostrarErro("Informe um estoque máximo válido.");
+                return;
+            }
+            produto.setEstoqueMaximo(maximo);
 
             if (produtoIdSelecionado == null) {
                 produtoController.cadastrar(produto);
