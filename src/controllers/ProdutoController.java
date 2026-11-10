@@ -49,6 +49,23 @@ public class ProdutoController {
     }
 
     public void inativar(Integer id) throws StokiException {
-        produtoService.inativar(id);
+        try {
+            produtoService.inativar(id);
+        } catch (StokiException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new StokiException("Erro inesperado ao inativar produto: " + e.getMessage());
+        }
+    }
+
+    public void excluir(Integer id) throws StokiException {
+        try {
+            produtoService.excluir(id);
+        } catch (StokiException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new StokiException("Erro inesperado ao excluir produto: " + e.getMessage());
+        }
     }
 }
+

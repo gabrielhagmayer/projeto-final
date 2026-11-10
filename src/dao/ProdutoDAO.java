@@ -5,6 +5,7 @@ import exceptions.StokiException;
 import models.Produto;
 import models.Setor;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,9 +28,9 @@ public class ProdutoDAO {
                 "FROM produto p LEFT JOIN setor s ON p.setor_id = s.id ORDER BY p.nome";
         List<Produto> produtos = new ArrayList<>();
 
-        try (Connection conexao = ConexaoPostgreSQL.get();
-             PreparedStatement stmt = conexao.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+        try (
+                PreparedStatement stmt = ConexaoPostgreSQL.get().prepareStatement(sql);
+                ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
                 Produto produto = new Produto();
@@ -63,8 +64,7 @@ public class ProdutoDAO {
 
     public boolean temLotes(long produtoId) throws StokiException {
         String sql = "SELECT COUNT(*) FROM lote WHERE produto_id = ?";
-        try (Connection con = ConexaoPostgreSQL.get();
-             PreparedStatement stmt = con.prepareStatement(sql)) {
+        try (PreparedStatement stmt = ConexaoPostgreSQL.get().prepareStatement(sql)) {
 
             stmt.setLong(1, produtoId);
             try (ResultSet rs = stmt.executeQuery()) {
@@ -82,8 +82,7 @@ public class ProdutoDAO {
         String sql = "INSERT INTO produto (nome, codigo_barras, estoque_minimo, estoque_maximo, tem_validade, ativo, prateleira, unidade_estoque, conteudo, unidade_conteudo, setor_id, cadastrado_por) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
 
-        try (Connection conexao = ConexaoPostgreSQL.get();
-             PreparedStatement stmt = conexao.prepareStatement(sql)) {
+        try (PreparedStatement stmt = ConexaoPostgreSQL.get().prepareStatement(sql)) {
 
             stmt.setString(1, produto.getNome());
             stmt.setString(2, produto.getCodigoBarras());
@@ -124,8 +123,7 @@ public class ProdutoDAO {
         String sql = "UPDATE produto SET nome = ?, codigo_barras = ?, estoque_minimo = ?, estoque_maximo = ?, " +
                 "tem_validade = ?, ativo = ?, prateleira = ?, unidade_estoque = ?, conteudo = ?, unidade_conteudo = ?, setor_id = ? WHERE id = ?";
 
-        try (Connection conexao = ConexaoPostgreSQL.get();
-             PreparedStatement stmt = conexao.prepareStatement(sql)) {
+        try (PreparedStatement stmt = ConexaoPostgreSQL.get().prepareStatement(sql)) {
 
             stmt.setString(1, produto.getNome());
             stmt.setString(2, produto.getCodigoBarras());
@@ -160,12 +158,36 @@ public class ProdutoDAO {
 
     public void inativar(Integer id) throws SQLException, StokiException {
         String sql = "UPDATE produto SET ativo = false WHERE id = ?";
-        try (Connection conexao = ConexaoPostgreSQL.get();
-             PreparedStatement stmt = conexao.prepareStatement(sql)) {
+        try (PreparedStatement stmt = ConexaoPostgreSQL.get().prepareStatement(sql)) {
             stmt.setInt(1, id);
             stmt.executeUpdate();
         } catch (SQLException e) {
             throw new StokiException("Erro ao inativar produto: " + e.getMessage());
         }
+    }
+
+    public void excluir(Integer id) throws SQLException, StokiException {
+        String sql = "DELETE FROM produto WHERE id = ?";
+        try (PreparedStatement stmt = ConexaoPostgreSQL.get().prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new StokiException("Erro ao excluir produto: " + e.getMessage());
+        }
+    }
+
+    public BigDecimal saldo(Integer id) throws StokiException {
+        String sql = "SELECT COALESCE(SUM(saldo), 0) FROM vw_saldo_lote WHERE produto_id = ?";
+        try (PreparedStatement stmt = ConexaoPostgreSQL.get().prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getBigDecimal(1);
+                }
+            }
+        } catch (Exception e) {
+            throw new StokiException("Erro ao consultar saldo: " + e.getMessage());
+        }
+        return BigDecimal.ZERO;
     }
 }

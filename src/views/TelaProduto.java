@@ -44,6 +44,9 @@ public class TelaProduto extends TelaBase {
 
     private JButton btnSalvar = Tema.botaoPrimario("Salvar");
 
+    private JButton btnExcluir = Tema.botaoSecundario("Excluir");
+    private JButton btnNovo = Tema.botaoSecundario("Novo");
+
     public TelaProduto() {
         super("Produtos", "CRUD de produtos.");
 
@@ -84,6 +87,8 @@ public class TelaProduto extends TelaBase {
 
         // Painel inferior para o botão Salvar não ficar espremido
         JPanel painelBotao = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        painelBotao.add(btnNovo);
+        painelBotao.add(btnExcluir);
         painelBotao.add(btnSalvar);
 
         // Criação de um painel central para dividir o formulário e a listagem em tabela
@@ -104,6 +109,8 @@ public class TelaProduto extends TelaBase {
 
         // Associa o clique do botão ao método de salvar
         btnSalvar.addActionListener(e -> aoClicarSalvar());
+        btnNovo.addActionListener(e -> limparCampos());
+        btnExcluir.addActionListener(e -> aoClicarExcluir());
 
         // Evento para selecionar um produto da tabela e preencher para edição
         tabelaProdutos.getSelectionModel().addListSelectionListener(e -> {
@@ -290,25 +297,37 @@ public class TelaProduto extends TelaBase {
 
     private void aoClicarInativar() {
         if (produtoIdSelecionado == null) {
-            JOptionPane.showMessageDialog(this, "Selecione um produto na tabela para inativar.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            mostrarErro("Selecione um produto na tabela para inativar.");
             return;
         }
+        if (!confirmar("Deseja inativar este produto?")) {
+            return;
+        }
+        try {
+            produtoController.inativar(produtoIdSelecionado);
+            mostrarSucesso("Produto inativado com sucesso!");
+            aoAbrir();
+        } catch (StokiException e) {
+            mostrarErro(e.getMessage());
+        }
+    }
 
-        int confirmacao = JOptionPane.showConfirmDialog(
-                this,
-                "Tem certeza que deseja inativar este produto?",
-                "Confirmação",
-                JOptionPane.YES_NO_OPTION
-        );
-
-        if (confirmacao == JOptionPane.YES_OPTION) {
-            try {
-                produtoController.inativar(produtoIdSelecionado);
-                JOptionPane.showMessageDialog(this, "Produto inativado com sucesso!");
-                aoAbrir();
-                limparCampos();
-            } catch (StokiException e) {
-                JOptionPane.showMessageDialog(this, e.getMessage(), "Erro ao inativar", JOptionPane.ERROR_MESSAGE);
+    private void aoClicarExcluir() {
+        if (produtoIdSelecionado == null) {
+            mostrarErro("Selecione um produto na tabela para excluir.");
+            return;
+        }
+        if (!confirmar("Tem certeza que deseja excluir este produto?")) {
+            return;
+        }
+        try {
+            produtoController.excluir(produtoIdSelecionado);
+            mostrarSucesso("Produto excluído com sucesso!");
+            aoAbrir();
+        } catch (StokiException e) {
+            mostrarErro(e.getMessage());
+            if (e.getMessage().contains("inativado")) {
+                aoClicarInativar();
             }
         }
     }
