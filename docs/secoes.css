@@ -2,8 +2,10 @@
    1. HERO
    ========================================================================== */
 .hero {
-  padding: 80px 20px;
+  padding: 90px 20px;
   width: 100%;
+  background-color: var(--cor-fundo-principal);
+  border-bottom: 1px solid var(--cor-borda);
 }
 
 .hero__interno {
@@ -17,21 +19,23 @@
 
 .etiqueta {
   display: inline-block;
-  padding: 6px 12px;
-  background-color: rgba(37, 99, 235, 0.1);
-  color: var(--cor-primaria);
-  font-weight: 600;
+  padding: 6px 14px;
+  background-color: rgba(45, 212, 191, 0.1);
+  color: #2dd4bf;
+  font-weight: 700;
   font-size: 0.85rem;
   border-radius: 20px;
   margin-bottom: 16px;
+  border: 1px solid rgba(45, 212, 191, 0.25);
 }
 
 .hero__titulo {
   font-size: 3rem;
   font-weight: 800;
   line-height: 1.2;
-  color: var(--cor-secundaria);
+  color: #ffffff;
   margin-bottom: 20px;
+  letter-spacing: -0.02em;
 }
 
 .hero__subtitulo {
@@ -46,46 +50,67 @@
   margin-bottom: 24px;
 }
 
-.hero__legenda {
-  font-size: 0.85rem;
-  color: var(--cor-texto-suave);
-}
-
-.painel {
-  background-color: var(--cor-superficie);
-  border: 1px solid var(--cor-borda);
+.hero__imagem-container {
+  position: relative;
   border-radius: var(--raio-borda);
-  padding: 32px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--cor-borda);
 }
 
-.painel__destaque {
-  margin-bottom: 24px;
+.hero__imagem {
+  width: 100%;
+  height: 380px;
+  object-fit: cover;
 }
 
-.painel__valor {
-  font-size: 2.5rem;
-  font-weight: 800;
-  color: var(--cor-primaria);
-}
-
-.painel__lista {
-  list-style: none;
+.hero__badge-flutuante {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  background-color: rgba(15, 23, 42, 0.92);
+  backdrop-filter: blur(10px);
+  color: #ffffff;
+  padding: 16px 20px;
+  border-radius: 12px;
   display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.painel__item {
-  display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 8px;
-  color: var(--cor-texto);
+  border: 1px solid var(--cor-borda);
+}
+
+.hero__badge-valor {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #2dd4bf;
 }
 
 /* ==========================================================================
-   2. PROBLEMA E DESTAQUES
+   2. PROBLEMA
    ========================================================================== */
+.problema {
+  background-color: var(--cor-fundo-secao-alt);
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.problema__banner {
+  width: 100%;
+  max-width: 900px;
+  height: 300px;
+  margin: 0 auto 40px auto;
+  border-radius: var(--raio-borda);
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--cor-borda);
+}
+
+.problema__banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .problema__cartoes {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -93,21 +118,21 @@
 }
 
 .cartao {
-  background-color: var(--cor-superficie);
+  background-color: #0f172a;
   padding: 32px;
   border-radius: var(--raio-borda);
   border: 1px solid var(--cor-borda);
-  transition: transform var(--transicao-padrao), box-shadow var(--transicao-padrao);
+  transition: transform var(--transicao-padrao), border-color var(--transicao-padrao);
 }
 
 .cartao:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+  transform: translateY(-5px);
+  border-color: #0d9488;
 }
 
 .cartao__titulo {
   font-size: 1.25rem;
-  color: var(--cor-secundaria);
+  color: #ffffff;
   margin-bottom: 12px;
 }
 
@@ -118,26 +143,39 @@
 .destaque {
   text-align: center;
   margin-top: 48px;
+  background-color: #0f172a;
+  padding: 36px;
+  border-radius: var(--raio-borda);
+  border: 1px solid rgba(45, 212, 191, 0.3);
 }
 
 .destaque__numero {
-  font-size: 3rem;
+  font-size: 3.5rem;
   font-weight: 800;
-  color: var(--cor-primaria);
+  color: #2dd4bf;
 }
 
 .destaque__texto {
   font-weight: 600;
+  font-size: 1.1rem;
+  color: #ffffff;
 }
 
 .destaque__fonte {
   font-size: 0.85rem;
   color: var(--cor-texto-suave);
+  display: block;
+  margin-top: 4px;
 }
 
 /* ==========================================================================
-   3. ANTES E DEPOIS (COMPARAÇÃO)
+   3. ANTES E DEPOIS
    ========================================================================== */
+#antes-depois {
+  background-color: var(--cor-fundo-principal);
+  border-bottom: 1px solid var(--cor-borda);
+}
+
 .comparacao {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -150,17 +188,28 @@
 }
 
 .comparacao__coluna--antes {
-  background-color: #fef2f2;
-  border: 1px solid #fecaca;
+  background-color: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(248, 113, 113, 0.25);
+  color: #fca5a5;
+}
+
+.comparacao__coluna--antes .comparacao__titulo {
+  color: #f87171;
 }
 
 .comparacao__coluna--depois {
-  background-color: #f0fdf4;
-  border: 1px solid #bbf7d0;
+  background-color: rgba(45, 212, 191, 0.08);
+  border: 1px solid rgba(45, 212, 191, 0.25);
+  color: #ccfbf1;
+}
+
+.comparacao__coluna--depois .comparacao__titulo {
+  color: #2dd4bf;
 }
 
 .comparacao__titulo {
-  font-size: 1.25rem;
+  font-size: 1.3rem;
+  font-weight: 700;
   margin-bottom: 16px;
 }
 
@@ -172,10 +221,12 @@
 }
 
 /* ==========================================================================
-   4. DIFERENCIAIS (BENTO GRID - 9 CARTÕES UNIFORMES 3x3)
+   4. DIFERENCIAIS (BENTO GRID 3x3 SOFT)
    ========================================================================== */
 .diferenciais {
-  padding: 80px 20px;
+  padding: 90px 20px;
+  background-color: var(--cor-fundo-secao-alt);
+  border-bottom: 1px solid var(--cor-borda);
 }
 
 .bento {
@@ -187,12 +238,21 @@
   margin: 0;
 }
 
-/* Todos os 9 cartões ocupam exatamente 1 coluna cada */
 .bento > * {
   grid-column: span 1 !important;
+  background-color: #0f172a;
+  border: 1px solid var(--cor-borda);
+  border-top: 3px solid var(--cor-primaria);
+}
+
+.bento > *:hover {
+  border-color: #2dd4bf;
 }
 
 @media (max-width: 900px) {
+  .hero__interno, .comparacao {
+    grid-template-columns: 1fr;
+  }
   .bento {
     grid-template-columns: 1fr;
   }
@@ -205,56 +265,52 @@
 }
 
 .passo {
-  background-color: var(--cor-superficie);
-  padding: 24px;
+  background-color: #0f172a;
+  padding: 28px;
   border-radius: var(--raio-borda);
   border: 1px solid var(--cor-borda);
+  border-top: 4px solid #2dd4bf;
 }
 
 /* ==========================================================================
-   5. EQUIPE
+   5. EQUIPE E FECHAMENTO
    ========================================================================== */
 .equipe {
+  background-color: var(--cor-fundo-principal);
   text-align: center;
+  border-bottom: 1px solid var(--cor-borda);
 }
 
 .equipe__texto {
-  text-align: center;
   max-width: 600px;
   margin: 0 auto 32px auto;
   color: var(--cor-texto-suave);
-  font-size: 1.05rem;
 }
 
 .equipe__nomes {
   display: flex;
   justify-content: center;
-  align-items: center;
-  gap: 24px;
+  gap: 20px;
   list-style: none;
-  padding: 0;
-  margin: 0 auto;
   flex-wrap: wrap;
 }
 
 .equipe__nome {
   font-size: 1.1rem;
   font-weight: 600;
-  color: var(--cor-secundaria);
-  background-color: var(--cor-superficie);
-  padding: 12px 24px;
-  border-radius: 8px;
+  color: #ffffff;
+  background-color: #0f172a;
+  padding: 14px 28px;
+  border-radius: 30px;
   border: 1px solid var(--cor-borda);
 }
 
-/* ==========================================================================
-   6. FECHAMENTO E RODAPÉ
-   ========================================================================== */
 .fechamento {
   text-align: center;
-  background-color: var(--cor-secundaria);
+  background-color: #0f172a;
+  border: 1px solid rgba(45, 212, 191, 0.3);
   color: #ffffff;
-  border-radius: 16px;
+  border-radius: 24px;
   padding: 60px 20px;
   margin: 40px auto;
 }
@@ -266,7 +322,7 @@
 
 .fechamento__texto {
   margin-bottom: 32px;
-  color: #94a3b8;
+  color: var(--cor-texto-suave);
   font-size: 1.1rem;
 }
 
@@ -276,12 +332,4 @@
   text-align: center;
   color: var(--cor-texto-suave);
   font-size: 0.9rem;
-}
-
-.botao--instalar {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 1000;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
