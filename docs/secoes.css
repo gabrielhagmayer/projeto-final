@@ -1,6 +1,6 @@
-
-   HERO
-
+/* ==========================================================================
+   1. HERO
+   ========================================================================== */
 .hero {
   padding: 90px 20px;
   width: 100%;
@@ -86,9 +86,9 @@
   color: #2dd4bf;
 }
 
-
-   PROBLEMA
-  
+/* ==========================================================================
+   2. PROBLEMA
+   ========================================================================== */
 .problema {
   background-color: var(--cor-fundo-secao-alt);
   border-bottom: 1px solid var(--cor-borda);
@@ -168,9 +168,9 @@
   margin-top: 4px;
 }
 
-
- ANTES E DEPOIS
-
+/* ==========================================================================
+   3. ANTES E DEPOIS
+   ========================================================================== */
 #antes-depois {
   background-color: var(--cor-fundo-principal);
   border-bottom: 1px solid var(--cor-borda);
@@ -220,8 +220,9 @@
   gap: 12px;
 }
 
-    DIFERENCIAIS BENTO GRID SOFT
-
+/* ==========================================================================
+   4. DIFERENCIAIS (BENTO GRID 3x3 SOFT)
+   ========================================================================== */
 .diferenciais {
   padding: 90px 20px;
   background-color: var(--cor-fundo-secao-alt);
@@ -271,9 +272,9 @@
   border-top: 4px solid #2dd4bf;
 }
 
-
- EQUIPE E FECHAMENTO
-
+/* ==========================================================================
+   5. EQUIPE E FECHAMENTO
+   ========================================================================== */
 .equipe {
   background-color: var(--cor-fundo-principal);
   text-align: center;
