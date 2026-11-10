@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>STOKI | Controle de estoque para mercados</title>
+  <meta name="description" content="O STOKI mostra o que você tem, onde está, o que vence primeiro e quanto dinheiro está em risco.">
+  <meta name="theme-color" content="#0d9488">
+
+  <link rel="icon" href="icons/logo.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="manifest" href="manifest.webmanifest">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="base.css">
+  <link rel="stylesheet" href="secoes.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+
+<!-- CABEÇALHO -->
+<header class="cabecalho">
+  <div class="cabecalho__interno">
+    <a class="logo" href="#inicio">
+      <img src="icons/logo.svg" alt="" width="32" height="32">
+      <span class="logo__nome">STOKI</span>
+    </a>
+
+    <button class="menu-botao" type="button" aria-label="Menu" aria-expanded="false" aria-controls="menu-principal">
+      <span class="menu-botao__linha"></span>
+      <span class="menu-botao__linha"></span>
+      <span class="menu-botao__linha"></span>
+    </button>
+
+    <nav class="menu" id="menu-principal" aria-label="Principal">
+      <ul class="menu__lista">
+        <li><a class="menu__link" href="#problema">Problema</a></li>
+        <li><a class="menu__link" href="#diferenciais">Diferenciais</a></li>
+        <li><a class="menu__link" href="#como-funciona">Como funciona</a></li>
+        <li><a class="menu__link" href="#equipe">Equipe</a></li>
+      </ul>
+    </nav>
+
+    <a class="botao botao--principal cabecalho__botao" href="#diferenciais">Ver diferenciais</a>
+  </div>
+</header>
+
+<main>
+  <!-- HERO COM IMAGEM -->
+  <section class="hero" id="inicio" aria-labelledby="hero-titulo">
+    <div class="hero__interno">
+      <div class="hero__texto">
+        <p class="etiqueta">Gestão de Estoque Inteligente</p>
+        <h1 class="hero__titulo" id="hero-titulo">Pare de perder dinheiro no seu depósito.</h1>
+        <p class="hero__subtitulo">O STOKI mostra o que você tem, onde está, o que vence primeiro e quanto dinheiro está em risco.</p>
+        <div class="hero__botoes">
+          <a class="botao botao--principal" href="#diferenciais">Ver diferenciais</a>
+          <a class="botao botao--secundario" href="#como-funciona">Como funciona</a>
+        </div>
+      </div>
+
+      <!-- FOTO DE ESTOQUE DE EMPRESA NO HERO -->
+      <div class="hero__imagem-container">
+        <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80"
+             alt="Galpão de estoque organizado com prateleiras altas e caixas"
+             class="hero__imagem">
+        <div class="hero__badge-flutuante">
+          <span>Recuperado neste mês:</span>
+          <span class="hero__badge-valor">R$ 14.250,00</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROBLEMA COM BANNER DE FOTO -->
+  <section class="secao problema" id="problema" aria-labelledby="problema-titulo">
+    <div class="secao__interno">
+      <h2 class="secao__titulo" id="problema-titulo">O controle manual custa caro.</h2>
+
+      <!-- FOTO DE DEPÓSITO COM CAIXAS -->
+      <div class="problema__banner revelar">
+        <img src="https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&w=1000&q=80"
+             alt="Depósito de mercadorias com caixas empilhadas">
+      </div>
+
+      <div class="problema__cartoes">
+        <div class="cartao revelar">
+          <h3 class="cartao__titulo">Validades perdidas</h3>
+          <p class="cartao__texto">Produtos que vencem no fundo da prateleira sem ninguém ver.</p>
+        </div>
+        <div class="cartao revelar">
+          <h3 class="cartao__titulo">Falta de organização</h3>
+          <p class="cartao__texto">Tempo perdido procurando itens que deveriam estar no lugar certo.</p>
+        </div>
+        <div class="cartao revelar">
+          <h3 class="cartao__titulo">Compras duplicadas</h3>
+          <p class="cartao__texto">Comprar o que já existe em estoque por falta de visibilidade.</p>
+        </div>
+      </div>
+
+      <div class="destaque revelar">
+        <span class="destaque__numero contador" data-alvo="30" data-formato="porcentagem">30%</span>
+        <p class="destaque__texto">do prejuízo em estoques vem de produtos vencidos ou mal localizados.</p>
+        <span class="destaque__fonte">Fonte: Pesquisa interna de mercado</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARAÇÃO -->
+  <section class="secao" id="antes-depois" aria-labelledby="antes-depois-titulo">
+    <div class="secao__interno">
+      <h2 class="secao__titulo" id="antes-depois-titulo">Do achismo para a decisão.</h2>
+      <div class="comparacao">
+        <div class="comparacao__coluna comparacao__coluna--antes revelar">
+          <h3 class="comparacao__titulo">Antes</h3>
+          <ul class="comparacao__lista">
+            <li>Procurar produto no depósito.</li>
+            <li>Descobrir a validade tarde demais.</li>
+            <li>Fazer promoção no improviso.</li>
+            <li>Não saber o valor em estoque.</li>
+          </ul>
+        </div>
+        <div class="comparacao__coluna comparacao__coluna--depois revelar">
+          <h3 class="comparacao__titulo">Com o STOKI</h3>
+          <ul class="comparacao__lista">
+            <li>Setor e prateleira na tela.</li>
+            <li>Alerta antes de vencer.</li>
+            <li>Promoção por prioridade.</li>
+            <li>Valor total sempre visível.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIFERENCIAIS (BENTO GRID 3x3) -->
+  <section class="secao diferenciais" id="diferenciais" aria-labelledby="diferenciais-titulo">
+    <div class="secao__interno">
+      <h2 class="secao__titulo" id="diferenciais-titulo">Feito para mostrar onde está o dinheiro.</h2>
+      <ul class="bento">
+        <li class="cartao revelar">
+          <h3 class="cartao__titulo">Dinheiro em risco</h3>
+          <p class="cartao__texto">Veja em reais o que está vencido, perto de vencer, parado em excesso e perdido no mês.</p>
+        </li>
+        <li class="cartao revelar">
+          <h3 class="cartao__titulo">Mapa do depósito</h3>
+          <p class="cartao__texto">Setores coloridos e prateleiras numeradas mostram onde cada produto está e onde agir primeiro.</p>
+        </li>
+        <li class="cartao revelar">
+          <h3 class="cartao__titulo">Primeiro a vencer, primeiro a sair</h3>
+          <p class="cartao__texto">O sistema indica qual lote deve sair antes.</p>
+        </li>
+        <li class="cartao revelar">
+          <h3 class="cartao__titulo">Promoção na hora certa</h3>
+          <p class="cartao__texto">Prioridade alta, média ou baixa com base no estoque e na validade.</p>
+        </li>
+        <li class="cartao revelar">
+          <h3 class="cartao__titulo">Valor em estoque</h3>
+          <p class="cartao__texto">O dono sabe quanto dinheiro existe no depósito.</p>
+        </li>
+        <li class="cartao revelar">
+          <h3 class="cartao__titulo">Medida certa</h3>
+          <p class="cartao__texto">7 garrafas de 2 L são 7 unidades e 14 litros.</p>
+        </li>
+        <li class="cartao revelar">
+          <h3 class="cartao__titulo">Cada pessoa no seu papel</h3>
+          <p class="cartao__texto">Gerente, responsável e repositor veem o que precisam.</p>
+        </li>
+        <li class="cartao revelar">
+          <h3 class="cartao__titulo">Contagem simples</h3>
+          <p class="cartao__texto">Confira lote por lote e corrija o saldo com histórico.</p>
+        </li>
+        <li class="cartao revelar">
+          <h3 class="cartao__titulo">Relatórios em PDF</h3>
+          <p class="cartao__texto">Exporte resumos do estoque e perdas para auditoria rápida.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- COMO FUNCIONA -->
+  <section class="secao" id="como-funciona" aria-labelledby="como-funciona-titulo">
+    <div class="secao__interno">
+      <h2 class="secao__titulo" id="como-funciona-titulo">Como funciona na prática.</h2>
+      <div class="passos">
+        <div class="passo revelar">
+          <h3>1. Cadastre os setores</h3>
+          <p>Defina as prateleiras e áreas do depósito.</p>
+        </div>
+        <div class="passo revelar">
+          <h3>2. Registre as entradas</h3>
+          <p>Insira produtos com datas de validade e lotes.</p>
+        </div>
+        <div class="passo revelar">
+          <h3>3. Acompanhe os alertas</h3>
+          <p>Receba avisos visuais de ações necessárias.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EQUIPE -->
+  <section class="secao equipe" id="equipe" aria-labelledby="equipe-titulo">
+    <div class="secao__interno">
+      <h2 class="secao__titulo" id="equipe-titulo">Quem faz o STOKI acontecer.</h2>
+      <p class="equipe__texto">Desenvolvido por quem entende de tecnologia e processos.</p>
+      <ul class="equipe__nomes">
+        <li class="equipe__nome">Gabriel Hagmayer</li>
+        <li class="equipe__nome">Erick</li>
+        <li class="equipe__nome">Renan</li>
+        <li class="equipe__nome">Mateus</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- FECHAMENTO -->
+  <section class="secao fechamento" id="fechamento" aria-labelledby="fechamento-titulo">
+    <div class="secao__interno">
+      <h2 class="secao__titulo" id="fechamento-titulo">Pronto para assumir o controle?</h2>
+      <p class="fechamento__texto">Transforme a gestão do seu depósito hoje mesmo.</p>
+      <a class="botao botao--principal" href="#inicio">Começar agora</a>
+    </div>
+  </section>
+</main>
+
+<footer class="rodape">
+  <div class="secao__interno">
+    <p>&copy; 2026 STOKI. Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+</body>
+</html>
