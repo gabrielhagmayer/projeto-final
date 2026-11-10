@@ -1,15 +1,15 @@
-/* ==========================================================================
-   1. VARIÁVEIS DA MARCA STOKI (SOFT SLATE + ACENTOS TEAL)
-   ========================================================================== */
+
+    VARIÁVEIS DA MARCA STOKI SOFT SLATE + ACENTOS TEAL
+ 
 :root {
-  --cor-primaria: #0d9488;         /* Teal STOKI oficial */
-  --cor-primaria-hover: #14b8a6;   /* Teal claro vibrante */
-  --cor-fundo-principal: #0f172a;  /* Grafite/Slate escuro e suave */
-  --cor-fundo-secao-alt: #1e293b;  /* Slate médio para alternância elegante */
-  --cor-fundo-card: #1e293b;       /* Card soft com alto contraste visual */
-  --cor-texto: #f8fafc;            /* Texto branco bem limpo */
-  --cor-texto-suave: #94a3b8;      /* Texto cinza suave legível */
-  --cor-borda: rgba(253, 253, 253, 0.1); /* Borda refinada e sutil */
+  --cor-primaria: #0d9488;         
+  --cor-primaria-hover: #14b8a6;  
+  --cor-fundo-principal: #0f172a;  
+  --cor-fundo-secao-alt: #1e293b;  
+  --cor-fundo-card: #1e293b;      
+  --cor-texto: #f8fafc;            
+  --cor-texto-suave: #94a3b8;      
+  --cor-borda: rgba(253, 253, 253, 0.1); 
 
   --fonte-principal: 'Inter', system-ui, -apple-system, sans-serif;
   --largura-maxima: 1140px;
@@ -36,9 +36,9 @@ img {
   display: block;
 }
 
-/* ==========================================================================
-   2. ESTRUTURA GERAL
-   ========================================================================== */
+
+    ESTRUTURA GERAL
+
 .secao {
   padding: 90px 20px;
   width: 100%;
@@ -59,9 +59,9 @@ img {
   letter-spacing: -0.02em;
 }
 
-/* ==========================================================================
-   3. BOTÕES
-   ========================================================================== */
+
+    BOTÕES
+
 .botao {
   display: inline-flex;
   align-items: center;
@@ -105,9 +105,9 @@ img {
   display: none !important;
 }
 
-/* ==========================================================================
-   4. CABEÇALHO ESCURO SOFT
-   ========================================================================== */
+
+  CABEÇALHO ESCURO SOFT
+
 .cabecalho {
   position: sticky;
   top: 0;
@@ -163,9 +163,9 @@ img {
   display: none;
 }
 
-/* ==========================================================================
-   5. ANIMAÇÕES
-   ========================================================================== */
+
+   ANIMAÇÕES
+
 .revelar {
   opacity: 0;
   transform: translateY(20px);

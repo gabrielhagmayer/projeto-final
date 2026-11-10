@@ -1,6 +1,6 @@
-/* ==========================================================================
+
    SCRIPT PRINCIPAL (script.js)
-   ========================================================================== */
+
 
 document.addEventListener('DOMContentLoaded', () => {
   // 1. Animação de Revelação ao Rolar (Scroll Reveal)
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   elementosRevelar.forEach(el => observarRevelacao.observe(el));
 
-  // 2. Animação de Contadores Numéricos (.contador)
+ 
   const contadores = document.querySelectorAll('.contador');
 
   const animarContador = (el) => {
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const decorrido = tempoAtual - inicio;
       const progresso = Math.min(decorrido / duracao, 1);
       
-      // Efeito de desaceleração suave (easeOutQuad)
+     Efeito de desaceleração suave
       const valorAtual = alvo * (1 - (1 - progresso) * (1 - progresso));
 
       if (formato === 'moeda') {
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   contadores.forEach(el => observarContadores.observe(el));
 
-  // 3. Lógica do Botão de Instalação (PWA)
+ 
   let eventoInstalacao;
   const botaoInstalar = document.getElementById('botao-instalar');
 
