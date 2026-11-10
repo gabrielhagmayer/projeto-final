@@ -1,93 +1,107 @@
 package services;
 
 import dao.FornecedorDAO;
-import models.Fornecedor;
 import exceptions.StokiException;
-import java.util.ArrayList;
-import utils.Utilidade;
+import models.Fornecedor;
+import models.Perfil;
 import utils.Sessao;
 
-/**
- * Responsável: Renan.
- * Valida os dados e aplica as regras de negócio.
- */
+import java.util.ArrayList;
+
 public class FornecedorService {
 
-    private final FornecedorDAO fornecedorDAO = new FornecedorDAO();
+    private final FornecedorDAO fornecedorDAO;
 
-    /** Devolve todos os fornecedores cadastrados */
-    public ArrayList<Fornecedor> listar() throws StokiException {
-        return fornecedorDAO.listar();
-    }
-
-    /** grava um fornecedor novo */
-
-    public void cadastrar(Fornecedor fornecedor) throws StokiException {
-        validarPermissao();
-        validar(fornecedor);
-        fornecedorDAO.cadastrar(fornecedor);
+    public FornecedorService() {
+        this.fornecedorDAO = new FornecedorDAO();
     }
 
     private void validarPermissao() throws StokiException {
-        if (!Sessao.get().ehGerente() && !Sessao.get().ehResponsavel()) {
-            throw new StokiException("Você não tem permissão para esta operação.");
+        if (!Sessao.temPerfil(Perfil.GERENTE, Perfil.RESPONSAVEL)) {
+            throw new StokiException("Acesso negado.");
         }
     }
 
-    private void validar(Fornecedor fornecedor) throws StokiException {
-        if (fornecedor.getRazaoSocial() == null || fornecedor.getRazaoSocial().trim().isEmpty()) {
-            throw new StokiException("A razão social é obrigatória.");
+    private String somenteNumeros(String s) {
+        if (s == null) return "";
+        return s.replaceAll("\\D", "");
+    }
+
+    private boolean cnpjValido(String cnpj) {
+        if (cnpj == null) return false;
+        cnpj = somenteNumeros(cnpj);
+
+        if (cnpj.length() != 14) return false;
+        if (cnpj.matches("(\\d)\\1{13}")) return false;
+
+        try {
+            int sm = 0;
+            int peso = 2;
+            for (int i = 11; i >= 0; i--) {
+                int num = (int) (cnpj.charAt(i) - '0');
+                sm += num * peso;
+                peso = (peso == 9) ? 2 : peso + 1;
+            }
+
+            int r = sm % 11;
+            char dig1 = (r < 2) ? '0' : (char) ((11 - r) + '0');
+
+            sm = 0;
+            peso = 2;
+            for (int i = 12; i >= 0; i--) {
+                int num = (int) (cnpj.charAt(i) - '0');
+                sm += num * peso;
+                peso = (peso == 9) ? 2 : peso + 1;
+            }
+
+            r = sm % 11;
+            char dig2 = (r < 2) ? '0' : (char) ((11 - r) + '0');
+
+            return (dig1 == cnpj.charAt(12)) && (dig2 == cnpj.charAt(13));
+        } catch (Exception e) {
+            return false;
         }
-        String cnpjLimpo = Utilidade.somenteNumeros(fornecedor.getCnpj());
-        if (!Utilidade.cnpjValido(cnpjLimpo)) {
+    }
+
+    public ArrayList<Fornecedor> listarTodos() throws StokiException {
+        validarPermissao();
+        return fornecedorDAO.listar();
+    }
+
+    public void cadastrar(Fornecedor fornecedor) throws StokiException {
+        validarPermissao();
+
+        if (fornecedor == null) {
+            throw new StokiException("Fornecedor inválido.");
+        }
+
+        String cnpjLimpo = somenteNumeros(fornecedor.getCnpj());
+        if (!cnpjValido(cnpjLimpo)) {
             throw new StokiException("CNPJ inválido.");
         }
+
         fornecedor.setCnpj(cnpjLimpo);
+        fornecedorDAO.cadastrar(fornecedor);
     }
 
-    /** Atualiza os dados de um fornecedor */
     public void alterar(Fornecedor fornecedor) throws StokiException {
         validarPermissao();
-        validar(fornecedor);
+
+        if (fornecedor == null) {
+            throw new StokiException("Fornecedor inválido.");
+        }
+
+        String cnpjLimpo = somenteNumeros(fornecedor.getCnpj());
+        if (!cnpjValido(cnpjLimpo)) {
+            throw new StokiException("CNPJ inválido.");
+        }
+
+        fornecedor.setCnpj(cnpjLimpo);
         fornecedorDAO.alterar(fornecedor);
     }
 
-    /** Remove um fornecedor do banco ou lança exceção se tiver lotes vinculados */
     public void excluir(int id) throws StokiException {
         validarPermissao();
-        if (fornecedorDAO.verificarLotes(id)) {
-            throw new StokiException("O fornecedor possui lotes vinculados e não pode ser excluído. Deseja inativá-lo?");
-        }
         fornecedorDAO.excluir(id);
     }
-
-    /** Inativa um fornecedor mantendo seu histórico */
-    public void inativar(int id) throws StokiException {
-        validarPermissao();
-        fornecedorDAO.inativar(id);
-    }
-
-    /** Verifica se o fornecedor possui lotes vinculados */
-    public boolean verificarLotes(int id) throws StokiException {
-        return fornecedorDAO.verificarLotes(id);
-    }
-
-
-    /** Devolve apenas os fornecedores ativos para uso nas telas de cadastro/entrada */
-    public ArrayList<Fornecedor> listarAtivos() throws StokiException {
-        ArrayList<Fornecedor> todos = fornecedorDAO.listar();
-        ArrayList<Fornecedor> ativos = new ArrayList<>();
-
-        for (Fornecedor f : todos) {
-            if (f.isAtivo()) {
-                ativos.add(f);
-            }
-        }
-
-        return ativos;
-    }
 }
-
-
-
-

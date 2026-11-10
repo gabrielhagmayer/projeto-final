@@ -1,8 +1,8 @@
 package controllers;
 
+import exceptions.StokiException;
 import models.Fornecedor;
 import services.FornecedorService;
-import exceptions.StokiException;
 import java.util.ArrayList;
 
 /**
@@ -15,7 +15,7 @@ public class FornecedorController {
 
     /** Devolve todos os fornecedores cadastrados */
     public ArrayList<Fornecedor> listar() throws StokiException {
-        return fornecedorService.listar();
+        return fornecedorService.listarTodos();
     }
 
     /** Grava um fornecedor novo */
@@ -31,19 +31,5 @@ public class FornecedorController {
     /** Remove um fornecedor */
     public void excluir(int id) throws StokiException {
         fornecedorService.excluir(id);
-    }
-
-    /** Inativa um fornecedor */
-    public void inativar(int id) throws StokiException {
-        fornecedorService.inativar(id);
-    }
-
-    /** Verifica se o fornecedor possui lotes vinculados */
-    public boolean verificarLotes(int id) throws StokiException {
-        return fornecedorService.verificarLotes(id);
-    }
-
-    public ArrayList<Fornecedor> listarAtivos() throws StokiException {
-        return fornecedorService.listarAtivos();
     }
 }
