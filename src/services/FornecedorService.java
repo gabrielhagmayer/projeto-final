@@ -105,4 +105,20 @@ public class FornecedorService {
         fornecedorDAO.excluir(id);
     }
 
+
+    public void inativar(int id) throws StokiException {
+        validarPermissao();
+        fornecedorDAO.inativar(id);
     }
+
+    public boolean temLotes(int id) throws StokiException {
+        validarPermissao();
+        return fornecedorDAO.verificarLotes(id);
+    }
+
+
+
+
+}
+
+

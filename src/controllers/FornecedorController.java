@@ -32,5 +32,13 @@ public class FornecedorController {
     public void excluir(int id) throws StokiException {
         fornecedorService.excluir(id);
     }
+    /** Inativa um fornecedor */
+    public void inativar(int id) throws StokiException {
+        fornecedorService.inativar(id);
+    }
+
+    public boolean temLotes(int id) throws StokiException {
+       return fornecedorService.temLotes(id);
+    }
 
 }
