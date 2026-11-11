@@ -2,18 +2,17 @@ package models;
 
 import java.math.BigDecimal;
 
-/**
- * Uma linha da contagem, sempre ligada a um lote.
- */
+//Contagem feita sempre ligada a um lote
+
 public class ItemContagem {
 
-    private Integer id; // chave primária
-    private Integer contagemId; // contagem a que pertence
-    private Lote lote; // lote conferido
-    private BigDecimal saldoSistema; // saldo no início da contagem
-    private BigDecimal saldoContado; // quantidade encontrada
-    private Boolean conferido; // true quando a linha foi conferida
-    private String motivo; // obrigatório quando houver diferença
+    private Integer id;
+    private Integer contagemId;
+    private Lote lote;
+    private BigDecimal saldoSistema;
+    private BigDecimal saldoContado;
+    private Boolean conferido;
+    private String motivo;
 
     public ItemContagem() {}
 

@@ -1,15 +1,14 @@
 package models;
 
-/**
- * Empresa que entrega mercadorias.
- */
+// Classe que determina o cadastro das empresas que entregam a mercadoria
+
 public class Fornecedor {
 
-    private Integer id; // chave primária
-    private String razaoSocial; // nome da empresa
-    private String cnpj; // 14 números, sem pontuação
-    private String endereco; // endereço
-    private Boolean ativo; // false quando foi inativado
+    private Integer id;
+    private String razaoSocial;
+    private String cnpj;
+    private String endereco;
+    private Boolean ativo;
 
     public Fornecedor() {}
 

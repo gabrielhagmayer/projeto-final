@@ -3,20 +3,19 @@ package models;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-/**
- * Registro de tudo que muda o saldo de um lote.
- */
+//Registra toda a movimentação dos lotes.
+
 public class Movimentacao {
 
-    private Integer id; // chave primária
-    private Lote lote; // lote movimentado
-    private Usuario usuario; // quem registrou
-    private Integer contagemId; // contagem que gerou o ajuste; opcional
-    private String tipo; // ENTRADA, SAIDA, PERDA ou AJUSTE
-    private BigDecimal quantidade; // positiva aumenta o saldo; negativa diminui
-    private String motivoPerda; // VENCIMENTO, AVARIA ou OUTRO; só em perda
-    private String observacao; // opcional
-    private LocalDateTime dataHora; // quando aconteceu
+    private Integer id;
+    private Lote lote;
+    private Usuario usuario;
+    private Integer contagemId; // número da contagem que gerou o ajuste; null nas outras movimentações.
+    private String tipo;
+    private BigDecimal quantidade;
+    private String motivoPerda;
+    private String observacao;
+    private LocalDateTime dataHora;
 
     public Movimentacao() {}
 
