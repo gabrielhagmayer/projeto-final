@@ -122,6 +122,56 @@ public class UsuarioDAO {
             return false;
         }
 
+        public void excluir(int id) throws StokiException{
+
+            if (verificarHistorico(id)) {
+                throw new StokiException(
+                        "Não é possível excluir este usuário, pois ele possui histórico. Inative-o.");
+            }
+
+            String sql = "DELETE FROM usuario WHERE id = ?";
+
+            try (PreparedStatement preparacao =
+                    ConexaoPostgreSQL.get().prepareStatement(sql)){
+
+                preparacao.setInt(1, id);
+
+                int linhasAfetadas = preparacao.executeUpdate();
+
+                if (linhasAfetadas == 0) {
+                    throw new StokiException("Usuário não encontrado.");
+                }
+
+            } catch (SQLException e) {
+                throw new StokiException(
+                        "Não foi possível excluir o usuário.", e);
+            }
+
     }
+
+    public void inativar(int id) throws StokiException{
+
+        String sql = "UPDATE usuario SET ativo = FALSE WHERE id = ?";
+
+        try (PreparedStatement preparacao =
+                ConexaoPostgreSQL.get().prepareStatement(sql)){
+
+            preparacao.setInt(1, id);
+
+            int linhasAfetadas = preparacao.executeUpdate();
+
+            if (linhasAfetadas == 0) {
+                throw new StokiException("Usuário não encontrado.");
+            }
+
+        } catch (SQLException e) {
+            throw new StokiException(
+                    "Não foi possível inativar o usuário.", e);
+        }
+    }
+
+}
+
+
 
 
