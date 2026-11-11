@@ -12,7 +12,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.postgresql.jdbc.EscapedFunctions.INSERT;
+
 
 /**
  * Responsável: Gabriel.
