@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -86,4 +88,80 @@ public class RelatorioDAO {
         }
         return resultados;
     }
+
+    public Map<String, Object> resumoPainel() throws SQLException, StokiException {
+        Map<String, Object> resumo = new HashMap<>();
+        String sql = "SELECT COALESCE(SUM(saldo * custo_unitario), 0) AS valor, " +
+                "COUNT(*) FILTER (WHERE saldo > 0 AND validade < CURRENT_DATE) AS vencidos, " +
+                "COUNT(*) FILTER (WHERE saldo > 0 AND validade BETWEEN CURRENT_DATE AND CURRENT_DATE + 30) AS perto_de_vencer " +
+                "FROM vw_saldo_lote";
+
+        Connection conexao = ConexaoPostgreSQL.get();
+        try (PreparedStatement stmt = conexao.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                resumo.put("valor", rs.getBigDecimal("valor"));
+                resumo.put("vencidos", rs.getInt("vencidos"));
+                resumo.put("pertoDeVencer", rs.getInt("perto_de_vencer"));
+            }
+        }
+        return resumo;
+    }
+
+    public int contarAbaixoDoMinimo() throws SQLException, StokiException {
+        String sql = "SELECT COUNT(*) AS total FROM (" +
+                "SELECT p.id FROM produto p " +
+                "LEFT JOIN vw_saldo_lote v ON v.produto_id = p.id AND (v.validade IS NULL OR v.validade >= CURRENT_DATE) " +
+                "WHERE p.ativo = TRUE " +
+                "GROUP BY p.id, p.estoque_minimo " +
+                "HAVING COALESCE(SUM(v.saldo), 0) < p.estoque_minimo) abaixo";
+
+        Connection conexao = ConexaoPostgreSQL.get();
+        try (PreparedStatement stmt = conexao.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            rs.next();
+            return rs.getInt("total");
+        }
+    }
+
+    public List<Map<String, Object>> listarDadosPromocao() throws SQLException, StokiException {
+        List<Map<String, Object>> resultados = new ArrayList<>();
+
+        String sql = "SELECT p.nome, p.estoque_maximo, " +
+                "COALESCE(SUM(v.saldo) FILTER (WHERE v.validade IS NULL OR v.validade >= CURRENT_DATE), 0) AS saldo_valido, " +
+                "COUNT(*) FILTER (WHERE v.saldo > 0 AND v.validade BETWEEN CURRENT_DATE AND CURRENT_DATE + 30) AS lotes_perto " +
+                "FROM produto p " +
+                "LEFT JOIN vw_saldo_lote v ON v.produto_id = p.id " +
+                "WHERE p.ativo = TRUE " +
+                "GROUP BY p.id, p.nome, p.estoque_maximo " +
+                "ORDER BY p.nome";
+
+        Connection conexao = ConexaoPostgreSQL.get();
+        try (PreparedStatement stmt = conexao.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Map<String, Object> linha = new HashMap<>();
+                linha.put("nome", rs.getString("nome"));
+                linha.put("estoqueMaximo", rs.getBigDecimal("estoque_maximo"));
+                linha.put("saldoValido", rs.getBigDecimal("saldo_valido"));
+                linha.put("lotesPerto", rs.getInt("lotes_perto"));
+
+                resultados.add(linha);
+            }
+        }
+        return resultados;
+    }
+
+    public Timestamp buscarUltimaContagemFinalizada() throws SQLException, StokiException {
+        String sql = "SELECT MAX(finalizada_em) AS ultima FROM contagem WHERE status = 'FINALIZADA'";
+
+        Connection conexao = ConexaoPostgreSQL.get();
+        try (PreparedStatement stmt = conexao.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            rs.next();
+            return rs.getTimestamp("ultima");
+        }
+    }
 }
+
