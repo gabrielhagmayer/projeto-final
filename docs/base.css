@@ -1,0 +1,178 @@
+/* ==========================================================================
+   1. VARIÁVEIS DA MARCA STOKI (SOFT SLATE + ACENTOS TEAL)
+   ========================================================================== */
+:root {
+  --cor-primaria: #0d9488;         /* Teal STOKI oficial */
+  --cor-primaria-hover: #14b8a6;   /* Teal claro vibrante */
+  --cor-fundo-principal: #0f172a;  /* Grafite/Slate escuro e suave */
+  --cor-fundo-secao-alt: #1e293b;  /* Slate médio para alternância elegante */
+  --cor-fundo-card: #1e293b;       /* Card soft com alto contraste visual */
+  --cor-texto: #f8fafc;            /* Texto branco bem limpo */
+  --cor-texto-suave: #94a3b8;      /* Texto cinza suave legível */
+  --cor-borda: rgba(253, 253, 253, 0.1); /* Borda refinada e sutil */
+
+  --fonte-principal: 'Inter', system-ui, -apple-system, sans-serif;
+  --largura-maxima: 1140px;
+  --transicao-padrao: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --raio-borda: 16px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--fonte-principal);
+  background-color: var(--cor-fundo-principal);
+  color: var(--cor-texto);
+  line-height: 1.6;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ==========================================================================
+   2. ESTRUTURA GERAL
+   ========================================================================== */
+.secao {
+  padding: 90px 20px;
+  width: 100%;
+}
+
+.secao__interno {
+  max-width: var(--largura-maxima);
+  margin: 0 auto;
+  width: 100%;
+}
+
+.secao__titulo {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 48px;
+  letter-spacing: -0.02em;
+}
+
+/* ==========================================================================
+   3. BOTÕES
+   ========================================================================== */
+.botao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 26px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition: all var(--transicao-padrao);
+}
+
+.botao--principal {
+  background-color: var(--cor-primaria);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(13, 148, 136, 0.35);
+}
+
+.botao--principal:hover {
+  background-color: var(--cor-primaria-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(20, 184, 166, 0.45);
+}
+
+.botao--secundario {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  border: 1px solid var(--cor-borda);
+}
+
+.botao--secundario:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+#botao-instalar[hidden],
+.botao[hidden] {
+  display: none !important;
+}
+
+/* ==========================================================================
+   4. CABEÇALHO ESCURO SOFT
+   ========================================================================== */
+.cabecalho {
+  position: sticky;
+  top: 0;
+  background-color: rgba(15, 23, 42, 0.9);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--cor-borda);
+  z-index: 1000;
+  padding: 16px 20px;
+}
+
+.cabecalho__interno {
+  max-width: var(--largura-maxima);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.logo__nome {
+  color: #2dd4bf;
+}
+
+.menu__lista {
+  display: flex;
+  gap: 28px;
+  list-style: none;
+}
+
+.menu__link {
+  text-decoration: none;
+  color: var(--cor-texto-suave);
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: color var(--transicao-padrao);
+}
+
+.menu__link:hover {
+  color: #2dd4bf;
+}
+
+.menu-botao {
+  display: none;
+}
+
+/* ==========================================================================
+   5. ANIMAÇÕES
+   ========================================================================== */
+.revelar {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.revelar.ativo {
+  opacity: 1;
+  transform: translateY(0);
+}

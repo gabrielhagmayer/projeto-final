@@ -5,10 +5,14 @@ import exceptions.StokiException;
 import models.Fornecedor;
 import models.Lote;
 import models.Produto;
+import models.Usuario;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.postgresql.jdbc.EscapedFunctions.INSERT;
 
 /**
  * Responsável: Gabriel.
@@ -111,6 +115,51 @@ public class LoteDAO {
             stmt.executeUpdate();
         } catch (Exception e) {
             throw new StokiException("Erro ao cadastrar lote: " + e.getMessage());
+        }
+    }
+
+    // Grava o lote e a movimentação de entrada juntos.
+    public void registrarEntrada(Lote lote, BigDecimal quantidade, Usuario usuario) throws StokiException{
+        Connection conexao = ConexaoPostgreSQL.get();
+
+        try {
+            conexao.setAutoCommit(false);
+            //INSERT do Lote
+            String sqlLote = "INSERT INTO lote (produto_id, fornecedor_id, numero_lote, validade, custo_unitario) "
+                    + "VALUES (?, ?, ?, ?, ?) RETURNING id";
+            int loteId;
+            try (PreparedStatement inserirLote = conexao.prepareStatement(sqlLote)){
+                inserirLote.setInt(1,lote.getProduto().getId());
+                inserirLote.setInt(2,lote.getFornecedor().getId());
+                inserirLote.setString(3,lote.getNumeroLote());
+                inserirLote.setObject(4,lote.getValidade(),Types.DATE);
+                inserirLote.setBigDecimal(5,lote.getCustoUnitario());
+                try (ResultSet resultado = inserirLote.executeQuery()){
+                    resultado.next();
+                    loteId = resultado.getInt(1);
+                }
+            }
+            // INSERT da movimentação
+            String sqlMovimentacao = "INSERT INTO movimentacao (lote_id, usuario_id, tipo, quantidade) "
+                    + "VALUES (?, ?,'ENTRADA', ?)";
+            try (PreparedStatement inserirMovimentacao = conexao.prepareStatement(sqlMovimentacao)) {
+                inserirMovimentacao.setInt(1,loteId);
+                inserirMovimentacao.setInt(2, usuario.getId());
+                inserirMovimentacao.setBigDecimal(3, quantidade);
+                inserirMovimentacao.executeUpdate();
+            }
+            conexao.commit();
+        }catch (SQLException e){
+            try {
+                conexao.rollback();
+            }catch (SQLException ignorado){
+            }
+            throw new StokiException ("Não foi possível registrar a entrada.", e);
+        } finally {
+            try {
+                conexao.setAutoCommit(true);
+            } catch (SQLException ignorado) {
+            }
         }
     }
 }
