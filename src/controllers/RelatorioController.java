@@ -25,4 +25,16 @@ public class RelatorioController {
             return null;
         }
     }
+
+    public List<Map<String, Object>> listarEstoqueGeral() throws StokiException {
+        return relatorioService.listarEstoqueGeral();
+    }
+
+    public Map<String, Object> montarPainel() throws StokiException {
+        return relatorioService.montarPainel();
+    }
+
+    public Map<String, Object> gerarRelatorio(int opcao) throws StokiException {
+        return relatorioService.gerarRelatorio(opcao);
+    }
 }
