@@ -19,6 +19,7 @@ public class Produto {
     private Boolean ativo;
     private Usuario cadastradoPor;
 
+
     public Produto() {}
 
     public Integer getId() {
@@ -123,5 +124,10 @@ public class Produto {
 
     public void setCadastradoPor(Usuario cadastradoPor) {
         this.cadastradoPor = cadastradoPor;
+    }
+
+    @Override
+    public String toString() {
+        return this.nome;
     }
 }
