@@ -163,5 +163,119 @@ public class RelatorioDAO {
             return rs.getTimestamp("ultima");
         }
     }
+
+    public List<Map<String, Object>> listarAbaixoDoMinimo() throws SQLException, StokiException {
+        List<Map<String, Object>> resultados = new ArrayList<>();
+
+        String sql = "SELECT p.nome, p.estoque_minimo, COALESCE(SUM(v.saldo), 0) AS saldo_valido " +
+                "FROM produto p " +
+                "LEFT JOIN vw_saldo_lote v ON v.produto_id = p.id AND (v.validade IS NULL OR v.validade >= CURRENT_DATE) " +
+                "WHERE p.ativo = TRUE " +
+                "GROUP BY p.id, p.nome, p.estoque_minimo " +
+                "HAVING COALESCE(SUM(v.saldo), 0) < p.estoque_minimo " +
+                "ORDER BY p.nome";
+
+        Connection conexao = ConexaoPostgreSQL.get();
+        try (PreparedStatement stmt = conexao.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Map<String, Object> linha = new HashMap<>();
+                linha.put("nome", rs.getString("nome"));
+                linha.put("estoqueMinimo", rs.getBigDecimal("estoque_minimo"));
+                linha.put("saldoValido", rs.getBigDecimal("saldo_valido"));
+
+                resultados.add(linha);
+            }
+        }
+        return resultados;
+    }
+
+    public List<Map<String, Object>> listarMaiorValorParado() throws SQLException, StokiException {
+        List<Map<String, Object>> resultados = new ArrayList<>();
+
+        String sql = "SELECT p.nome, COALESCE(SUM(v.saldo), 0) AS saldo, " +
+                "COALESCE(SUM(v.saldo * v.custo_unitario), 0) AS valor " +
+                "FROM produto p " +
+                "LEFT JOIN vw_saldo_lote v ON v.produto_id = p.id " +
+                "WHERE p.ativo = TRUE " +
+                "GROUP BY p.id, p.nome " +
+                "HAVING COALESCE(SUM(v.saldo * v.custo_unitario), 0) > 0 " +
+                "ORDER BY valor DESC, p.nome";
+
+        Connection conexao = ConexaoPostgreSQL.get();
+        try (PreparedStatement stmt = conexao.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Map<String, Object> linha = new HashMap<>();
+                linha.put("nome", rs.getString("nome"));
+                linha.put("saldo", rs.getBigDecimal("saldo"));
+                linha.put("valor", rs.getBigDecimal("valor"));
+
+                resultados.add(linha);
+            }
+        }
+        return resultados;
+    }
+
+    public List<Map<String, Object>> listarVencimentos() throws SQLException, StokiException {
+        List<Map<String, Object>> resultados = new ArrayList<>();
+
+        String sql = "SELECT p.nome, l.numero_lote, v.validade, v.saldo, (v.validade - CURRENT_DATE) AS dias " +
+                "FROM vw_saldo_lote v " +
+                "JOIN produto p ON p.id = v.produto_id " +
+                "JOIN lote l ON l.id = v.lote_id " +
+                "WHERE v.saldo > 0 AND v.validade IS NOT NULL " +
+                "ORDER BY v.validade, p.nome";
+
+        Connection conexao = ConexaoPostgreSQL.get();
+        try (PreparedStatement stmt = conexao.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Map<String, Object> linha = new HashMap<>();
+                linha.put("nome", rs.getString("nome"));
+                linha.put("numeroLote", rs.getString("numero_lote"));
+                linha.put("validade", rs.getDate("validade"));
+                linha.put("saldo", rs.getBigDecimal("saldo"));
+                linha.put("dias", rs.getInt("dias"));
+
+                resultados.add(linha);
+            }
+        }
+        return resultados;
+    }
+
+    public List<Map<String, Object>> listarPerdas() throws SQLException, StokiException {
+        List<Map<String, Object>> resultados = new ArrayList<>();
+
+        String sql = "SELECT m.data_hora, p.nome, l.numero_lote, ABS(m.quantidade) AS quantidade, " +
+                "m.motivo_perda, m.observacao, (ABS(m.quantidade) * l.custo_unitario) AS valor " +
+                "FROM movimentacao m " +
+                "JOIN lote l ON l.id = m.lote_id " +
+                "JOIN produto p ON p.id = l.produto_id " +
+                "WHERE m.tipo = 'PERDA' " +
+                "ORDER BY m.data_hora DESC";
+
+        Connection conexao = ConexaoPostgreSQL.get();
+        try (PreparedStatement stmt = conexao.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Map<String, Object> linha = new HashMap<>();
+                linha.put("dataHora", rs.getTimestamp("data_hora"));
+                linha.put("nome", rs.getString("nome"));
+                linha.put("numeroLote", rs.getString("numero_lote"));
+                linha.put("quantidade", rs.getBigDecimal("quantidade"));
+                linha.put("motivoPerda", rs.getString("motivo_perda"));
+                linha.put("observacao", rs.getString("observacao"));
+                linha.put("valor", rs.getBigDecimal("valor"));
+
+                resultados.add(linha);
+            }
+        }
+        return resultados;
+    }
 }
 

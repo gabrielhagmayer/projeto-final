@@ -34,4 +34,7 @@ public class RelatorioController {
         return relatorioService.montarPainel();
     }
 
+    public Map<String, Object> gerarRelatorio(int opcao) throws StokiException {
+        return relatorioService.gerarRelatorio(opcao);
+    }
 }
