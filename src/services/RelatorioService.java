@@ -24,5 +24,13 @@ public class RelatorioService {
             throw new StokiException("Erro ao consultar os dados para o relatório de lotes.", e);
         }
     }
+
+    public List<Map<String, Object>> listarEstoqueGeral() throws StokiException {
+        try {
+            return relatorioDAO.listarEstoqueGeral();
+        } catch (SQLException e) {
+            throw new StokiException("Erro ao consultar o estoque geral.", e);
+        }
+    }
 }
 

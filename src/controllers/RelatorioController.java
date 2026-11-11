@@ -25,4 +25,8 @@ public class RelatorioController {
             return null;
         }
     }
+
+    public List<Map<String, Object>> listarEstoqueGeral() throws StokiException {
+        return relatorioService.listarEstoqueGeral();
+    }
 }
