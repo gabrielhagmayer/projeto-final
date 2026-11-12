@@ -41,6 +41,11 @@ public class TelaPainel extends TelaBase {
         }
     };
     private final JLabel avisoContagem = new JLabel("A última contagem de estoque passou de 15 dias. Faça uma nova contagem.");
+    private final JLabel lblRiscoTotal = new JLabel("-");
+    private final JLabel lblRiscoVencido = new JLabel("-");
+    private final JLabel lblRiscoPerto = new JLabel("-");
+    private final JLabel lblRiscoExcesso = new JLabel("-");
+    private final JLabel lblRiscoPerdido = new JLabel("-");
 
     public TelaPainel() {
         super("Painel", "Alertas, promoções, valor em estoque e Dinheiro em risco.");
@@ -60,6 +65,7 @@ public class TelaPainel extends TelaBase {
         topo.setOpaque(false);
         topo.add(avisoContagem, BorderLayout.NORTH);
         topo.add(cartoes, BorderLayout.CENTER);
+        topo.add(criarCartaoRisco(), BorderLayout.SOUTH);
         conteudo.add(topo, BorderLayout.NORTH);
 
         JTable tabela = new JTable(modeloPromocoes);
@@ -91,6 +97,12 @@ public class TelaPainel extends TelaBase {
             for (Map<String, Object> promocao : promocoes) {
                 modeloPromocoes.addRow(new Object[]{promocao.get("produto"), promocao.get("prioridade"), promocao.get("motivo")});
             }
+            Map<String, BigDecimal> risco = controller.calcularDinheiroEmRisco();
+            lblRiscoTotal.setText(Utilidade.formatarMoeda(risco.get("total")));
+            lblRiscoVencido.setText(Utilidade.formatarMoeda(risco.get("vencido")));
+            lblRiscoPerto.setText(Utilidade.formatarMoeda(risco.get("perto")));
+            lblRiscoExcesso.setText(Utilidade.formatarMoeda(risco.get("excesso")));
+            lblRiscoPerdido.setText(Utilidade.formatarMoeda(risco.get("perdido")));
         } catch (StokiException e) {
             mostrarErro(e.getMessage());
         }
@@ -109,6 +121,45 @@ public class TelaPainel extends TelaBase {
         cartao.add(rotulo, BorderLayout.NORTH);
         cartao.add(numero, BorderLayout.CENTER);
         return cartao;
+    }
+
+    private JPanel criarDetalhe(String titulo, JLabel valor) {
+        JPanel detalhe = new JPanel(new BorderLayout(0, 4));
+        detalhe.setOpaque(false);
+        JLabel rotulo = new JLabel(titulo);
+        rotulo.setForeground(Tema.BRANCO);
+        valor.setFont(Tema.fonte(Font.BOLD, 18));
+        valor.setForeground(Tema.BRANCO);
+        detalhe.add(rotulo, BorderLayout.NORTH);
+        detalhe.add(valor, BorderLayout.CENTER);
+        return detalhe;
+    }
+
+    private JPanel criarCartaoRisco() {
+        JPanel cartao = new JPanel(new BorderLayout(0, 12));
+        cartao.setBackground(Tema.VERDE_ESCURO);
+        cartao.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
+        JLabel rotulo = new JLabel("Dinheiro em risco");
+        rotulo.setForeground(Tema.BRANCO);
+        lblRiscoTotal.setFont(Tema.fonte(Font.BOLD, 32));
+        lblRiscoTotal.setForeground(Tema.AMBAR);
+        JPanel cabecalho = new JPanel(new BorderLayout(0, 4));
+        cabecalho.setOpaque(false);
+        cabecalho.add(rotulo, BorderLayout.NORTH);
+        cabecalho.add(lblRiscoTotal, BorderLayout.CENTER);
+        cartao.add(cabecalho, BorderLayout.NORTH);
+        cartao.add(criarDetalhes(), BorderLayout.CENTER);
+        return cartao;
+    }
+
+    private JPanel criarDetalhes() {
+        JPanel detalhes = new JPanel(new GridLayout(1, 4, 16, 0));
+        detalhes.setOpaque(false);
+        detalhes.add(criarDetalhe("Vencido", lblRiscoVencido));
+        detalhes.add(criarDetalhe("Perto de vencer", lblRiscoPerto));
+        detalhes.add(criarDetalhe("Em excesso", lblRiscoExcesso));
+        detalhes.add(criarDetalhe("Perdido no mês", lblRiscoPerdido));
+        return detalhes;
     }
 }
 
