@@ -1,7 +1,10 @@
 package dao;
 
 import connections.ConexaoPostgreSQL;
+
 import exceptions.StokiException;
+
+import java.math.BigDecimal;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -277,5 +280,50 @@ public class RelatorioDAO {
         }
         return resultados;
     }
-}
 
+    public Map<String, BigDecimal> valoresVencimento() throws SQLException, StokiException {
+        String sql = "SELECT COALESCE(SUM(saldo * custo_unitario) FILTER (WHERE validade < CURRENT_DATE), 0) AS vencido, "
+                + "COALESCE(SUM(saldo * custo_unitario) FILTER (WHERE validade >= CURRENT_DATE "
+                + "AND validade <= CURRENT_DATE + 30), 0) AS perto "
+                + "FROM vw_saldo_lote WHERE saldo > 0 AND validade IS NOT NULL";
+        Connection conexao = ConexaoPostgreSQL.get();
+        try (PreparedStatement stmt = conexao.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            rs.next();
+            Map<String, BigDecimal> valores = new HashMap<>();
+            valores.put("vencido", rs.getBigDecimal("vencido"));
+            valores.put("perto", rs.getBigDecimal("perto"));
+            return valores;
+        }
+    }
+
+        public BigDecimal valorEmExcesso() throws SQLException, StokiException {
+            String sql = "SELECT COALESCE(SUM((t.saldo_valido - t.estoque_maximo) * t.custo_medio), 0) AS excesso FROM ("
+                    + "SELECT p.estoque_maximo, SUM(v.saldo) AS saldo_valido, "
+                    + "SUM(v.saldo * v.custo_unitario) / SUM(v.saldo) AS custo_medio "
+                    + "FROM produto p JOIN vw_saldo_lote v ON v.produto_id = p.id "
+                    + "WHERE p.ativo = TRUE AND v.saldo > 0 AND (v.validade IS NULL OR v.validade >= CURRENT_DATE) "
+                    + "GROUP BY p.id, p.estoque_maximo "
+                    + "HAVING SUM(v.saldo) > p.estoque_maximo) t";
+            Connection conexao = ConexaoPostgreSQL.get();
+            try (PreparedStatement stmt = conexao.prepareStatement(sql);
+                 ResultSet rs = stmt.executeQuery()) {
+                rs.next();
+                return rs.getBigDecimal("excesso");
+            }
+        }
+
+    public BigDecimal valorPerdidoNoMes() throws SQLException, StokiException {
+        String sql = "SELECT COALESCE(SUM(ABS(m.quantidade) * l.custo_unitario), 0) AS perdido "
+                + "FROM movimentacao m JOIN lote l ON l.id = m.lote_id "
+                + "WHERE m.tipo = 'PERDA' "
+                + "AND EXTRACT(YEAR FROM m.data_hora) = EXTRACT(YEAR FROM CURRENT_DATE) "
+                + "AND EXTRACT(MONTH FROM m.data_hora) = EXTRACT(MONTH FROM CURRENT_DATE)";
+        Connection conexao = ConexaoPostgreSQL.get();
+        try (PreparedStatement stmt = conexao.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            rs.next();
+            return rs.getBigDecimal("perdido");
+        }
+    }
+}

@@ -201,5 +201,18 @@ public class RelatorioService {
                 return relatorioPerdas();
         }
     }
+
+    public Map<String, BigDecimal> calcularDinheiroEmRisco() throws StokiException {
+        try {
+            Map<String, BigDecimal> risco = relatorioDAO.valoresVencimento();
+            risco.put("excesso", relatorioDAO.valorEmExcesso());
+            risco.put("perdido", relatorioDAO.valorPerdidoNoMes());
+            BigDecimal total = risco.get("vencido").add(risco.get("perto")).add(risco.get("excesso"));
+            risco.put("total", total);
+            return risco;
+        } catch (SQLException e) {
+            throw new StokiException("Erro ao calcular o dinheiro em risco.", e);
+        }
+    }
 }
 

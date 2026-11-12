@@ -1,7 +1,10 @@
 package controllers;
 
 import exceptions.StokiException;
+
 import services.RelatorioService;
+
+import java.math.BigDecimal;
 
 import java.util.List;
 import java.util.Map;
@@ -36,5 +39,9 @@ public class RelatorioController {
 
     public Map<String, Object> gerarRelatorio(int opcao) throws StokiException {
         return relatorioService.gerarRelatorio(opcao);
+    }
+
+    public Map<String, BigDecimal> calcularDinheiroEmRisco() throws StokiException {
+        return relatorioService.calcularDinheiroEmRisco();
     }
 }
