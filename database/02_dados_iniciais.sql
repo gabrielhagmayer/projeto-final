@@ -6,7 +6,7 @@ INSERT INTO usuario (nome, login, senha, perfil) VALUES
                                                      ('Repositor Demonstração', 'repositor', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 'REPOSITOR');
 
 INSERT INTO fornecedor (razao_social, cnpj, endereco) VALUES
-                                                          ('entregadora de Alimentos', '11222333000789', 'Rua Exemplo, 100, Tubarão, SC'),
+                                                          ('entregadora de Alimentos', '11222333000181', 'Rua Exemplo, 100, Tubarão, SC'),
                                                           ('Bebidas Ajato Exemplo', '44555666000181', 'Avenida Modelo, 200, Tubarão, SC'),
                                                           ('Limpou EXEMPLO', '77888999000181', 'Rua Fictícia, 300, Tubarão, SC');
 
