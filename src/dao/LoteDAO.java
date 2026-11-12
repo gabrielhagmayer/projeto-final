@@ -30,8 +30,7 @@ public class LoteDAO {
 
         List<Lote> lotes = new ArrayList<>();
 
-        try (Connection conexao = ConexaoPostgreSQL.get();
-             PreparedStatement stmt = conexao.prepareStatement(sql);
+        try (PreparedStatement stmt = ConexaoPostgreSQL.get().prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
@@ -80,8 +79,7 @@ public class LoteDAO {
         String sql = "INSERT INTO lote (produto_id, fornecedor_id, numero_lote, validade, custo_unitario, data_entrada) " +
                 "VALUES (?, ?, ?, ?, ?, ?)";
 
-        try (Connection conexao = ConexaoPostgreSQL.get();
-             PreparedStatement stmt = conexao.prepareStatement(sql)) {
+        try (PreparedStatement stmt = ConexaoPostgreSQL.get().prepareStatement(sql)) {
 
             if (lote.getProduto() != null && lote.getProduto().getId() != null) {
                 stmt.setInt(1, lote.getProduto().getId());

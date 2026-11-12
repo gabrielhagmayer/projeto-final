@@ -22,6 +22,9 @@ public class TelaEntrada extends TelaBase {
     private final JTextField campoValidade = new JTextField();
     private final JTextField campoCusto = new JTextField();
     private final JTextField campoQuantidade = new JTextField();
+    private final JCheckBox marcarPorCaixa = new JCheckBox("Por caixa ou fardo");
+    private final JTextField campoUnidadesPorCaixa = new JTextField();
+
 
     public TelaEntrada() {
         super("Entrada de lote", "Recebimento de mercadorias.");
@@ -39,6 +42,10 @@ public class TelaEntrada extends TelaBase {
         formulario.add(campoCusto);
         formulario.add(new JLabel("Quantidade:"));
         formulario.add(campoQuantidade);
+        formulario.add(new JLabel("Tipo de entrada:"));
+        formulario.add(marcarPorCaixa);
+        formulario.add(new JLabel("Unidades por caixa:"));
+        formulario.add(campoUnidadesPorCaixa);
 
         conteudo.add(formulario, BorderLayout.NORTH);
 
@@ -50,7 +57,8 @@ public class TelaEntrada extends TelaBase {
                 campoNumeroLote.getText(),
                 campoValidade.getText(),
                 campoCusto.getText(),
-                campoQuantidade.getText()));
+                campoQuantidade.getText(),
+                marcarPorCaixa.isSelected() ? campoUnidadesPorCaixa.getText() : ""));
 
         JPanel acoes = new JPanel(new FlowLayout(FlowLayout.LEFT));
         acoes.setOpaque(false);
@@ -96,5 +104,7 @@ public class TelaEntrada extends TelaBase {
         campoValidade.setText("");
         campoCusto.setText("");
         campoQuantidade.setText("");
+        campoUnidadesPorCaixa.setText("");
+        marcarPorCaixa.setSelected(false);
     }
 }
