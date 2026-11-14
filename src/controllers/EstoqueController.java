@@ -8,14 +8,14 @@ import services.CatalogoService;
 import services.EstoqueService;
 import utils.Utilidade;
 import views.TelaEntrada;
+import views.TelaPerda;
 import views.TelaSaida;
 
 import java.math.BigDecimal;
 
-/**
- * Responsável: Gabriel.
- * Liga a tela ao EstoqueService e mostra sucesso ou erro.
- */
+//Responsável: Gabriel.
+//Liga a tela ao EstoqueService e mostra sucesso ou erro.
+
 public class EstoqueController {
 
     private final CatalogoService catalogoService = new CatalogoService();
@@ -82,6 +82,36 @@ public class EstoqueController {
             tela.informarSucesso("Saída registrada.");
             tela.limparQuantidade();
             carregarLotes(tela, produto);
+        } catch (StokiException e) {
+            tela.informarErro(e.getMessage());
+        }
+    }
+
+    // Carrega os produtos na tela de perda.
+    public void carregarProdutosPerda(TelaPerda tela) {
+        try {
+            tela.preencherProdutos(catalogoService.listarProdutosAtivos());
+        } catch (StokiException e) {
+            tela.informarErro(e.getMessage());
+        }
+    }
+
+    // Carrega os produto na tela de perda.
+    public void carregarLotesPerda(TelaPerda tela, Produto produto) {
+        try {
+            tela.preencherLotes(estoqueService.listarLotesComSaldo(produto));
+        } catch (StokiException e) {
+            tela.informarErro(e.getMessage());
+        }
+    }
+
+    // Registra a perda e recarrega os lotes com o saldo novo.
+    public void registrarPerda(TelaPerda tela, Produto produto, Lote lote, String quantidade, String motivo, String observacao) {
+        try {
+            estoqueService.registrarPerda(produto, lote, Utilidade.paraDecimal(quantidade), motivo, observacao);
+            tela.informarSucesso("Perda registrada.");
+            tela.limparCampos();
+            carregarLotesPerda(tela, produto);
         } catch (StokiException e) {
             tela.informarErro(e.getMessage());
         }
