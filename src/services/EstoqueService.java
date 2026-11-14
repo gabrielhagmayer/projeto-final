@@ -13,6 +13,7 @@ import utils.Utilidade;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 /**
  * Responsável: Gabriel.
@@ -90,5 +91,12 @@ public class EstoqueService {
         movimentacao.setTipo("SAIDA");
         movimentacao.setQuantidade(quantidade.negate());
         movimentacaoDAO.registrar(movimentacao);
+    }
+    // Repassa ao DAO o pedido dos lotes disponíveis do produto escolhido.
+    public ArrayList<Lote> listarLotesDisponiveis(Produto produto) throws StokiException {
+        if (produto == null) {
+            return new ArrayList<>();
+        }
+        return loteDAO.listarDisponiveis(produto.getId());
     }
 }
