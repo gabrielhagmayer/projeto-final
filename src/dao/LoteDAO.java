@@ -9,6 +9,7 @@ import models.Usuario;
 
 import java.math.BigDecimal;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -161,5 +162,33 @@ public class LoteDAO {
             } catch (SQLException ignorado) {
             }
         }
+    }
+
+    // Lista os lotes que podem sair, do que vence primeiro ao último (FEFO).
+    public ArrayList<Lote> listarDisponiveis(int produtoId) throws StokiException {
+        String sql = "SELECT v.lote_id, l.numero_lote, v.validade, v.saldo "
+                + "FROM vw_saldo_lote v "
+                + "JOIN lote l ON l.id = v.lote_id "
+                + "WHERE v.produto_id = ? AND v.saldo > 0 "
+                + "AND (v.validade IS NULL OR v.validade >= CURRENT_DATE) "
+                + "ORDER BY v.validade ASC NULLS LAST";
+
+        ArrayList<Lote> lotes = new ArrayList<>();
+        try (PreparedStatement consulta = ConexaoPostgreSQL.get().prepareStatement(sql)) {
+            consulta.setInt(1, produtoId);
+            try (ResultSet resultado = consulta.executeQuery()) {
+                while (resultado.next()) {
+                    Lote lote = new Lote();
+                    lote.setId(resultado.getInt("lote_id"));
+                    lote.setNumeroLote(resultado.getString("numero_lote"));
+                    lote.setValidade(resultado.getObject("validade", LocalDate.class));
+                    lote.setSaldo(resultado.getBigDecimal("saldo"));
+                    lotes.add(lote);
+                }
+            }
+        } catch (SQLException e) {
+            throw new StokiException("Não foi possível listar os lotes disponíveis.", e);
+        }
+        return lotes;
     }
 }
