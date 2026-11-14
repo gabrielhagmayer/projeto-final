@@ -8,6 +8,7 @@ import services.CatalogoService;
 import services.EstoqueService;
 import utils.Utilidade;
 import views.TelaEntrada;
+import views.TelaSaida;
 
 import java.math.BigDecimal;
 
@@ -51,6 +52,36 @@ public class EstoqueController {
             estoqueService.registrarEntrada(lote, Utilidade.paraDecimal(quantidade), unidades);
             tela.informarSucesso("Entrada registrada.");
             tela.limparCampos();
+        } catch (StokiException e) {
+            tela.informarErro(e.getMessage());
+        }
+    }
+
+    // Carrega os produtos na tela de saída.
+    public void carregarProdutosSaida(TelaSaida tela) {
+        try {
+            tela.preencherProdutos(catalogoService.listarProdutosAtivos());
+        } catch (StokiException e) {
+            tela.informarErro(e.getMessage());
+        }
+    }
+
+    // Carrega os lotes disponíveis do produto escolhido.
+    public void carregarLotes(TelaSaida tela, Produto produto) {
+        try {
+            tela.preencherLotes(estoqueService.listarLotesDisponiveis(produto));
+        } catch (StokiException e) {
+            tela.informarErro(e.getMessage());
+        }
+    }
+
+    // Registra a saída e recarrega os lotes com o saldo novo.
+    public void registrarSaida(TelaSaida tela, Produto produto, Lote lote, String quantidade) {
+        try {
+            estoqueService.registrarSaida(produto, lote, Utilidade.paraDecimal(quantidade));
+            tela.informarSucesso("Saída registrada.");
+            tela.limparQuantidade();
+            carregarLotes(tela, produto);
         } catch (StokiException e) {
             tela.informarErro(e.getMessage());
         }

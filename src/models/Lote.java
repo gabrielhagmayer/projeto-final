@@ -1,5 +1,7 @@
 package models;
 
+import utils.Utilidade;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -81,5 +83,11 @@ public class Lote {
 
     public void setSaldo(BigDecimal saldo) {
         this.saldo = saldo;
+    }
+
+    @Override
+    public String toString() {
+        String textoValidade = validade == null ? "sem validade" : "vence " + Utilidade.formatarData(validade);
+        return numeroLote + " | " + textoValidade + " | saldo " + Utilidade.formatarQuantidade(saldo);
     }
 }
