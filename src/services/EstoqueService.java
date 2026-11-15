@@ -99,4 +99,43 @@ public class EstoqueService {
         }
         return loteDAO.listarDisponiveis(produto.getId());
     }
+    // Repassa ao DAO o pedido dos lotes disponíveis do produto escolhido.
+    public ArrayList<Lote> listarLotesComSaldo(Produto produto) throws StokiException {
+        if (produto == null) {
+            return new ArrayList<>();
+        }
+        return loteDAO.listarComSaldo(produto.getId());
+    }
+    public void registrarPerda(Produto produto, Lote lote, BigDecimal quantidade, String motivo, String observacao) throws StokiException {
+        if (Sessao.getUsuario() == null) {
+            throw new StokiException("Entre no sistema para registrar perdas.");
+        }
+        if (contagemDAO.existeContagemAberta()) {
+            throw new StokiException("Há uma contagem aberta. Finalize-a antes de registrar perdas.");
+        }
+        if (produto == null || lote == null){
+            throw new StokiException("Escolha o produto e o lote.");
+        }
+        if (quantidade == null || quantidade.signum() <= 0) {
+            throw new StokiException("Informe uma quantidade maior que zero.");
+        }
+        if ("UN".equals(produto.getUnidadeEstoque()) && quantidade.stripTrailingZeros().scale() > 0) {
+            throw new StokiException("Este produto é contado em unidades. Use um número inteiro.");
+        }
+        if (motivo == null || motivo.isBlank()) {
+            throw new StokiException("Escolha o motivo da perda.");
+        }
+        if (quantidade.compareTo(lote.getSaldo()) > 0) {
+            throw new StokiException("A quantidade é maior que o saldo do lote ("
+                    + Utilidade.formatarQuantidade(lote.getSaldo()) + ").");
+        }
+        Movimentacao movimentacao = new Movimentacao();
+        movimentacao.setLote(lote);
+        movimentacao.setUsuario(Sessao.getUsuario());
+        movimentacao.setTipo("PERDA");
+        movimentacao.setQuantidade(quantidade.negate());
+        movimentacao.setMotivoPerda(motivo);
+        movimentacao.setObservacao(observacao == null || observacao.isBlank() ? null : observacao.trim());
+        movimentacaoDAO.registrar(movimentacao);
+    }
 }
