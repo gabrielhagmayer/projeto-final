@@ -72,15 +72,16 @@ public class UsuarioService {
             throw new StokiException("Informe o login do usuário.");
         }
 
-        if (usuario.getSenha() == null || usuario.getSenha().trim().isEmpty()) {
-            throw new StokiException("Informe a senha do usuário.");
-        }
-
         if (usuario.getPerfil() == null) {
             throw new StokiException("Selecione o perfil do usuário.");
         }
 
-        usuarioDAO.alterar(usuario);
+        if (usuario.getSenha() == null || usuario.getSenha().trim().isEmpty()) {
+            usuarioDAO.alterarSemSenha(usuario);
+        } else {
+            usuario.setSenha(Utilidade.gerarHash(usuario.getSenha()));
+            usuarioDAO.alterar(usuario);
+        }
     }
 
     public boolean verificarHistorico(int id) throws StokiException {
