@@ -197,6 +197,18 @@ public class UsuarioDAO {
         }
     }
 
+    // Conta quantos gerentes ativos existem.
+    public int contarGerentesAtivos() throws StokiException {
+        String sql = "SELECT COUNT(*) FROM usuario WHERE perfil = 'GERENTE' AND ativo";
+
+        try (PreparedStatement preparacao = ConexaoPostgreSQL.get().prepareStatement(sql);
+             ResultSet resultado = preparacao.executeQuery()) {
+            resultado.next();
+            return resultado.getInt(1);
+        } catch (SQLException e) {
+            throw new StokiException("Não foi possível contar os gerentes ativos.", e);
+        }
+    }
 }
 
 
