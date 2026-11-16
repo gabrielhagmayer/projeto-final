@@ -2,24 +2,35 @@ package services;
 
 import dao.UsuarioDAO;
 import exceptions.StokiException;
+import models.Perfil;
 import models.Usuario;
+import utils.Sessao;
+import utils.Utilidade;
 
 import java.util.List;
 
-/**
- * Responsável: Renan.
- * Valida os dados e aplica as regras de negócio.
- */
+//Responsável: Renan.
+//Valida os dados e aplica as regras de negócio.
+
 public class UsuarioService {
 
     private final UsuarioDAO usuarioDAO = new UsuarioDAO();
 
+    // Confere se quem está logado é o gerente.
+    private void validarPermissao() throws StokiException {
+        if (!Sessao.temPerfil(Perfil.GERENTE)) {
+            throw new StokiException("Somente o gerente pode gerenciar usuários.");
+        }
+
+    }
+
     public List<Usuario> listar() throws StokiException {
+        validarPermissao();
         return usuarioDAO.listar();
     }
 
     public void cadastrar(Usuario usuario) throws StokiException {
-
+        validarPermissao();
         if (usuario == null) {
             throw new StokiException("Usuário inválido.");
         }
@@ -39,12 +50,12 @@ public class UsuarioService {
         if (usuario.getPerfil() == null) {
             throw new StokiException("Selecione o perfil do usuário.");
         }
-
+        usuario.setSenha(Utilidade.gerarHash(usuario.getSenha()));
         usuarioDAO.cadastrar(usuario);
     }
 
     public void alterar(Usuario usuario) throws StokiException {
-
+        validarPermissao();
         if (usuario == null) {
             throw new StokiException("Usuário inválido.");
         }
@@ -73,11 +84,12 @@ public class UsuarioService {
     }
 
     public boolean verificarHistorico(int id) throws StokiException {
+        validarPermissao();
         return usuarioDAO.verificarHistorico(id);
     }
 
     public void excluir(int id) throws StokiException {
-
+        validarPermissao();
         if (id <= 0) {
             throw new StokiException("ID do usuário invalido.");
         }
@@ -86,7 +98,7 @@ public class UsuarioService {
     }
 
     public void inativar(int id) throws StokiException {
-
+        validarPermissao();
         if (id <= 0) {
             throw new StokiException("ID do usuário invalido.");
         }
@@ -94,6 +106,5 @@ public class UsuarioService {
         usuarioDAO.inativar(id);
 
     }
-
 }
 
