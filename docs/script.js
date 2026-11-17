@@ -1,6 +1,6 @@
-/* ==========================================================================
-   SCRIPT PRINCIPAL (script.js)
-   ========================================================================== */
+
+   // SCRIPT PRINCIPAL
+
 
 document.addEventListener('DOMContentLoaded', () => {
   // 1. Animação de Revelação ao Rolar (Scroll Reveal)
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   elementosRevelar.forEach(el => observarRevelacao.observe(el));
 
-  // 2. Animação de Contadores Numéricos (.contador)
+  // 2. Animação de Contadores Numéricos
   const contadores = document.querySelectorAll('.contador');
 
   const animarContador = (el) => {
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const decorrido = tempoAtual - inicio;
       const progresso = Math.min(decorrido / duracao, 1);
 
-      // Efeito de desaceleração suave (easeOutQuad)
+      // Efeito de desaceleração suave
       const valorAtual = alvo * (1 - (1 - progresso) * (1 - progresso));
 
       if (formato === 'moeda') {
@@ -98,9 +98,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// ==========================================================================
+
 // 4. REGISTRO DO SERVICE WORKER (PWA)
-// ==========================================================================
+
 // Verifica se o navegador suporta Service Worker
 if ('serviceWorker' in navigator) {
   // Espera a página terminar de carregar para registrar o arquivo
