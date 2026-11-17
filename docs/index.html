@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>STOKI | Controle de estoque para mercados</title>
   <meta name="description" content="O STOKI mostra o que você tem, onde está, o que vence primeiro e quanto dinheiro está em risco.">
-  <meta name="theme-color" content="#0d9488">
+  <meta name="theme-color" content="#0F766E">
 
   <link rel="icon" href="icons/logo.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
@@ -13,7 +13,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="base.css">
   <link rel="stylesheet" href="secoes.css">
@@ -49,11 +49,11 @@
 </header>
 
 <main>
-  <!-- HERO COM IMAGEM -->
+  <!-- HERO -->
   <section class="hero" id="inicio" aria-labelledby="hero-titulo">
     <div class="hero__interno">
       <div class="hero__texto">
-        <p class="etiqueta">Gestão de Estoque Inteligente</p>
+        <p class="etiqueta">Controle de estoque para mercados</p>
         <h1 class="hero__titulo" id="hero-titulo">Pare de perder dinheiro no seu depósito.</h1>
         <p class="hero__subtitulo">O STOKI mostra o que você tem, onde está, o que vence primeiro e quanto dinheiro está em risco.</p>
         <div class="hero__botoes">
@@ -62,30 +62,24 @@
         </div>
       </div>
 
-      <!-- FOTO DE ESTOQUE DE EMPRESA NO HERO -->
-      <div class="hero__imagem-container">
-        <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80"
-             alt="Galpão de estoque organizado com prateleiras altas e caixas"
-             class="hero__imagem">
-        <div class="hero__badge-flutuante">
-          <span>Recuperado neste mês:</span>
-          <span class="hero__badge-valor">R$ 14.250,00</span>
+      <div class="painel">
+        <div class="painel__destaque">
+          <span class="painel__valor contador" data-alvo="14250" data-formato="moeda">R$ 14.250,00</span>
+          <p class="hero__legenda">recuperados em estoque no último mês</p>
         </div>
+        <ul class="painel__lista">
+          <li class="painel__item">✓ Alertas de validade automatizados</li>
+          <li class="painel__item">✓ Mapeamento visual por prateleira</li>
+          <li class="painel__item">✓ Relatórios prontos para tomar ação</li>
+        </ul>
       </div>
     </div>
   </section>
 
-  <!-- PROBLEMA COM BANNER DE FOTO -->
+  <!-- PROBLEMA -->
   <section class="secao problema" id="problema" aria-labelledby="problema-titulo">
     <div class="secao__interno">
       <h2 class="secao__titulo" id="problema-titulo">O controle manual custa caro.</h2>
-
-      <!-- FOTO DE DEPÓSITO COM CAIXAS -->
-      <div class="problema__banner revelar">
-        <img src="https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&w=1000&q=80"
-             alt="Depósito de mercadorias com caixas empilhadas">
-      </div>
-
       <div class="problema__cartoes">
         <div class="cartao revelar">
           <h3 class="cartao__titulo">Validades perdidas</h3>
@@ -100,10 +94,9 @@
           <p class="cartao__texto">Comprar o que já existe em estoque por falta de visibilidade.</p>
         </div>
       </div>
-
       <div class="destaque revelar">
         <span class="destaque__numero contador" data-alvo="30" data-formato="porcentagem">30%</span>
-        <p class="destaque__texto">do prejuízo em estoques vem de produtos vencidos ou mal localizados.</p>
+        <p class="destaque__texto">do prejuízo em estoques de mercados vem de produtos vencidos.</p>
         <span class="destaque__fonte">Fonte: Pesquisa interna de mercado</span>
       </div>
     </div>
@@ -136,7 +129,7 @@
     </div>
   </section>
 
-  <!-- DIFERENCIAIS (BENTO GRID 3x3) -->
+  <!-- DIFERENCIAIS (BENTO GRID DE 9 CARTÕES) -->
   <section class="secao diferenciais" id="diferenciais" aria-labelledby="diferenciais-titulo">
     <div class="secao__interno">
       <h2 class="secao__titulo" id="diferenciais-titulo">Feito para mostrar onde está o dinheiro.</h2>
@@ -145,9 +138,10 @@
           <h3 class="cartao__titulo">Dinheiro em risco</h3>
           <p class="cartao__texto">Veja em reais o que está vencido, perto de vencer, parado em excesso e perdido no mês.</p>
         </li>
+        <!-- Cartão 2 atualizado -->
         <li class="cartao revelar">
-          <h3 class="cartao__titulo">Mapa do depósito</h3>
-          <p class="cartao__texto">Setores coloridos e prateleiras numeradas mostram onde cada produto está e onde agir primeiro.</p>
+          <h3 class="cartao__titulo">Setor e prateleira</h3>
+          <p class="cartao__texto">Cada produto tem setor numerado e prateleira. Ninguém perde tempo procurando no depósito.</p>
         </li>
         <li class="cartao revelar">
           <h3 class="cartao__titulo">Primeiro a vencer, primeiro a sair</h3>
@@ -169,13 +163,15 @@
           <h3 class="cartao__titulo">Cada pessoa no seu papel</h3>
           <p class="cartao__texto">Gerente, responsável e repositor veem o que precisam.</p>
         </li>
+        <!-- Cartão 8 atualizado -->
         <li class="cartao revelar">
-          <h3 class="cartao__titulo">Contagem simples</h3>
-          <p class="cartao__texto">Confira lote por lote e corrija o saldo com histórico.</p>
+          <h3 class="cartao__titulo">Saldo pelo histórico</h3>
+          <p class="cartao__texto">Toda entrada, saída e perda fica registrada com quem fez e quando.</p>
         </li>
+        <!-- Cartão 9 atualizado -->
         <li class="cartao revelar">
-          <h3 class="cartao__titulo">Relatórios em PDF</h3>
-          <p class="cartao__texto">Exporte resumos do estoque e perdas para auditoria rápida.</p>
+          <h3 class="cartao__titulo">Relatórios prontos</h3>
+          <p class="cartao__texto">Lotes, vencimentos, abaixo do mínimo, maior valor parado e perdas em uma tela.</p>
         </li>
       </ul>
     </div>
@@ -210,8 +206,7 @@
       <ul class="equipe__nomes">
         <li class="equipe__nome">Gabriel Hagmayer</li>
         <li class="equipe__nome">Erick</li>
-        <li class="equipe__nome">Renan</li>
-        <li class="equipe__nome">Mateus</li>
+        <li class="equipe__nome">Matheus</li>
       </ul>
     </div>
   </section>
@@ -226,11 +221,16 @@
   </section>
 </main>
 
+<!-- RODAPÉ -->
 <footer class="rodape">
   <div class="secao__interno">
     <p>&copy; 2026 STOKI. Todos os direitos reservados.</p>
   </div>
 </footer>
+
+<button class="botao botao--principal botao--instalar" id="botao-instalar" type="button" hidden>
+  Instalar App
+</button>
 
 </body>
 </html>

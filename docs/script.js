@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const atualizar = (tempoAtual) => {
       const decorrido = tempoAtual - inicio;
       const progresso = Math.min(decorrido / duracao, 1);
-      
+
       // Efeito de desaceleração suave (easeOutQuad)
       const valorAtual = alvo * (1 - (1 - progresso) * (1 - progresso));
 
@@ -87,13 +87,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
       eventoInstalacao.prompt();
       const { outcome } = await eventoInstalacao.userChoice;
-      
+
       if (outcome === 'accepted') {
         console.log('Usuário instalou o aplicativo PWA');
       }
-      
+
       eventoInstalacao = null;
       botaoInstalar.setAttribute('hidden', '');
     });
   }
 });
+
+// ==========================================================================
+// 4. REGISTRO DO SERVICE WORKER (PWA)
+// ==========================================================================
+// Verifica se o navegador suporta Service Worker
+if ('serviceWorker' in navigator) {
+  // Espera a página terminar de carregar para registrar o arquivo
+  window.addEventListener('load', () => {
+    // Usa caminho relativo (sem barra no início) para funcionar no GitHub Pages
+    navigator.serviceWorker.register('sw.js')
+        .then(() => console.log('Service Worker registrado com sucesso!'))
+        .catch((erro) => console.error('Erro ao registrar Service Worker:', erro));
+  });
+}
