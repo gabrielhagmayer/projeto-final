@@ -34,8 +34,8 @@ public class RelatorioDAO {
                 "LEFT JOIN fornecedor f ON l.fornecedor_id = f.id " +
                 "ORDER BY l.data_entrada DESC";
 
-        try (Connection conexao = ConexaoPostgreSQL.get();
-             PreparedStatement stmt = conexao.prepareStatement(sql);
+        Connection conexao = ConexaoPostgreSQL.get();
+        try (PreparedStatement stmt = conexao.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
