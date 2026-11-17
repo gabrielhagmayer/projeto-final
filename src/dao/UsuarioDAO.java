@@ -11,10 +11,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Responsável: Renan.
- * Executa o SQL com PreparedStatement.
- */
+//Responsável: Renan.
+//Executa o SQL com PreparedStatement.
+
 public class UsuarioDAO {
 
     public List<Usuario> listar() throws StokiException {
@@ -65,16 +64,19 @@ public class UsuarioDAO {
             preparacao.executeUpdate();
 
         } catch (SQLException e) {
+            if ("23505".equals(e.getSQLState())) {
+                throw new StokiException("Já existe um usuário com este login.", e);
+            }
             throw new StokiException("Não foi possível cadastrar o usuário.", e);
         }
     }
 
-    public void alterar(Usuario usuario) throws StokiException{
+    public void alterar(Usuario usuario) throws StokiException {
         String sql = "UPDATE usuario SET nome = ?, login = ?, "
                 + "senha = ?, perfil = ? WHERE id = ?";
 
         try (PreparedStatement preparacao =
-                ConexaoPostgreSQL.get().prepareStatement(sql)) {
+                     ConexaoPostgreSQL.get().prepareStatement(sql)) {
 
             preparacao.setString(1, usuario.getNome());
             preparacao.setString(2, usuario.getLogin());
@@ -85,76 +87,101 @@ public class UsuarioDAO {
             preparacao.executeUpdate();
 
         } catch (SQLException e) {
+            if ("23505".equals(e.getSQLState())) {
+                throw new StokiException("Já existe um usuário com este login.", e);
+            }
             throw new StokiException("Não foi possível alterar o usuário.", e);
         }
 
+    }
+    // Altera o usuário sem mudar a senha
+    public void alterarSemSenha(Usuario usuario) throws StokiException {
+        String sql = "UPDATE usuario SET nome = ?, login = ?, perfil = ? WHERE id = ?";
+
+        try (PreparedStatement preparacao =
+                     ConexaoPostgreSQL.get().prepareStatement(sql)) {
+
+            preparacao.setString(1, usuario.getNome());
+            preparacao.setString(2, usuario.getLogin());
+            preparacao.setString(3, usuario.getPerfil().name());
+            preparacao.setInt(4, usuario.getId());
+
+            preparacao.executeUpdate();
+
+        } catch (SQLException e) {
+            if ("23505".equals(e.getSQLState())) {
+                throw new StokiException("Já existe um usuário com este login.", e);
+            }
+            throw new StokiException("Não foi possível alterar o usuário.", e);
         }
-
-        public boolean verificarHistorico(int id) throws StokiException {
-
-            String sql = "SELECT EXISTS ("
-                    + "SELECT 1 FROM movimentacao WHERE usuario_id = ? "
-                    + "UNION ALL "
-                    + "SELECT 1 FROM contagem WHERE usuario_id = ? "
-                    + "UNION ALL "
-                    + "SELECT 1 FROM produto WHERE cadastrado_por = ?"
-                    + ")";
-
-            try (PreparedStatement preparacao =
-                         ConexaoPostgreSQL.get().prepareStatement(sql)) {
-
-                preparacao.setInt(1, id);
-                preparacao.setInt(2, id);
-                preparacao.setInt(3, id);
-
-                try (ResultSet resultado = preparacao.executeQuery()) {
-                    if (resultado.next()) {
-                        return resultado.getBoolean(1);
-                    }
-
-                }
-
-            } catch (SQLException e) {
-                throw new StokiException(
-                        "Não foi possível verificar o histórico do usuário.", e);
-            }
-
-            return false;
-        }
-
-        public void excluir(int id) throws StokiException{
-
-            if (verificarHistorico(id)) {
-                throw new StokiException(
-                        "Não é possível excluir este usuário, pois ele possui histórico. Inative-o.");
-            }
-
-            String sql = "DELETE FROM usuario WHERE id = ?";
-
-            try (PreparedStatement preparacao =
-                    ConexaoPostgreSQL.get().prepareStatement(sql)){
-
-                preparacao.setInt(1, id);
-
-                int linhasAfetadas = preparacao.executeUpdate();
-
-                if (linhasAfetadas == 0) {
-                    throw new StokiException("Usuário não encontrado.");
-                }
-
-            } catch (SQLException e) {
-                throw new StokiException(
-                        "Não foi possível excluir o usuário.", e);
-            }
 
     }
 
-    public void inativar(int id) throws StokiException{
+    public boolean verificarHistorico(int id) throws StokiException {
+
+        String sql = "SELECT EXISTS ("
+                + "SELECT 1 FROM movimentacao WHERE usuario_id = ? "
+                + "UNION ALL "
+                + "SELECT 1 FROM contagem WHERE usuario_id = ? "
+                + "UNION ALL "
+                + "SELECT 1 FROM produto WHERE cadastrado_por = ?"
+                + ")";
+
+        try (PreparedStatement preparacao =
+                     ConexaoPostgreSQL.get().prepareStatement(sql)) {
+
+            preparacao.setInt(1, id);
+            preparacao.setInt(2, id);
+            preparacao.setInt(3, id);
+
+            try (ResultSet resultado = preparacao.executeQuery()) {
+                if (resultado.next()) {
+                    return resultado.getBoolean(1);
+                }
+
+            }
+
+        } catch (SQLException e) {
+            throw new StokiException(
+                    "Não foi possível verificar o histórico do usuário.", e);
+        }
+
+        return false;
+    }
+
+    public void excluir(int id) throws StokiException {
+
+        if (verificarHistorico(id)) {
+            throw new StokiException(
+                    "Não é possível excluir este usuário, pois ele possui histórico. Inative-o.");
+        }
+
+        String sql = "DELETE FROM usuario WHERE id = ?";
+
+        try (PreparedStatement preparacao =
+                     ConexaoPostgreSQL.get().prepareStatement(sql)) {
+
+            preparacao.setInt(1, id);
+
+            int linhasAfetadas = preparacao.executeUpdate();
+
+            if (linhasAfetadas == 0) {
+                throw new StokiException("Usuário não encontrado.");
+            }
+
+        } catch (SQLException e) {
+            throw new StokiException(
+                    "Não foi possível excluir o usuário.", e);
+        }
+
+    }
+
+    public void inativar(int id) throws StokiException {
 
         String sql = "UPDATE usuario SET ativo = FALSE WHERE id = ?";
 
         try (PreparedStatement preparacao =
-                ConexaoPostgreSQL.get().prepareStatement(sql)){
+                     ConexaoPostgreSQL.get().prepareStatement(sql)) {
 
             preparacao.setInt(1, id);
 
@@ -170,6 +197,18 @@ public class UsuarioDAO {
         }
     }
 
+    // Conta quantos gerentes ativos existem.
+    public int contarGerentesAtivos() throws StokiException {
+        String sql = "SELECT COUNT(*) FROM usuario WHERE perfil = 'GERENTE' AND ativo";
+
+        try (PreparedStatement preparacao = ConexaoPostgreSQL.get().prepareStatement(sql);
+             ResultSet resultado = preparacao.executeQuery()) {
+            resultado.next();
+            return resultado.getInt(1);
+        } catch (SQLException e) {
+            throw new StokiException("Não foi possível contar os gerentes ativos.", e);
+        }
+    }
 }
 
 
