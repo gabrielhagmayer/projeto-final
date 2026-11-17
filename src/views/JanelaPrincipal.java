@@ -82,7 +82,6 @@ public class JanelaPrincipal extends JFrame {
 
         if (gestao) adicionar("Painel", new TelaPainel());
         adicionar("Estoque geral", new TelaEstoque());
-        adicionar("Mapa do depósito", new TelaMapa());
         adicionar("Produtos", new TelaProduto());
 
         if (gestao) adicionar("Lotes", new TelaLote());
@@ -92,7 +91,6 @@ public class JanelaPrincipal extends JFrame {
         if (gestao) adicionar("Entrada", new TelaEntrada());
         adicionar("Saída", new TelaSaida());
         adicionar("Perdas", new TelaPerda());
-        if (gestao) adicionar("Contagem", new TelaContagem());
         if (gestao) adicionar("Relatórios", new TelaRelatorios());
         adicionar("Setores", new TelaSetor());
     }
