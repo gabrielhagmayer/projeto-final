@@ -24,6 +24,18 @@ public class UsuarioService {
 
     }
 
+    // Diz se o usuário é o único gerente ativo do sistema.
+    private boolean ehUltimoGerenteAtivo(int id) throws StokiException {
+        for (Usuario usuario : usuarioDAO.listar()) {
+            if (usuario.getId() == id) {
+                return usuario.getPerfil() == Perfil.GERENTE
+                        && Boolean.TRUE.equals(usuario.getAtivo())
+                        && usuarioDAO.contarGerentesAtivos() <= 1;
+            }
+        }
+        return false;
+    }
+
     public List<Usuario> listar() throws StokiException {
         validarPermissao();
         return usuarioDAO.listar();
@@ -94,6 +106,15 @@ public class UsuarioService {
         if (id <= 0) {
             throw new StokiException("ID do usuário invalido.");
         }
+        if (id == Sessao.getUsuario().getId()) {
+            throw new StokiException("Você não pode excluir a própria conta.");
+        }
+        if (ehUltimoGerenteAtivo(id)) {
+            throw new StokiException("Não é possível excluir o último gerente ativo.");
+        }
+        if (usuarioDAO.verificarHistorico(id)) {
+            throw new StokiException("Este usuário tem histórico no sistema. Inative em vez de excluir.");
+        }
 
         usuarioDAO.excluir(id);
     }
@@ -103,9 +124,13 @@ public class UsuarioService {
         if (id <= 0) {
             throw new StokiException("ID do usuário invalido.");
         }
-
+        if (id == Sessao.getUsuario().getId()) {
+            throw new StokiException("Você não pode inativar a própria conta.");
+        }
+        if (ehUltimoGerenteAtivo(id)) {
+            throw new StokiException("Não é possível inativar o último gerente ativo.");
+        }
         usuarioDAO.inativar(id);
-
     }
 }
 
