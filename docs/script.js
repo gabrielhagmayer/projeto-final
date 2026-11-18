@@ -18,6 +18,23 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   elementosRevelar.forEach(el => observarRevelacao.observe(el));
+  // Menu mobile (abre e fecha ao clicar no botão hambúrguer)
+  const botaoMenu = document.querySelector('.menu-botao');
+  const menuPrincipal = document.getElementById('menu-principal');
+
+  if (botaoMenu && menuPrincipal) {
+    botaoMenu.addEventListener('click', () => {
+      const aberto = menuPrincipal.classList.toggle('aberto');
+      botaoMenu.setAttribute('aria-expanded', String(aberto));
+    });
+
+    menuPrincipal.querySelectorAll('.menu__link').forEach((link) => {
+      link.addEventListener('click', () => {
+        menuPrincipal.classList.remove('aberto');
+        botaoMenu.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
 
   // 2. Animação de Contadores Numéricos
   const contadores = document.querySelectorAll('.contador');
@@ -35,8 +52,9 @@ document.addEventListener('DOMContentLoaded', () => {
       // Efeito de desaceleração suave
       const valorAtual = alvo * (1 - (1 - progresso) * (1 - progresso));
 
+      /* Adiciona "R$ " antes do valor durante e no fim da animação */
       if (formato === 'moeda') {
-        el.textContent = valorAtual.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        el.textContent = 'R$ ' + valorAtual.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
       } else if (formato === 'percentual') {
         el.textContent = valorAtual.toFixed(2).replace('.', ',') + '%';
       } else {
@@ -46,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (progresso < 1) {
         requestAnimationFrame(atualizar);
       } else {
-        if (formato === 'moeda') el.textContent = alvo.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        if (formato === 'moeda') el.textContent = 'R$ ' + alvo.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         else if (formato === 'percentual') el.textContent = alvo.toFixed(2).replace('.', ',') + '%';
         else el.textContent = alvo.toLocaleString('pt-BR');
       }

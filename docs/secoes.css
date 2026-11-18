@@ -85,7 +85,58 @@
   font-weight: 800;
   color: #2dd4bf;
 }
+/* Estilos do painel ilustrativo do topo */
 
+.painel {
+  background-color: #0f172a;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  padding: 28px;
+}
+
+.painel__destaque {
+  padding-bottom: 18px;
+  margin-bottom: 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.painel__valor {
+  display: block;
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: #2dd4bf;
+  line-height: 1.15;
+}
+
+.painel__lista {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.painel__item {
+  font-size: 0.95rem;
+  color: #e2e8f0;
+}
+
+.hero__legenda {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--cor-texto-suave);
+  margin-top: 8px;
+}
+
+/* Em telas pequenas, o painel fica embaixo do texto ocupando a largura toda */
+@media (max-width: 768px) {
+  .hero__painel,
+  .painel {
+    width: 100%;
+  }
+}
 /* ==========================================================================
    2. PROBLEMA
    ========================================================================== */
