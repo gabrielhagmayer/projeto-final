@@ -23,10 +23,9 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.util.ArrayList;
 
-/**
- * Janela única do sistema: menu lateral à esquerda e a tela escolhida à direita.
- * Mostra somente os itens permitidos ao perfil. Este arquivo pertence à base.
- */
+//Janela única do sistema: menu lateral à esquerda e a tela escolhida à direita.
+//Mostra somente os itens permitidos ao perfil. Este arquivo pertence à base.
+
 public class JanelaPrincipal extends JFrame {
 
     private final CardLayout troca = new CardLayout();
@@ -75,7 +74,7 @@ public class JanelaPrincipal extends JFrame {
         abrirPrimeiraTela();
     }
 
-    /** Define quais telas cada perfil pode ver. */
+    //Define quais telas cada perfil pode ver.
     private void montarMenu() {
         boolean gerente = Sessao.temPerfil(Perfil.GERENTE);
         boolean gestao = Sessao.temPerfil(Perfil.GERENTE, Perfil.RESPONSAVEL);
@@ -83,6 +82,7 @@ public class JanelaPrincipal extends JFrame {
         if (gestao) adicionar("Painel", new TelaPainel());
         adicionar("Estoque geral", new TelaEstoque());
         adicionar("Produtos", new TelaProduto());
+        adicionar("Mapa do depósito", new TelaMapa());
 
         if (gestao) adicionar("Lotes", new TelaLote());
 
@@ -119,7 +119,7 @@ public class JanelaPrincipal extends JFrame {
         return botao;
     }
 
-    /** Troca a tela visível e pede para ela recarregar os dados. */
+    // Troca a tela visível e pede para ela recarregar os dados.
     private void abrir(String nome, TelaBase tela, JButton botaoAtivo) {
         for (JButton botao : botoes) {
             botao.setBackground(botao == botaoAtivo ? Tema.VERDE : Tema.VERDE_ESCURO);
