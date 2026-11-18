@@ -8,16 +8,22 @@ import utils.Tema;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
-//Responsável: Gabriel. Setores, prateleiras e alertas. */
+/** Responsável: Gabriel. Setores, prateleiras e alertas. */
 public class TelaMapa extends TelaBase {
 
     // Vermelho usado só no mapa, para prateleira com lote vencido.
@@ -37,6 +43,7 @@ public class TelaMapa extends TelaBase {
         rolagem.setOpaque(false);
         rolagem.getViewport().setOpaque(false);
         conteudo.add(rolagem, BorderLayout.CENTER);
+        conteudo.add(criarLegenda(), BorderLayout.SOUTH);
     }
 
     /** Chamado sempre que esta tela aparece. Recarrega o mapa do banco. */
@@ -114,6 +121,64 @@ public class TelaMapa extends TelaBase {
         botao.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(corBorda, 3),
                 BorderFactory.createEmptyBorder(8, 10, 8, 10)));
+
+        // Ao clicar, abre a lista de produtos desta prateleira.
+        botao.addActionListener(e -> abrirPrateleira(numero, produtos));
         return botao;
+    }
+
+    // Mostra os produtos da prateleira em uma tabela: produto, saldo válido e alerta.
+    private void abrirPrateleira(Integer numero, List<Map<String, Object>> produtos) {
+        DefaultTableModel modelo = new DefaultTableModel(new String[]{"Produto", "Saldo válido", "Alerta"}, 0) {
+            @Override
+            public boolean isCellEditable(int linha, int coluna) {
+                return false;
+            }
+        };
+
+        for (Map<String, Object> produto : produtos) {
+            BigDecimal saldo = (BigDecimal) produto.get("saldoValido");
+            modelo.addRow(new Object[]{
+                    produto.get("produtoNome"),
+                    saldo.stripTrailingZeros().toPlainString(),
+                    produto.get("alerta")
+            });
+        }
+
+        JTable tabela = new JTable(modelo);
+        Tema.estilizarTabela(tabela);
+        JScrollPane rolagem = new JScrollPane(tabela);
+        rolagem.setPreferredSize(new Dimension(520, 40 + produtos.size() * 32));
+
+        String titulo = produtos.get(0).get("setorNome") + " · Prateleira " + numero;
+        JOptionPane.showMessageDialog(this, rolagem, titulo, JOptionPane.PLAIN_MESSAGE);
+    }
+
+    // Monta a legenda que explica as cores das prateleiras.
+    private JPanel criarLegenda() {
+        JPanel legenda = new JPanel(new FlowLayout(FlowLayout.LEFT, 16, 0));
+        legenda.setOpaque(false);
+        legenda.add(criarItemLegenda(VERMELHO, VERMELHO, "Lote vencido"));
+        legenda.add(criarItemLegenda(Tema.AMBAR, Tema.AMBAR, "Vence em até 30 dias"));
+        legenda.add(criarItemLegenda(Tema.BRANCO, Tema.AMBAR, "Abaixo do mínimo"));
+        legenda.add(criarItemLegenda(Tema.BRANCO, Tema.BORDA, "Sem alerta"));
+        return legenda;
+    }
+
+    // Um item da legenda: um quadradinho colorido e o texto ao lado.
+    private JPanel criarItemLegenda(Color fundo, Color borda, String texto) {
+        JPanel quadrado = new JPanel();
+        quadrado.setPreferredSize(new Dimension(18, 18));
+        quadrado.setBackground(fundo);
+        quadrado.setBorder(BorderFactory.createLineBorder(borda, 3));
+
+        JLabel rotulo = new JLabel(texto);
+        rotulo.setForeground(Tema.TEXTO_SUAVE);
+
+        JPanel item = new JPanel(new FlowLayout(FlowLayout.LEFT, 6, 0));
+        item.setOpaque(false);
+        item.add(quadrado);
+        item.add(rotulo);
+        return item;
     }
 }
