@@ -1,6 +1,6 @@
-/* ==========================================================================
-   SCRIPT PRINCIPAL (script.js)
-   ========================================================================== */
+
+   // SCRIPT PRINCIPAL
+
 
 document.addEventListener('DOMContentLoaded', () => {
   // 1. Animação de Revelação ao Rolar (Scroll Reveal)
@@ -18,8 +18,25 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   elementosRevelar.forEach(el => observarRevelacao.observe(el));
+  // Menu mobile (abre e fecha ao clicar no botão hambúrguer)
+  const botaoMenu = document.querySelector('.menu-botao');
+  const menuPrincipal = document.getElementById('menu-principal');
 
-  // 2. Animação de Contadores Numéricos (.contador)
+  if (botaoMenu && menuPrincipal) {
+    botaoMenu.addEventListener('click', () => {
+      const aberto = menuPrincipal.classList.toggle('aberto');
+      botaoMenu.setAttribute('aria-expanded', String(aberto));
+    });
+
+    menuPrincipal.querySelectorAll('.menu__link').forEach((link) => {
+      link.addEventListener('click', () => {
+        menuPrincipal.classList.remove('aberto');
+        botaoMenu.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+
+  // 2. Animação de Contadores Numéricos
   const contadores = document.querySelectorAll('.contador');
 
   const animarContador = (el) => {
@@ -31,12 +48,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const atualizar = (tempoAtual) => {
       const decorrido = tempoAtual - inicio;
       const progresso = Math.min(decorrido / duracao, 1);
-      
-      // Efeito de desaceleração suave (easeOutQuad)
+
+      // Efeito de desaceleração suave
       const valorAtual = alvo * (1 - (1 - progresso) * (1 - progresso));
 
+      /* Adiciona "R$ " antes do valor durante e no fim da animação */
       if (formato === 'moeda') {
-        el.textContent = valorAtual.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        el.textContent = 'R$ ' + valorAtual.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
       } else if (formato === 'percentual') {
         el.textContent = valorAtual.toFixed(2).replace('.', ',') + '%';
       } else {
@@ -46,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (progresso < 1) {
         requestAnimationFrame(atualizar);
       } else {
-        if (formato === 'moeda') el.textContent = alvo.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        if (formato === 'moeda') el.textContent = 'R$ ' + alvo.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         else if (formato === 'percentual') el.textContent = alvo.toFixed(2).replace('.', ',') + '%';
         else el.textContent = alvo.toLocaleString('pt-BR');
       }
@@ -87,13 +105,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
       eventoInstalacao.prompt();
       const { outcome } = await eventoInstalacao.userChoice;
-      
+
       if (outcome === 'accepted') {
         console.log('Usuário instalou o aplicativo PWA');
       }
-      
+
       eventoInstalacao = null;
       botaoInstalar.setAttribute('hidden', '');
     });
   }
 });
+
+
+// 4. REGISTRO DO SERVICE WORKER (PWA)
+
+// Verifica se o navegador suporta Service Worker
+if ('serviceWorker' in navigator) {
+  // Espera a página terminar de carregar para registrar o arquivo
+  window.addEventListener('load', () => {
+    // Usa caminho relativo (sem barra no início) para funcionar no GitHub Pages
+    navigator.serviceWorker.register('sw.js')
+        .then(() => console.log('Service Worker registrado com sucesso!'))
+        .catch((erro) => console.error('Erro ao registrar Service Worker:', erro));
+  });
+}
