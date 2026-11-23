@@ -23,7 +23,7 @@ public class TelaRelatorios extends TelaBase {
     private final JTable tabelaRelatorio = new JTable(modeloTabela);
 
     public TelaRelatorios() {
-        super("Relatórios", "Relatórios de lotes e stock.");
+        super("Relatórios", "Relatórios de lotes e estoque.");
         initComponents();
         aoAbrir();
     }
